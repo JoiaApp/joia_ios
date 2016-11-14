@@ -1,0 +1,639 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A22ABCB71DC6656F000BB13C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22ABCB61DC6656F000BB13C /* AppDelegate.swift */; };
+		A22ABCB91DC6656F000BB13C /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22ABCB81DC6656F000BB13C /* LoginController.swift */; };
+		A22ABCBE1DC6656F000BB13C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A22ABCBD1DC6656F000BB13C /* Assets.xcassets */; };
+		A22ABCC11DC6656F000BB13C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A22ABCBF1DC6656F000BB13C /* LaunchScreen.storyboard */; };
+		A22ABCCC1DC6656F000BB13C /* JoiaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22ABCCB1DC6656F000BB13C /* JoiaTests.swift */; };
+		A22ABCD71DC6656F000BB13C /* JoiaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22ABCD61DC6656F000BB13C /* JoiaUITests.swift */; };
+		A23930F51DC6941C001555D9 /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23930F41DC6941C001555D9 /* LoginModel.swift */; };
+		A23930F71DC695DB001555D9 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23930F61DC695DB001555D9 /* SettingsController.swift */; };
+		A23930F91DC6DE16001555D9 /* LandingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23930F81DC6DE16001555D9 /* LandingController.swift */; };
+		A23930FB1DC6DECF001555D9 /* JoinGroupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23930FA1DC6DECF001555D9 /* JoinGroupController.swift */; };
+		A23930FD1DC6DF12001555D9 /* InvitesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23930FC1DC6DF12001555D9 /* InvitesController.swift */; };
+		A23930FF1DC70B60001555D9 /* PromptModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23930FE1DC70B60001555D9 /* PromptModel.swift */; };
+		A23931011DC70C27001555D9 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23931001DC70C27001555D9 /* Models.swift */; };
+		A23FB3761DD8175C004A7CFD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A23FB3741DD8175C004A7CFD /* Main.storyboard */; };
+		A23FB3781DD83CD3004A7CFD /* JoinOrCreateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23FB3771DD83CD3004A7CFD /* JoinOrCreateController.swift */; };
+		A23FB37A1DD8D90D004A7CFD /* GroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23FB3791DD8D90D004A7CFD /* GroupModel.swift */; };
+		A23FB37D1DD8FA53004A7CFD /* RegisterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23FB37C1DD8FA53004A7CFD /* RegisterController.swift */; };
+		A23FB37F1DD8FB5A004A7CFD /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23FB37E1DD8FB5A004A7CFD /* UserModel.swift */; };
+		A23FB3811DD904DB004A7CFD /* CreateGroupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23FB3801DD904DB004A7CFD /* CreateGroupController.swift */; };
+		A23FB3831DD96620004A7CFD /* BaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23FB3821DD96620004A7CFD /* BaseController.swift */; };
+		D8D4CC8933966A8F5CD70A10 /* Pods_Joia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09693ACE84C1D63425C4C7AD /* Pods_Joia.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A22ABCC81DC6656F000BB13C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A22ABCAB1DC6656F000BB13C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A22ABCB21DC6656F000BB13C;
+			remoteInfo = Joia;
+		};
+		A22ABCD31DC6656F000BB13C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A22ABCAB1DC6656F000BB13C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A22ABCB21DC6656F000BB13C;
+			remoteInfo = Joia;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		09693ACE84C1D63425C4C7AD /* Pods_Joia.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Joia.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A22ABCB31DC6656F000BB13C /* Joia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Joia.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A22ABCB61DC6656F000BB13C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		A22ABCB81DC6656F000BB13C /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
+		A22ABCBD1DC6656F000BB13C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A22ABCC01DC6656F000BB13C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A22ABCC21DC6656F000BB13C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A22ABCC71DC6656F000BB13C /* JoiaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JoiaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A22ABCCB1DC6656F000BB13C /* JoiaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoiaTests.swift; sourceTree = "<group>"; };
+		A22ABCCD1DC6656F000BB13C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A22ABCD21DC6656F000BB13C /* JoiaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JoiaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A22ABCD61DC6656F000BB13C /* JoiaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoiaUITests.swift; sourceTree = "<group>"; };
+		A22ABCD81DC6656F000BB13C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A23930F41DC6941C001555D9 /* LoginModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
+		A23930F61DC695DB001555D9 /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
+		A23930F81DC6DE16001555D9 /* LandingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingController.swift; sourceTree = "<group>"; };
+		A23930FA1DC6DECF001555D9 /* JoinGroupController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinGroupController.swift; sourceTree = "<group>"; };
+		A23930FC1DC6DF12001555D9 /* InvitesController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvitesController.swift; sourceTree = "<group>"; };
+		A23930FE1DC70B60001555D9 /* PromptModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromptModel.swift; sourceTree = "<group>"; };
+		A23931001DC70C27001555D9 /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		A23FB3751DD8175C004A7CFD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		A23FB3771DD83CD3004A7CFD /* JoinOrCreateController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinOrCreateController.swift; sourceTree = "<group>"; };
+		A23FB3791DD8D90D004A7CFD /* GroupModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupModel.swift; sourceTree = "<group>"; };
+		A23FB37C1DD8FA53004A7CFD /* RegisterController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterController.swift; sourceTree = "<group>"; };
+		A23FB37E1DD8FB5A004A7CFD /* UserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		A23FB3801DD904DB004A7CFD /* CreateGroupController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateGroupController.swift; sourceTree = "<group>"; };
+		A23FB3821DD96620004A7CFD /* BaseController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseController.swift; sourceTree = "<group>"; };
+		D35ADBE12BFA38CFD027042E /* Pods-Joia.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Joia.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Joia/Pods-Joia.debug.xcconfig"; sourceTree = "<group>"; };
+		F7883E14A302AF097C73CDFA /* Pods-Joia.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Joia.release.xcconfig"; path = "Pods/Target Support Files/Pods-Joia/Pods-Joia.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A22ABCB01DC6656F000BB13C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D8D4CC8933966A8F5CD70A10 /* Pods_Joia.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A22ABCC41DC6656F000BB13C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A22ABCCF1DC6656F000BB13C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1EE98D27C6A1EA14789061DF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D35ADBE12BFA38CFD027042E /* Pods-Joia.debug.xcconfig */,
+				F7883E14A302AF097C73CDFA /* Pods-Joia.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		9DC7689E250837AF34FA3096 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				09693ACE84C1D63425C4C7AD /* Pods_Joia.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A22ABCAA1DC6656F000BB13C = {
+			isa = PBXGroup;
+			children = (
+				A22ABCB51DC6656F000BB13C /* Joia */,
+				A22ABCCA1DC6656F000BB13C /* JoiaTests */,
+				A22ABCD51DC6656F000BB13C /* JoiaUITests */,
+				A22ABCB41DC6656F000BB13C /* Products */,
+				1EE98D27C6A1EA14789061DF /* Pods */,
+				9DC7689E250837AF34FA3096 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		A22ABCB41DC6656F000BB13C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A22ABCB31DC6656F000BB13C /* Joia.app */,
+				A22ABCC71DC6656F000BB13C /* JoiaTests.xctest */,
+				A22ABCD21DC6656F000BB13C /* JoiaUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A22ABCB51DC6656F000BB13C /* Joia */ = {
+			isa = PBXGroup;
+			children = (
+				A22ABCB61DC6656F000BB13C /* AppDelegate.swift */,
+				A22ABCB81DC6656F000BB13C /* LoginController.swift */,
+				A23930F61DC695DB001555D9 /* SettingsController.swift */,
+				A23FB3741DD8175C004A7CFD /* Main.storyboard */,
+				A22ABCBD1DC6656F000BB13C /* Assets.xcassets */,
+				A22ABCBF1DC6656F000BB13C /* LaunchScreen.storyboard */,
+				A22ABCC21DC6656F000BB13C /* Info.plist */,
+				A23930F41DC6941C001555D9 /* LoginModel.swift */,
+				A23930F81DC6DE16001555D9 /* LandingController.swift */,
+				A23930FA1DC6DECF001555D9 /* JoinGroupController.swift */,
+				A23930FC1DC6DF12001555D9 /* InvitesController.swift */,
+				A23930FE1DC70B60001555D9 /* PromptModel.swift */,
+				A23931001DC70C27001555D9 /* Models.swift */,
+				A23FB3771DD83CD3004A7CFD /* JoinOrCreateController.swift */,
+				A23FB3791DD8D90D004A7CFD /* GroupModel.swift */,
+				A23FB37C1DD8FA53004A7CFD /* RegisterController.swift */,
+				A23FB37E1DD8FB5A004A7CFD /* UserModel.swift */,
+				A23FB3801DD904DB004A7CFD /* CreateGroupController.swift */,
+				A23FB3821DD96620004A7CFD /* BaseController.swift */,
+			);
+			path = Joia;
+			sourceTree = "<group>";
+		};
+		A22ABCCA1DC6656F000BB13C /* JoiaTests */ = {
+			isa = PBXGroup;
+			children = (
+				A22ABCCB1DC6656F000BB13C /* JoiaTests.swift */,
+				A22ABCCD1DC6656F000BB13C /* Info.plist */,
+			);
+			path = JoiaTests;
+			sourceTree = "<group>";
+		};
+		A22ABCD51DC6656F000BB13C /* JoiaUITests */ = {
+			isa = PBXGroup;
+			children = (
+				A22ABCD61DC6656F000BB13C /* JoiaUITests.swift */,
+				A22ABCD81DC6656F000BB13C /* Info.plist */,
+			);
+			path = JoiaUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A22ABCB21DC6656F000BB13C /* Joia */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A22ABCDB1DC6656F000BB13C /* Build configuration list for PBXNativeTarget "Joia" */;
+			buildPhases = (
+				87699B22B4A0B4F2092D6744 /* [CP] Check Pods Manifest.lock */,
+				A22ABCAF1DC6656F000BB13C /* Sources */,
+				A22ABCB01DC6656F000BB13C /* Frameworks */,
+				A22ABCB11DC6656F000BB13C /* Resources */,
+				4D2E6BF96818369F6A664880 /* [CP] Embed Pods Frameworks */,
+				89525C4884B0B7B769CBC6DD /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Joia;
+			productName = Joia;
+			productReference = A22ABCB31DC6656F000BB13C /* Joia.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A22ABCC61DC6656F000BB13C /* JoiaTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A22ABCDE1DC6656F000BB13C /* Build configuration list for PBXNativeTarget "JoiaTests" */;
+			buildPhases = (
+				A22ABCC31DC6656F000BB13C /* Sources */,
+				A22ABCC41DC6656F000BB13C /* Frameworks */,
+				A22ABCC51DC6656F000BB13C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A22ABCC91DC6656F000BB13C /* PBXTargetDependency */,
+			);
+			name = JoiaTests;
+			productName = JoiaTests;
+			productReference = A22ABCC71DC6656F000BB13C /* JoiaTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		A22ABCD11DC6656F000BB13C /* JoiaUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A22ABCE11DC6656F000BB13C /* Build configuration list for PBXNativeTarget "JoiaUITests" */;
+			buildPhases = (
+				A22ABCCE1DC6656F000BB13C /* Sources */,
+				A22ABCCF1DC6656F000BB13C /* Frameworks */,
+				A22ABCD01DC6656F000BB13C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A22ABCD41DC6656F000BB13C /* PBXTargetDependency */,
+			);
+			name = JoiaUITests;
+			productName = JoiaUITests;
+			productReference = A22ABCD21DC6656F000BB13C /* JoiaUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A22ABCAB1DC6656F000BB13C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0720;
+				LastUpgradeCheck = 0720;
+				ORGANIZATIONNAME = "Josh Bodily";
+				TargetAttributes = {
+					A22ABCB21DC6656F000BB13C = {
+						CreatedOnToolsVersion = 7.2.1;
+					};
+					A22ABCC61DC6656F000BB13C = {
+						CreatedOnToolsVersion = 7.2.1;
+						TestTargetID = A22ABCB21DC6656F000BB13C;
+					};
+					A22ABCD11DC6656F000BB13C = {
+						CreatedOnToolsVersion = 7.2.1;
+						TestTargetID = A22ABCB21DC6656F000BB13C;
+					};
+				};
+			};
+			buildConfigurationList = A22ABCAE1DC6656F000BB13C /* Build configuration list for PBXProject "Joia" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A22ABCAA1DC6656F000BB13C;
+			productRefGroup = A22ABCB41DC6656F000BB13C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A22ABCB21DC6656F000BB13C /* Joia */,
+				A22ABCC61DC6656F000BB13C /* JoiaTests */,
+				A22ABCD11DC6656F000BB13C /* JoiaUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A22ABCB11DC6656F000BB13C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A23FB3761DD8175C004A7CFD /* Main.storyboard in Resources */,
+				A22ABCC11DC6656F000BB13C /* LaunchScreen.storyboard in Resources */,
+				A22ABCBE1DC6656F000BB13C /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A22ABCC51DC6656F000BB13C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A22ABCD01DC6656F000BB13C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4D2E6BF96818369F6A664880 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Joia/Pods-Joia-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		87699B22B4A0B4F2092D6744 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		89525C4884B0B7B769CBC6DD /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Joia/Pods-Joia-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A22ABCAF1DC6656F000BB13C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A23FB37A1DD8D90D004A7CFD /* GroupModel.swift in Sources */,
+				A23930F71DC695DB001555D9 /* SettingsController.swift in Sources */,
+				A23930FB1DC6DECF001555D9 /* JoinGroupController.swift in Sources */,
+				A22ABCB91DC6656F000BB13C /* LoginController.swift in Sources */,
+				A23930F51DC6941C001555D9 /* LoginModel.swift in Sources */,
+				A23FB37F1DD8FB5A004A7CFD /* UserModel.swift in Sources */,
+				A23FB3781DD83CD3004A7CFD /* JoinOrCreateController.swift in Sources */,
+				A23FB3831DD96620004A7CFD /* BaseController.swift in Sources */,
+				A23FB3811DD904DB004A7CFD /* CreateGroupController.swift in Sources */,
+				A23930FD1DC6DF12001555D9 /* InvitesController.swift in Sources */,
+				A23930F91DC6DE16001555D9 /* LandingController.swift in Sources */,
+				A23FB37D1DD8FA53004A7CFD /* RegisterController.swift in Sources */,
+				A23931011DC70C27001555D9 /* Models.swift in Sources */,
+				A22ABCB71DC6656F000BB13C /* AppDelegate.swift in Sources */,
+				A23930FF1DC70B60001555D9 /* PromptModel.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A22ABCC31DC6656F000BB13C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A22ABCCC1DC6656F000BB13C /* JoiaTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A22ABCCE1DC6656F000BB13C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A22ABCD71DC6656F000BB13C /* JoiaUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A22ABCC91DC6656F000BB13C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A22ABCB21DC6656F000BB13C /* Joia */;
+			targetProxy = A22ABCC81DC6656F000BB13C /* PBXContainerItemProxy */;
+		};
+		A22ABCD41DC6656F000BB13C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A22ABCB21DC6656F000BB13C /* Joia */;
+			targetProxy = A22ABCD31DC6656F000BB13C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		A22ABCBF1DC6656F000BB13C /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A22ABCC01DC6656F000BB13C /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		A23FB3741DD8175C004A7CFD /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A23FB3751DD8175C004A7CFD /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		A22ABCD91DC6656F000BB13C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A22ABCDA1DC6656F000BB13C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A22ABCDC1DC6656F000BB13C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D35ADBE12BFA38CFD027042E /* Pods-Joia.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Joia/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.joiaapp.Joia;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		A22ABCDD1DC6656F000BB13C /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F7883E14A302AF097C73CDFA /* Pods-Joia.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Joia/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.joiaapp.Joia;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		A22ABCDF1DC6656F000BB13C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = JoiaTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.joiaapp.JoiaTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Joia.app/Joia";
+			};
+			name = Debug;
+		};
+		A22ABCE01DC6656F000BB13C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = JoiaTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.joiaapp.JoiaTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Joia.app/Joia";
+			};
+			name = Release;
+		};
+		A22ABCE21DC6656F000BB13C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = JoiaUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.joiaapp.JoiaUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = Joia;
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		A22ABCE31DC6656F000BB13C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = JoiaUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.joiaapp.JoiaUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = Joia;
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A22ABCAE1DC6656F000BB13C /* Build configuration list for PBXProject "Joia" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A22ABCD91DC6656F000BB13C /* Debug */,
+				A22ABCDA1DC6656F000BB13C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A22ABCDB1DC6656F000BB13C /* Build configuration list for PBXNativeTarget "Joia" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A22ABCDC1DC6656F000BB13C /* Debug */,
+				A22ABCDD1DC6656F000BB13C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A22ABCDE1DC6656F000BB13C /* Build configuration list for PBXNativeTarget "JoiaTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A22ABCDF1DC6656F000BB13C /* Debug */,
+				A22ABCE01DC6656F000BB13C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A22ABCE11DC6656F000BB13C /* Build configuration list for PBXNativeTarget "JoiaUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A22ABCE21DC6656F000BB13C /* Debug */,
+				A22ABCE31DC6656F000BB13C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A22ABCAB1DC6656F000BB13C /* Project object */;
+}

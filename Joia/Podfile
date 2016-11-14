@@ -1,0 +1,7 @@
+platform :ios, '9.0'
+use_frameworks!
+
+target 'Joia' do
+  pod 'Alamofire', '~> 2.0'
+  pod 'SwiftyJSON', '~> 2.3'
+end

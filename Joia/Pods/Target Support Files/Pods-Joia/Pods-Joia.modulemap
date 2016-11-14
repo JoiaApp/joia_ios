@@ -1,0 +1,6 @@
+framework module Pods_Joia {
+  umbrella header "Pods-Joia-umbrella.h"
+
+  export *
+  module * { export * }
+}

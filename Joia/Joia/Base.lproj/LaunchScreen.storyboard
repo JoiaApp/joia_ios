@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" initialViewController="01J-lp-oVM">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Llm-lL-Icb"/>
+                        <viewControllerLayoutGuide type="bottom" id="xb3-aO-Qok"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sponsored By:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="478-Um-1Q0">
+                                <rect key="frame" x="244" y="379" width="112" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="http://images.all-free-download.com/images/graphiclarge/orange_gear_icon_vector_280682.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="qkb-lQ-5WP">
+                                <rect key="frame" x="180" y="434" width="240" height="129"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="240" id="kOx-72-b24"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="http://images.all-free-download.com/images/graphiclarge/orange_gear_icon_vector_280682.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="6Qz-lw-fKz">
+                                <rect key="frame" x="180" y="120" width="240" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="Wra-zW-A79"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.58431372549019611" green="0.80392156862745101" blue="0.85098039215686272" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="qkb-lQ-5WP" firstAttribute="top" secondItem="478-Um-1Q0" secondAttribute="bottom" constant="34" id="5Ut-yX-EKm"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="478-Um-1Q0" secondAttribute="bottom" constant="200" id="HqC-AI-hsl"/>
+                            <constraint firstItem="478-Um-1Q0" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="YtG-0o-OyN"/>
+                            <constraint firstItem="6Qz-lw-fKz" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="100" id="ede-Vl-AR4"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="qkb-lQ-5WP" secondAttribute="bottom" constant="37" id="hN6-Ex-LOw"/>
+                            <constraint firstItem="6Qz-lw-fKz" firstAttribute="leading" secondItem="qkb-lQ-5WP" secondAttribute="leading" id="odg-ug-Sg4"/>
+                            <constraint firstItem="qkb-lQ-5WP" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="onq-gc-ipV"/>
+                            <constraint firstItem="6Qz-lw-fKz" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="z9Q-OS-alG"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="53" y="375"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="http://images.all-free-download.com/images/graphiclarge/orange_gear_icon_vector_280682.jpg" width="16" height="16"/>
+    </resources>
+</document>
