@@ -12,8 +12,39 @@ public protocol Serializable {
   func toJson() -> Dictionary<String, AnyObject>
 }
 
+class Response : CustomStringConvertible, Serializable {
+  let text:String;
+  let prompt:Prompt?;
+  let user:User?;
+  
+  init(text:String, prompt:Prompt, user:User?) {
+    self.text = text;
+    self.prompt = prompt;
+    self.user = user;
+  }
+  
+  var description:String {
+    return "[<#Response> text: '\(text)' user:\(user?.name ?? "nil") prompt: \(prompt?.text ?? "nil")]"
+  }
+  
+  static func fromDict(dict:Dictionary<String, AnyObject>) -> Response {
+    let unwrappedText = dict["text"] as! String
+    let unwrappedPrompt = dict["prompt"] as! Dictionary<String, AnyObject>
+    let unwrappedUser = dict["user"] as! Dictionary<String, AnyObject>
+    return Response(text: unwrappedText, prompt:Prompt.fromDict(unwrappedPrompt), user:User.fromDict(unwrappedUser))
+  }
+  
+  func toJson() -> Dictionary<String, AnyObject> {
+    return [
+      "text": self.text,
+      "prompt_id": self.prompt!.id,
+      "user_id": self.user!.id
+    ]
+  }
+}
+
 class Group : CustomStringConvertible, Serializable {
-  let name:String;
+  var name:String;
   let guid:String;
   
   init(guid:String, name:String) {
@@ -60,9 +91,9 @@ class User : CustomStringConvertible, Serializable {
   }
   
   static func fromDict(dict:Dictionary<String, AnyObject>) -> User {
-    let unwrappedId = dict["id"] as! String
+    let unwrappedId = dict["id"] as! Int
     let unwrappedName = dict["name"] as! String
-    return User(id: Int(unwrappedId)!, name: unwrappedName)
+    return User(id: unwrappedId, name: unwrappedName)
   }
 }
 
@@ -87,8 +118,8 @@ class Prompt : CustomStringConvertible, Serializable {
   }
   
   static func fromDict(dict:Dictionary<String, AnyObject>) -> Prompt {
-    let unwrappedId = dict["id"] as! String
-    let unwrappedText = dict["text"] as! String
-    return Prompt(id: Int(unwrappedId)!, text: unwrappedText)
+    let unwrappedId = dict["id"] as! Int
+    let unwrappedText = dict["phrase"] as! String
+    return Prompt(id: unwrappedId, text: unwrappedText)
   }
 }

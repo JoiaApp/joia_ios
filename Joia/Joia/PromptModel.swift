@@ -6,25 +6,27 @@
 //  Copyright © 2016 Josh Bodily. All rights reserved.
 //
 
-import Foundation
 import Alamofire
-import SwiftyJSON
 
-class PromptModel : BaseModel<Prompt> {
-    
-    func getAllPrompts() -> Array<Prompt> {
-        return []
-    }
-    
-    func getDailyPrompts() -> Array<Prompt> {
-        return []
-    }
-    
-    func respondToPrompt(text:String, mentions:Array<String>?) {
-        
-    }
-    
-    func getGroupJournal() -> Array<Prompt> {
-        return []
-    }
+class PromptModel : BaseModel {
+  func get(group:Group) {
+    Alamofire.request(.GET, baseUrl + "groups/" + group.guid + "/prompts.json", parameters: nil)
+      .validate(statusCode: 200..<300)
+      .validate(contentType: ["application/json"])
+      .responseJSON(completionHandler: { (_, response, result) -> Void in
+        if let callback = self._success where result.isSuccess {
+          var prompts:[Prompt] = Array()
+          if let array = result.value as? [AnyObject] {
+            for item in array {
+              let prompt = Prompt.fromDict(item as! [String: AnyObject])
+              prompts.append(prompt)
+            }
+          }
+          callback(nil, prompts)
+        }
+        if let callback = self._error where result.isFailure {
+          callback(nil)
+        }
+      });
+  }
 }

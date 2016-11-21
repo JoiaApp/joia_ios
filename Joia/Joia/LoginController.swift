@@ -20,16 +20,23 @@ class LoginController : BaseController, UITextFieldDelegate {
     super.viewDidLoad()
     
     loginModel = LoginModel()
-    loginModel.success { (data:String?) -> Void in
-      self.performSegueWithIdentifier("gotoCompose", sender: self)
+    loginModel.success { (data:String?, model:AnyObject?) -> Void in
+      if let _ = GroupModel.getCurrentGroup() {
+        self.performSegueWithIdentifier("gotoCompose", sender: self)
+      } else {
+        self.performSegueWithIdentifier("gotoGroups", sender: self)
+      }
     }
     loginModel.error { (data:String?) -> Void in
-      self.showAlert("Oops...", message: "Something went wrong")
+      self.showAlert("Oops...", message: "Username or password incorrect.")
     }
   }
   
   func textFieldShouldReturn(textField: UITextField) -> Bool {
     textField.resignFirstResponder()
+    if (textField == email) {
+      password.becomeFirstResponder()
+    }
     if (textField == password) {
       loginModel.login(email.text!, password: password.text!)
     }

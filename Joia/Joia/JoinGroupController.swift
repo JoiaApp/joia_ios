@@ -1,5 +1,5 @@
 //
-//  GroupsController.swift
+//  JoinGroupController.swift
 //  Joia
 //
 //  Created by Josh Bodily on 10/30/16.
@@ -8,30 +8,43 @@
 
 import UIKit
 
-class JoinGroupController : BaseController {
+class JoinGroupController : BaseController, UITextViewDelegate {
   
-    @IBOutlet weak var label: UILabel!
-    @IBOutlet weak var topLabel: UILabel!
-    @IBOutlet weak var topField: UITextField!
-    @IBOutlet weak var bottomLabel: UILabel!
-    @IBOutlet weak var submitButton: UIButton!
-    @IBOutlet weak var bottomField: UITextField!
+  @IBOutlet weak var label: UILabel!
+  @IBOutlet weak var topLabel: UILabel!
+  @IBOutlet weak var topField: UITextField!
+  @IBOutlet weak var bottomLabel: UILabel!
+  @IBOutlet weak var submitButton: UIButton!
+  @IBOutlet weak var bottomField: UITextField!
   
   override func viewDidAppear(animated: Bool) {
     super.viewDidAppear(animated)
-    label.alpha = 0.0
-    UIView.animateWithDuration(1.0, delay: 0.0, options: UIViewAnimationOptions.CurveEaseIn, animations: {
-      self.label.alpha = 1.0
-      }, completion: nil)
+  }
+  
+  override func dismissKeyboard() {
+    topField.resignFirstResponder()
+    bottomField.resignFirstResponder()
+  }
+  
+  func textFieldShouldReturn(textField: UITextField) -> Bool {
+    textField.resignFirstResponder()
+    if (textField == topField) {
+      bottomField.becomeFirstResponder()
+    }
+    if (textField == bottomField) {
+      submit(self)
+    }
+    return false
   }
     
   @IBAction func submit(sender: AnyObject) {
       let model = GroupModel();
-      model.success { (message:String?) -> Void in
+      model.success { (message:String?, object:AnyObject?) -> Void in
+        GroupModel.setCurrentGroup(object as! Group)
         self.performSegueWithIdentifier("gotoRegister", sender: self)
       }
       model.error { (message:String?) -> Void in
-        self.showAlert("Oops...", message: "Something went wrong")
+        self.showAlert("Oops...", message: "Group number or password incorrect.")
       }
       model.get(topField.text!, password: bottomField.text!)
   }
@@ -39,8 +52,7 @@ class JoinGroupController : BaseController {
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     if (segue.identifier == "gotoRegister") {
       let registerController = (segue.destinationViewController as! RegisterController)
-      registerController.join = false
-      registerController.group = nil
+      registerController.action = RegisterController.GroupAction.Join
     }
   }
   

@@ -7,12 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A21A132B1DDAA2AA001B0886 /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21A132A1DDAA2AA001B0886 /* BaseModel.swift */; };
+		A21A132D1DDAA2F1001B0886 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21A132C1DDAA2F1001B0886 /* Config.swift */; };
+		A21A132F1DDAD3A0001B0886 /* WriteController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21A132E1DDAD3A0001B0886 /* WriteController.swift */; };
+		A21A13311DDAD748001B0886 /* ResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21A13301DDAD748001B0886 /* ResponseModel.swift */; };
+		A21A13381DDC03D4001B0886 /* ReadController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21A13371DDC03D4001B0886 /* ReadController.swift */; };
+		A21A133A1DDD695F001B0886 /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21A13391DDD695F001B0886 /* EntryTableViewCell.swift */; };
+		A21A133C1DDD77DE001B0886 /* GroupsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21A133B1DDD77DE001B0886 /* GroupsController.swift */; };
 		A22ABCB71DC6656F000BB13C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22ABCB61DC6656F000BB13C /* AppDelegate.swift */; };
 		A22ABCB91DC6656F000BB13C /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22ABCB81DC6656F000BB13C /* LoginController.swift */; };
 		A22ABCBE1DC6656F000BB13C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A22ABCBD1DC6656F000BB13C /* Assets.xcassets */; };
 		A22ABCC11DC6656F000BB13C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A22ABCBF1DC6656F000BB13C /* LaunchScreen.storyboard */; };
 		A22ABCCC1DC6656F000BB13C /* JoiaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22ABCCB1DC6656F000BB13C /* JoiaTests.swift */; };
 		A22ABCD71DC6656F000BB13C /* JoiaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22ABCD61DC6656F000BB13C /* JoiaUITests.swift */; };
+		A238873D1DE2656B00926732 /* GroupSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A238873C1DE2656B00926732 /* GroupSettingsController.swift */; };
 		A23930F51DC6941C001555D9 /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23930F41DC6941C001555D9 /* LoginModel.swift */; };
 		A23930F71DC695DB001555D9 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23930F61DC695DB001555D9 /* SettingsController.swift */; };
 		A23930F91DC6DE16001555D9 /* LandingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23930F81DC6DE16001555D9 /* LandingController.swift */; };
@@ -27,6 +35,7 @@
 		A23FB37F1DD8FB5A004A7CFD /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23FB37E1DD8FB5A004A7CFD /* UserModel.swift */; };
 		A23FB3811DD904DB004A7CFD /* CreateGroupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23FB3801DD904DB004A7CFD /* CreateGroupController.swift */; };
 		A23FB3831DD96620004A7CFD /* BaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23FB3821DD96620004A7CFD /* BaseController.swift */; };
+		A2D8D8E41DE1726600F89CE5 /* TabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D8D8E31DE1726600F89CE5 /* TabController.swift */; };
 		D8D4CC8933966A8F5CD70A10 /* Pods_Joia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09693ACE84C1D63425C4C7AD /* Pods_Joia.framework */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +58,13 @@
 
 /* Begin PBXFileReference section */
 		09693ACE84C1D63425C4C7AD /* Pods_Joia.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Joia.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A21A132A1DDAA2AA001B0886 /* BaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
+		A21A132C1DDAA2F1001B0886 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		A21A132E1DDAD3A0001B0886 /* WriteController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WriteController.swift; sourceTree = "<group>"; };
+		A21A13301DDAD748001B0886 /* ResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseModel.swift; sourceTree = "<group>"; };
+		A21A13371DDC03D4001B0886 /* ReadController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadController.swift; sourceTree = "<group>"; };
+		A21A13391DDD695F001B0886 /* EntryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
+		A21A133B1DDD77DE001B0886 /* GroupsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsController.swift; sourceTree = "<group>"; };
 		A22ABCB31DC6656F000BB13C /* Joia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Joia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A22ABCB61DC6656F000BB13C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A22ABCB81DC6656F000BB13C /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
@@ -61,6 +77,7 @@
 		A22ABCD21DC6656F000BB13C /* JoiaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JoiaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A22ABCD61DC6656F000BB13C /* JoiaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoiaUITests.swift; sourceTree = "<group>"; };
 		A22ABCD81DC6656F000BB13C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A238873C1DE2656B00926732 /* GroupSettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupSettingsController.swift; sourceTree = "<group>"; };
 		A23930F41DC6941C001555D9 /* LoginModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		A23930F61DC695DB001555D9 /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		A23930F81DC6DE16001555D9 /* LandingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingController.swift; sourceTree = "<group>"; };
@@ -75,6 +92,7 @@
 		A23FB37E1DD8FB5A004A7CFD /* UserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		A23FB3801DD904DB004A7CFD /* CreateGroupController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateGroupController.swift; sourceTree = "<group>"; };
 		A23FB3821DD96620004A7CFD /* BaseController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseController.swift; sourceTree = "<group>"; };
+		A2D8D8E31DE1726600F89CE5 /* TabController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabController.swift; sourceTree = "<group>"; };
 		D35ADBE12BFA38CFD027042E /* Pods-Joia.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Joia.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Joia/Pods-Joia.debug.xcconfig"; sourceTree = "<group>"; };
 		F7883E14A302AF097C73CDFA /* Pods-Joia.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Joia.release.xcconfig"; path = "Pods/Target Support Files/Pods-Joia/Pods-Joia.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -122,6 +140,20 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		A21A13321DDAD74D001B0886 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A21A132A1DDAA2AA001B0886 /* BaseModel.swift */,
+				A23FB3791DD8D90D004A7CFD /* GroupModel.swift */,
+				A23930F41DC6941C001555D9 /* LoginModel.swift */,
+				A23931001DC70C27001555D9 /* Models.swift */,
+				A23930FE1DC70B60001555D9 /* PromptModel.swift */,
+				A23FB37E1DD8FB5A004A7CFD /* UserModel.swift */,
+				A21A13301DDAD748001B0886 /* ResponseModel.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 		A22ABCAA1DC6656F000BB13C = {
 			isa = PBXGroup;
 			children = (
@@ -147,25 +179,28 @@
 		A22ABCB51DC6656F000BB13C /* Joia */ = {
 			isa = PBXGroup;
 			children = (
+				A21A13321DDAD74D001B0886 /* Models */,
+				A2D8D8E31DE1726600F89CE5 /* TabController.swift */,
 				A22ABCB61DC6656F000BB13C /* AppDelegate.swift */,
+				A21A133B1DDD77DE001B0886 /* GroupsController.swift */,
 				A22ABCB81DC6656F000BB13C /* LoginController.swift */,
 				A23930F61DC695DB001555D9 /* SettingsController.swift */,
 				A23FB3741DD8175C004A7CFD /* Main.storyboard */,
 				A22ABCBD1DC6656F000BB13C /* Assets.xcassets */,
 				A22ABCBF1DC6656F000BB13C /* LaunchScreen.storyboard */,
 				A22ABCC21DC6656F000BB13C /* Info.plist */,
-				A23930F41DC6941C001555D9 /* LoginModel.swift */,
 				A23930F81DC6DE16001555D9 /* LandingController.swift */,
 				A23930FA1DC6DECF001555D9 /* JoinGroupController.swift */,
 				A23930FC1DC6DF12001555D9 /* InvitesController.swift */,
-				A23930FE1DC70B60001555D9 /* PromptModel.swift */,
-				A23931001DC70C27001555D9 /* Models.swift */,
 				A23FB3771DD83CD3004A7CFD /* JoinOrCreateController.swift */,
-				A23FB3791DD8D90D004A7CFD /* GroupModel.swift */,
 				A23FB37C1DD8FA53004A7CFD /* RegisterController.swift */,
-				A23FB37E1DD8FB5A004A7CFD /* UserModel.swift */,
 				A23FB3801DD904DB004A7CFD /* CreateGroupController.swift */,
 				A23FB3821DD96620004A7CFD /* BaseController.swift */,
+				A21A132C1DDAA2F1001B0886 /* Config.swift */,
+				A21A132E1DDAD3A0001B0886 /* WriteController.swift */,
+				A21A13371DDC03D4001B0886 /* ReadController.swift */,
+				A21A13391DDD695F001B0886 /* EntryTableViewCell.swift */,
+				A238873C1DE2656B00926732 /* GroupSettingsController.swift */,
 			);
 			path = Joia;
 			sourceTree = "<group>";
@@ -373,18 +408,27 @@
 				A23FB37A1DD8D90D004A7CFD /* GroupModel.swift in Sources */,
 				A23930F71DC695DB001555D9 /* SettingsController.swift in Sources */,
 				A23930FB1DC6DECF001555D9 /* JoinGroupController.swift in Sources */,
+				A21A132F1DDAD3A0001B0886 /* WriteController.swift in Sources */,
 				A22ABCB91DC6656F000BB13C /* LoginController.swift in Sources */,
+				A21A132D1DDAA2F1001B0886 /* Config.swift in Sources */,
 				A23930F51DC6941C001555D9 /* LoginModel.swift in Sources */,
+				A21A132B1DDAA2AA001B0886 /* BaseModel.swift in Sources */,
 				A23FB37F1DD8FB5A004A7CFD /* UserModel.swift in Sources */,
 				A23FB3781DD83CD3004A7CFD /* JoinOrCreateController.swift in Sources */,
 				A23FB3831DD96620004A7CFD /* BaseController.swift in Sources */,
+				A2D8D8E41DE1726600F89CE5 /* TabController.swift in Sources */,
 				A23FB3811DD904DB004A7CFD /* CreateGroupController.swift in Sources */,
 				A23930FD1DC6DF12001555D9 /* InvitesController.swift in Sources */,
+				A21A133C1DDD77DE001B0886 /* GroupsController.swift in Sources */,
 				A23930F91DC6DE16001555D9 /* LandingController.swift in Sources */,
 				A23FB37D1DD8FA53004A7CFD /* RegisterController.swift in Sources */,
 				A23931011DC70C27001555D9 /* Models.swift in Sources */,
+				A238873D1DE2656B00926732 /* GroupSettingsController.swift in Sources */,
 				A22ABCB71DC6656F000BB13C /* AppDelegate.swift in Sources */,
+				A21A133A1DDD695F001B0886 /* EntryTableViewCell.swift in Sources */,
 				A23930FF1DC70B60001555D9 /* PromptModel.swift in Sources */,
+				A21A13381DDC03D4001B0886 /* ReadController.swift in Sources */,
+				A21A13311DDAD748001B0886 /* ResponseModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
