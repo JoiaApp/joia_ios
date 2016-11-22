@@ -15,6 +15,12 @@ class GroupSettingsController : BaseController, UITextFieldDelegate {
   @IBOutlet weak var groupName: UITextField!
   @IBOutlet weak var invite: UITextField!
   
+  @IBAction func send(sender: AnyObject) {
+    if let email = invite.text {
+      GroupModel().invite(email)
+    }
+  }
+  
   @IBAction func toggleLocked(sender: AnyObject) {
 
   }

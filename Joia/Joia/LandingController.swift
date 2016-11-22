@@ -10,8 +10,8 @@ import UIKit
 
 class LandingController : UIViewController {
   
-  @IBOutlet weak var signInButton: UIButton!
-  @IBOutlet weak var registerButton: UIButton!
+//  @IBOutlet weak var signInButton: UIButton!
+//  @IBOutlet weak var registerButton: UIButton!
   
   override func viewDidLoad() {
     super.viewDidLoad()

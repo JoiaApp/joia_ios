@@ -17,6 +17,7 @@ class RegisterController : BaseController, UITextViewDelegate {
   
   var action:GroupAction!
 
+  @IBOutlet weak var height: NSLayoutConstraint!
   @IBOutlet weak var username: UITextField!
   @IBOutlet weak var email: UITextField!
   @IBOutlet weak var password: UITextField!
@@ -29,6 +30,22 @@ class RegisterController : BaseController, UITextViewDelegate {
     password.resignFirstResponder()
     email.resignFirstResponder()
     username.resignFirstResponder()
+  }
+  
+  override func keyboardWillShow(notification:NSNotification) {
+    super.keyboardWillShow(notification)
+    height.constant = 0
+    UIView.animateWithDuration(0.3) { () -> Void in
+      self.view.layoutIfNeeded()
+    }
+  }
+  
+  override func keyboardWillHide(notification:NSNotification) {
+    super.keyboardWillHide(notification)
+    height.constant = 200
+    UIView.animateWithDuration(0.3) { () -> Void in
+      self.view.layoutIfNeeded()
+    }
   }
   
   func textFieldShouldReturn(textField: UITextField) -> Bool {

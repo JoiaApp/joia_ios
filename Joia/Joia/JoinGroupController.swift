@@ -10,28 +10,42 @@ import UIKit
 
 class JoinGroupController : BaseController, UITextViewDelegate {
   
-  @IBOutlet weak var label: UILabel!
-  @IBOutlet weak var topLabel: UILabel!
-  @IBOutlet weak var topField: UITextField!
-  @IBOutlet weak var bottomLabel: UILabel!
-  @IBOutlet weak var submitButton: UIButton!
-  @IBOutlet weak var bottomField: UITextField!
+  @IBOutlet weak var code: UITextField!
+  @IBOutlet weak var key: UITextField!
+  @IBOutlet weak var submit: UIButton!
+  @IBOutlet weak var height: NSLayoutConstraint!
   
   override func viewDidAppear(animated: Bool) {
     super.viewDidAppear(animated)
   }
   
   override func dismissKeyboard() {
-    topField.resignFirstResponder()
-    bottomField.resignFirstResponder()
+    code.resignFirstResponder()
+    key.resignFirstResponder()
+  }
+  
+  override func keyboardWillShow(notification:NSNotification) {
+    super.keyboardWillShow(notification)
+    height.constant = 0
+    UIView.animateWithDuration(0.3) { () -> Void in
+      self.view.layoutIfNeeded()
+    }
+  }
+  
+  override func keyboardWillHide(notification:NSNotification) {
+    super.keyboardWillHide(notification)
+    height.constant = 200
+    UIView.animateWithDuration(0.3) { () -> Void in
+      self.view.layoutIfNeeded()
+    }
   }
   
   func textFieldShouldReturn(textField: UITextField) -> Bool {
     textField.resignFirstResponder()
-    if (textField == topField) {
-      bottomField.becomeFirstResponder()
+    if (textField == code) {
+      key.becomeFirstResponder()
     }
-    if (textField == bottomField) {
+    if (textField == key) {
       submit(self)
     }
     return false
@@ -46,7 +60,7 @@ class JoinGroupController : BaseController, UITextViewDelegate {
       model.error { (message:String?) -> Void in
         self.showAlert("Oops...", message: "Group number or password incorrect.")
       }
-      model.get(topField.text!, password: bottomField.text!)
+      model.get(code.text!, password: key.text!)
   }
   
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

@@ -14,6 +14,11 @@ class GroupsController : UITableViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad();
+  }
+  
+  override func viewDidAppear(animated: Bool) {
+    super.viewDidAppear(animated)
+    
     let groupsModel = GroupModel()
     if let user = UserModel.getCurrentUser() {
       groupsModel.getAll(user)

@@ -11,25 +11,24 @@ import UIKit
 class LoginController : BaseController, UITextFieldDelegate {
   
   var loginModel:LoginModel!
-  @IBOutlet weak var spinner: UIActivityIndicatorView!
   @IBOutlet weak var email: UITextField!
   @IBOutlet weak var password: UITextField!
   @IBOutlet weak var submit: UIButton!
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
     loginModel = LoginModel()
     loginModel.success { (data:String?, model:AnyObject?) -> Void in
-      if let _ = GroupModel.getCurrentGroup() {
-        self.performSegueWithIdentifier("gotoCompose", sender: self)
-      } else {
-        self.performSegueWithIdentifier("gotoGroups", sender: self)
-      }
+      self.performSegueWithIdentifier("gotoCompose", sender: self)
     }
     loginModel.error { (data:String?) -> Void in
       self.showAlert("Oops...", message: "Username or password incorrect.")
     }
+  }
+  
+  override func dismissKeyboard() {
+    email.resignFirstResponder()
+    password.resignFirstResponder()
   }
   
   func textFieldShouldReturn(textField: UITextField) -> Bool {
