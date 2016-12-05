@@ -10,9 +10,19 @@ import UIKit
 
 class EntryTableViewCell : UITableViewCell {
   
+  @IBOutlet weak var customImage: UIImageView!
   @IBOutlet weak var user: UILabel!
   @IBOutlet weak var customText: UILabel!
   @IBOutlet weak var prompt: UILabel!
+  
+  init() {
+    super.init(style: .Default, reuseIdentifier: "Cell")
+  }
+
+  required init?(coder aDecoder: NSCoder) {
+    super.init(coder: aDecoder)
+  }
+  
   var response:Response? {
   set {
     customText.text = newValue!.text

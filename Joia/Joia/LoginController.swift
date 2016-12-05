@@ -43,7 +43,9 @@ class LoginController : BaseController, UITextFieldDelegate {
   }
   
   @IBAction func submit(sender: AnyObject) {
-    loginModel.login(email.text!, password: password.text!)
+//    loginModel.login(email.text!, password: password.text!)
+//     [self dismissViewControllerAnimated:YES completion:nil];
+    self.dismissViewControllerAnimated(true, completion: nil)
   }
   
   @IBAction func loginPressed(sender: UIButton) {

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		A21A132B1DDAA2AA001B0886 /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21A132A1DDAA2AA001B0886 /* BaseModel.swift */; };
 		A21A132D1DDAA2F1001B0886 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21A132C1DDAA2F1001B0886 /* Config.swift */; };
-		A21A132F1DDAD3A0001B0886 /* WriteController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21A132E1DDAD3A0001B0886 /* WriteController.swift */; };
 		A21A13311DDAD748001B0886 /* ResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21A13301DDAD748001B0886 /* ResponseModel.swift */; };
 		A21A13381DDC03D4001B0886 /* ReadController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21A13371DDC03D4001B0886 /* ReadController.swift */; };
 		A21A133A1DDD695F001B0886 /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21A13391DDD695F001B0886 /* EntryTableViewCell.swift */; };
@@ -28,6 +27,8 @@
 		A23930FD1DC6DF12001555D9 /* InvitesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23930FC1DC6DF12001555D9 /* InvitesController.swift */; };
 		A23930FF1DC70B60001555D9 /* PromptModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23930FE1DC70B60001555D9 /* PromptModel.swift */; };
 		A23931011DC70C27001555D9 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23931001DC70C27001555D9 /* Models.swift */; };
+		A23EEEA81DEE6FD300165D03 /* WriteNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23EEEA71DEE6FD300165D03 /* WriteNavigationController.swift */; };
+		A23EEEAA1DEE72F300165D03 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23EEEA91DEE72F300165D03 /* Test.swift */; };
 		A23FB3761DD8175C004A7CFD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A23FB3741DD8175C004A7CFD /* Main.storyboard */; };
 		A23FB3781DD83CD3004A7CFD /* JoinOrCreateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23FB3771DD83CD3004A7CFD /* JoinOrCreateController.swift */; };
 		A23FB37A1DD8D90D004A7CFD /* GroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23FB3791DD8D90D004A7CFD /* GroupModel.swift */; };
@@ -60,7 +61,6 @@
 		09693ACE84C1D63425C4C7AD /* Pods_Joia.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Joia.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A21A132A1DDAA2AA001B0886 /* BaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
 		A21A132C1DDAA2F1001B0886 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
-		A21A132E1DDAD3A0001B0886 /* WriteController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WriteController.swift; sourceTree = "<group>"; };
 		A21A13301DDAD748001B0886 /* ResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseModel.swift; sourceTree = "<group>"; };
 		A21A13371DDC03D4001B0886 /* ReadController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadController.swift; sourceTree = "<group>"; };
 		A21A13391DDD695F001B0886 /* EntryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
@@ -85,6 +85,8 @@
 		A23930FC1DC6DF12001555D9 /* InvitesController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvitesController.swift; sourceTree = "<group>"; };
 		A23930FE1DC70B60001555D9 /* PromptModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromptModel.swift; sourceTree = "<group>"; };
 		A23931001DC70C27001555D9 /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		A23EEEA71DEE6FD300165D03 /* WriteNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WriteNavigationController.swift; sourceTree = "<group>"; };
+		A23EEEA91DEE72F300165D03 /* Test.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		A23FB3751DD8175C004A7CFD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A23FB3771DD83CD3004A7CFD /* JoinOrCreateController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinOrCreateController.swift; sourceTree = "<group>"; };
 		A23FB3791DD8D90D004A7CFD /* GroupModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupModel.swift; sourceTree = "<group>"; };
@@ -148,8 +150,8 @@
 				A23930F41DC6941C001555D9 /* LoginModel.swift */,
 				A23931001DC70C27001555D9 /* Models.swift */,
 				A23930FE1DC70B60001555D9 /* PromptModel.swift */,
-				A23FB37E1DD8FB5A004A7CFD /* UserModel.swift */,
 				A21A13301DDAD748001B0886 /* ResponseModel.swift */,
+				A23FB37E1DD8FB5A004A7CFD /* UserModel.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -179,28 +181,29 @@
 		A22ABCB51DC6656F000BB13C /* Joia */ = {
 			isa = PBXGroup;
 			children = (
-				A21A13321DDAD74D001B0886 /* Models */,
-				A2D8D8E31DE1726600F89CE5 /* TabController.swift */,
 				A22ABCB61DC6656F000BB13C /* AppDelegate.swift */,
-				A21A133B1DDD77DE001B0886 /* GroupsController.swift */,
-				A22ABCB81DC6656F000BB13C /* LoginController.swift */,
-				A23930F61DC695DB001555D9 /* SettingsController.swift */,
-				A23FB3741DD8175C004A7CFD /* Main.storyboard */,
 				A22ABCBD1DC6656F000BB13C /* Assets.xcassets */,
-				A22ABCBF1DC6656F000BB13C /* LaunchScreen.storyboard */,
-				A22ABCC21DC6656F000BB13C /* Info.plist */,
-				A23930F81DC6DE16001555D9 /* LandingController.swift */,
-				A23930FA1DC6DECF001555D9 /* JoinGroupController.swift */,
-				A23930FC1DC6DF12001555D9 /* InvitesController.swift */,
-				A23FB3771DD83CD3004A7CFD /* JoinOrCreateController.swift */,
-				A23FB37C1DD8FA53004A7CFD /* RegisterController.swift */,
-				A23FB3801DD904DB004A7CFD /* CreateGroupController.swift */,
 				A23FB3821DD96620004A7CFD /* BaseController.swift */,
 				A21A132C1DDAA2F1001B0886 /* Config.swift */,
-				A21A132E1DDAD3A0001B0886 /* WriteController.swift */,
-				A21A13371DDC03D4001B0886 /* ReadController.swift */,
+				A23FB3801DD904DB004A7CFD /* CreateGroupController.swift */,
 				A21A13391DDD695F001B0886 /* EntryTableViewCell.swift */,
+				A21A133B1DDD77DE001B0886 /* GroupsController.swift */,
 				A238873C1DE2656B00926732 /* GroupSettingsController.swift */,
+				A22ABCC21DC6656F000BB13C /* Info.plist */,
+				A23930FC1DC6DF12001555D9 /* InvitesController.swift */,
+				A23930FA1DC6DECF001555D9 /* JoinGroupController.swift */,
+				A23FB3771DD83CD3004A7CFD /* JoinOrCreateController.swift */,
+				A23930F81DC6DE16001555D9 /* LandingController.swift */,
+				A22ABCBF1DC6656F000BB13C /* LaunchScreen.storyboard */,
+				A22ABCB81DC6656F000BB13C /* LoginController.swift */,
+				A23FB3741DD8175C004A7CFD /* Main.storyboard */,
+				A21A13321DDAD74D001B0886 /* Models */,
+				A21A13371DDC03D4001B0886 /* ReadController.swift */,
+				A23FB37C1DD8FA53004A7CFD /* RegisterController.swift */,
+				A23930F61DC695DB001555D9 /* SettingsController.swift */,
+				A2D8D8E31DE1726600F89CE5 /* TabController.swift */,
+				A23EEEA71DEE6FD300165D03 /* WriteNavigationController.swift */,
+				A23EEEA91DEE72F300165D03 /* Test.swift */,
 			);
 			path = Joia;
 			sourceTree = "<group>";
@@ -408,7 +411,6 @@
 				A23FB37A1DD8D90D004A7CFD /* GroupModel.swift in Sources */,
 				A23930F71DC695DB001555D9 /* SettingsController.swift in Sources */,
 				A23930FB1DC6DECF001555D9 /* JoinGroupController.swift in Sources */,
-				A21A132F1DDAD3A0001B0886 /* WriteController.swift in Sources */,
 				A22ABCB91DC6656F000BB13C /* LoginController.swift in Sources */,
 				A21A132D1DDAA2F1001B0886 /* Config.swift in Sources */,
 				A23930F51DC6941C001555D9 /* LoginModel.swift in Sources */,
@@ -426,7 +428,9 @@
 				A238873D1DE2656B00926732 /* GroupSettingsController.swift in Sources */,
 				A22ABCB71DC6656F000BB13C /* AppDelegate.swift in Sources */,
 				A21A133A1DDD695F001B0886 /* EntryTableViewCell.swift in Sources */,
+				A23EEEAA1DEE72F300165D03 /* Test.swift in Sources */,
 				A23930FF1DC70B60001555D9 /* PromptModel.swift in Sources */,
+				A23EEEA81DEE6FD300165D03 /* WriteNavigationController.swift in Sources */,
 				A21A13381DDC03D4001B0886 /* ReadController.swift in Sources */,
 				A21A13311DDAD748001B0886 /* ResponseModel.swift in Sources */,
 			);

@@ -8,44 +8,53 @@
 
 import Alamofire
 
+struct UnpublishedResponse {
+  var prompt:String
+  var response:String
+}
+
 class ResponseModel : BaseModel {
   
-  var tempResponses:[Int:String] = [:]
+  var tempResponses:[UnpublishedResponse] = []
   
-  func putTempResponse(promptId:Int, response:String) {
-    tempResponses[promptId] = response
+  func setTempResponse(prompt:String, response:String) {
+    let unpublishedResponse = UnpublishedResponse(prompt: prompt, response: response);
+    tempResponses.append(unpublishedResponse)
   }
   
-  func getTempResponse(promptId:Int) -> String? {
-    return tempResponses[promptId]
+  func getTempResponse(index:Int) -> UnpublishedResponse? {
+//    return tempResponses[promptId]
+    return nil
   }
   
-  func submitResponses(group:Group, user:User) {
-    let responses:[Response] = tempResponses.map {
-      let prompt = Prompt(id: $0, text:"")
-      return Response(text: $1, prompt:prompt, user:user)
-    }
-    for response in responses {
-      Alamofire.request(.POST, baseUrl + "groups/" + group.guid + "/responses.json", parameters: ["response": response.toJson()])
-        .validate(statusCode: 200..<300)
-        .validate(contentType: ["application/json"])
-        .responseJSON(completionHandler: { (_, response, result) -> Void in
-
-        });
-    }
-  }
+//  func publishTempResponses(prompt
   
-  func validate() -> Bool {
-    for (_, response) in tempResponses {
-      let trimmed = response.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-      if trimmed.characters.count > 10 {
-        continue
-      } else {
-        return false
-      }
-    }
-    return true
-  }
+//  func submitResponses(group:Group, user:User) {
+//    let responses:[Response] = tempResponses.map {
+//      let prompt = Prompt(id: $0, text:"")
+//      return Response(text: $1, prompt:prompt, user:user)
+//    }
+//    for response in responses {
+//      Alamofire.request(.POST, baseUrl + "groups/" + group.guid + "/responses.json", parameters: ["response": response.toJson()])
+//        .validate(statusCode: 200..<300)
+//        .validate(contentType: ["application/json"])
+//        .responseJSON(completionHandler: { (_, response, result) -> Void in
+//
+//        });
+//    }
+//  }
+//  
+//  func validate() -> Bool {
+//    for (_, response) in tempResponses {
+//      let trimmed = response.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+//      if trimmed.characters.count > 10 {
+//        continue
+//      } else {
+//        return false
+//      }
+//    }
+//    return true
+//  }
   
   func getThread(group:Group) {
     Alamofire.request(.GET, baseUrl + "groups/" + group.guid + "/responses.json", parameters: nil)

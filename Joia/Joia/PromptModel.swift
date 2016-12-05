@@ -9,8 +9,8 @@
 import Alamofire
 
 class PromptModel : BaseModel {
-  func get(group:Group) {
-    Alamofire.request(.GET, baseUrl + "groups/" + group.guid + "/prompts.json", parameters: nil)
+  func get() {
+    Alamofire.request(.GET, baseUrl + "prompts.json", parameters: nil)
       .validate(statusCode: 200..<300)
       .validate(contentType: ["application/json"])
       .responseJSON(completionHandler: { (_, response, result) -> Void in
@@ -28,5 +28,19 @@ class PromptModel : BaseModel {
           callback(nil)
         }
       });
+  }
+  
+  func choose(howMany:Int, from:Int) -> Array<Int> {
+    let cal = NSCalendar.currentCalendar()
+    let components = cal.components([.Month, .Day, .TimeZone], fromDate: NSDate())
+    srand(UInt32(components.month + components.day))
+    var options = Array(0..<from)
+    var chosen:[Int] = []
+    for _ in 0..<howMany {
+      let index:Int = Int(rand() % Int32(options.count))
+      chosen.append(index)
+      options.removeAtIndex(index)
+    }
+    return chosen
   }
 }

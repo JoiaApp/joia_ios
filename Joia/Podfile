@@ -4,4 +4,6 @@ use_frameworks!
 target 'Joia' do
   pod 'Alamofire', '~> 2.0'
   pod 'SwiftyJSON', '~> 2.3'
+  pod 'ActionSheetPicker-3.0', '~> 2.2.0'
+  pod 'TagListView', '~> 0.2'
 end
