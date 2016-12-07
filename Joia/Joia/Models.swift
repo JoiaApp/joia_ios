@@ -3,7 +3,7 @@
 //  Joia
 //
 //  Created by Josh Bodily on 10/30/16.
-//  Copyright © 2016 Josh Bodily. All rights reserved.
+//  Copyright © 2016 Joia. All rights reserved.
 //
 
 import Foundation
@@ -14,30 +14,30 @@ public protocol Serializable {
 
 class Response : CustomStringConvertible, Serializable {
   let text:String;
-  let prompt:Prompt?;
+  let prompt:String;
   let user:User?;
   
-  init(text:String, prompt:Prompt, user:User?) {
+  init(text:String, prompt:String, user:User?) {
     self.text = text;
     self.prompt = prompt;
     self.user = user;
   }
   
   var description:String {
-    return "[<#Response> text: '\(text)' user:\(user?.name ?? "nil") prompt: \(prompt?.text ?? "nil")]"
+    return "[<#Response> text: '\(text)' user:\(user?.name ?? "nil") prompt: \(prompt ?? "nil")]"
   }
   
   static func fromDict(dict:Dictionary<String, AnyObject>) -> Response {
     let unwrappedText = dict["text"] as! String
-    let unwrappedPrompt = dict["prompt"] as! Dictionary<String, AnyObject>
+    let unwrappedPrompt = dict["prompt"] as! String
     let unwrappedUser = dict["user"] as! Dictionary<String, AnyObject>
-    return Response(text: unwrappedText, prompt:Prompt.fromDict(unwrappedPrompt), user:User.fromDict(unwrappedUser))
+    return Response(text: unwrappedText, prompt: unwrappedPrompt, user:User.fromDict(unwrappedUser))
   }
   
   func toJson() -> Dictionary<String, AnyObject> {
     return [
       "text": self.text,
-      "prompt_id": self.prompt!.id,
+      "prompt": self.prompt,
       "user_id": self.user!.id
     ]
   }
@@ -73,6 +73,8 @@ class Group : CustomStringConvertible, Serializable {
 class User : CustomStringConvertible, Serializable {
   let name:String;
   let id:Int;
+  var session_id:String?;
+  var image:String?
   
   init(id:Int, name:String) {
     self.id = id;
@@ -86,14 +88,24 @@ class User : CustomStringConvertible, Serializable {
   func toJson() -> Dictionary<String, AnyObject> {
     return [
       "id": self.id,
-      "name": self.name
+      "name": self.name,
+      "session_id": self.session_id ?? "",
+      "image": self.image ?? ""
     ]
   }
   
   static func fromDict(dict:Dictionary<String, AnyObject>) -> User {
     let unwrappedId = dict["id"] as! Int
     let unwrappedName = dict["name"] as! String
-    return User(id: unwrappedId, name: unwrappedName)
+    let user = User(id: unwrappedId, name: unwrappedName)
+    if let sessionId = dict["session_id"] as? String {
+      user.session_id = sessionId
+    }
+    if let image = dict["image"] as? String where image.characters.count > 0 {
+      user.image = image
+      ImagesCache.sharedInstance.put(unwrappedId, data: image)
+    }
+    return user
   }
 }
 

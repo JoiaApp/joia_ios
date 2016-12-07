@@ -3,19 +3,32 @@ PODS:
   - Alamofire (2.0.2)
   - SwiftyJSON (2.4.0)
   - TagListView (0.5)
+  - WDImagePicker (0.1)
 
 DEPENDENCIES:
   - ActionSheetPicker-3.0 (~> 2.2.0)
   - Alamofire (~> 2.0)
   - SwiftyJSON (~> 2.3)
   - TagListView (~> 0.2)
+  - WDImagePicker (from `https://github.com/justwudi/WDImagePicker.git`, tag `swift-2.0`)
+
+EXTERNAL SOURCES:
+  WDImagePicker:
+    :git: https://github.com/justwudi/WDImagePicker.git
+    :tag: swift-2.0
+
+CHECKOUT OPTIONS:
+  WDImagePicker:
+    :git: https://github.com/justwudi/WDImagePicker.git
+    :tag: swift-2.0
 
 SPEC CHECKSUMS:
   ActionSheetPicker-3.0: d11a4c12c6aaf704b8a3f56d179198c99f3e41e6
   Alamofire: 8edbab00802a752bb5240cc2abe70e7e881488ad
   SwiftyJSON: 96918c1bf505efa50c4f72957018dd3452090c9c
   TagListView: d9e6f0f30eca6a84138669f8449b89df068e6573
+  WDImagePicker: aeb9dcef2ae0494dff1b712febd0804ae4db6d41
 
-PODFILE CHECKSUM: 8290e85d64a78ed327184f2706d650aaddbb55e7
+PODFILE CHECKSUM: 0c162ad17f916fb8e2544ea143d3d74cfec4fc95
 
 COCOAPODS: 1.1.1

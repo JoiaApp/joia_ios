@@ -1,9 +1,9 @@
 //
-//  TableCell.swift
+//  EntryTableViewCell.swift
 //  Joia
 //
 //  Created by Josh Bodily on 11/16/16.
-//  Copyright © 2016 Josh Bodily. All rights reserved.
+//  Copyright © 2016 Joia. All rights reserved.
 //
 
 import UIKit
@@ -24,13 +24,18 @@ class EntryTableViewCell : UITableViewCell {
   }
   
   var response:Response? {
-  set {
-    customText.text = newValue!.text
-    user.text = newValue!.user!.name
-    prompt.text = newValue!.prompt!.text
-  }
-  get {
-    return nil
-  }
+    set {
+      customText.text = newValue!.text
+      user.text = newValue!.user?.name ?? ""
+      prompt.text = newValue!.prompt
+      if let user = newValue!.user {
+        if let imageData = ImagesCache.sharedInstance.images[user.id] {
+          customImage.image = imageData
+        }
+      }
+    }
+    get {
+      return nil
+    }
   }
 }

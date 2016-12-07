@@ -3,7 +3,7 @@
 //  Joia
 //
 //  Created by Josh Bodily on 11/15/16.
-//  Copyright © 2016 Josh Bodily. All rights reserved.
+//  Copyright © 2016 Joia. All rights reserved.
 //
 
 import UIKit
@@ -17,6 +17,7 @@ class ReadController : UITableViewController {
     tableView.separatorStyle = UITableViewCellSeparatorStyle.None
     tableView.rowHeight = UITableViewAutomaticDimension
     tableView.estimatedRowHeight = 140
+    tableView.allowsSelection = false
     super.viewDidLoad();
   }
   
@@ -25,7 +26,7 @@ class ReadController : UITableViewController {
     guard let _ = GroupModel.getCurrentGroup() else {
       let alert = UIAlertController(title: "No group selected", message: "Please select a group", preferredStyle: .Alert)
       let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) in
-        NSNotificationCenter.defaultCenter().postNotificationName("gotoGroups", object: nil)
+        self.tabBarController?.selectedIndex = GROUPS_INDEX
       }
       alert.addAction(OKAction)
       self.presentViewController(alert, animated: true, completion: nil)
@@ -40,15 +41,32 @@ class ReadController : UITableViewController {
     responseModel.getThread(GroupModel.getCurrentGroup()!)
   }
   
-  override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  override func numberOfSectionsInTableView(_:UITableView) -> Int {
     if let thread = responses {
       return thread.count
     }
     return 0
   }
   
+  // There is just one row in every section
+  override func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return 1
+  }
+  
+  // Set the spacing between sections
+  override func tableView(_ : UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    return 20
+  }
+  
+  // Make the background color show through
+  override func tableView(_: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    let headerView = UIView()
+    headerView.backgroundColor = UIColor.clearColor()
+    return headerView
+  }
+  
   override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    let response = responses![indexPath.row]
+    let response = responses![indexPath.section]
     let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as! EntryTableViewCell
     cell.response = response
     return cell

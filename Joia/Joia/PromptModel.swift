@@ -3,7 +3,7 @@
 //  Joia
 //
 //  Created by Josh Bodily on 10/30/16.
-//  Copyright © 2016 Josh Bodily. All rights reserved.
+//  Copyright © 2016 Joia. All rights reserved.
 //
 
 import Alamofire
@@ -30,7 +30,7 @@ class PromptModel : BaseModel {
       });
   }
   
-  func choose(howMany:Int, from:Int) -> Array<Int> {
+  static func choose(howMany:Int, from:Int) -> Array<Int> {
     let cal = NSCalendar.currentCalendar()
     let components = cal.components([.Month, .Day, .TimeZone], fromDate: NSDate())
     srand(UInt32(components.month + components.day))
@@ -38,7 +38,7 @@ class PromptModel : BaseModel {
     var chosen:[Int] = []
     for _ in 0..<howMany {
       let index:Int = Int(rand() % Int32(options.count))
-      chosen.append(index)
+      chosen.append(options[index])
       options.removeAtIndex(index)
     }
     return chosen

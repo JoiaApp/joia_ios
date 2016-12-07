@@ -3,7 +3,7 @@
 //  Joia
 //
 //  Created by Josh Bodily on 11/13/16.
-//  Copyright © 2016 Josh Bodily. All rights reserved.
+//  Copyright © 2016 Joia. All rights reserved.
 //
 
 import Foundation
@@ -29,29 +29,152 @@ class UserModel : BaseModel {
       });
   }
   
+  func get(user:User) {
+    Alamofire.request(.POST, baseUrl + "users/" + String(user.id) + "/refresh.json", parameters: nil, encoding: .URL, headers: ["Cookie": "_srv_session=" + (user.session_id ?? "")])
+      .validate(statusCode: 200..<300)
+      .validate(contentType: ["application/json"])
+      .responseJSON(completionHandler: { (_, response, result) -> Void in
+        if let callback = self._success where result.isSuccess {
+          if let value = result.value as? [String: AnyObject] {
+            let user = User.fromDict(value);
+            if let headerFields = response?.allHeaderFields as? [String: String], URL = response?.URL {
+              let cookies = NSHTTPCookie.cookiesWithResponseHeaderFields(headerFields, forURL: URL)
+              print(cookies)
+              user.session_id = cookies.first!.value
+            }
+            UserModel.setCurrentUser(user);
+            callback(nil, user);
+          }
+        }
+        if let callback = self._error where result.isFailure {
+          callback(nil)
+        }
+      });
+  }
+  
+  func updatePassword(user:User, password:String) {
+    updateField(user, field: "password", value: password)
+  }
+  
+  func updateUsername(user:User, username:String) {
+    updateField(user, field: "name", value: username)
+  }
+  
+  func updatePushToken(user:User, token:NSData) {
+    let tokenString = token.toHexString()
+    updateField(user, field: "push_token", value: tokenString)
+  }
+  
+  private func updateField(user:User, field:String, value:String) {
+    Alamofire.request(.PUT, baseUrl + "users/" + String(user.id) + ".json", parameters: ["user": [field: value]])
+      .validate(statusCode: 200..<300)
+      .validate(contentType: ["application/json"])
+      .responseJSON(completionHandler: { (_, response, result) -> Void in
+        if let callback = self._success where result.isSuccess {
+          if let value = result.value as? [String: AnyObject] {
+            let user = User.fromDict(value);
+            if let currentUser = UserModel.getCurrentUser() {
+              user.session_id = currentUser.session_id
+            }
+            UserModel.setCurrentUser(user)
+          }
+          callback(nil, user);
+        }
+        if let callback = self._error where result.isFailure {
+          callback(nil)
+        }
+      });
+  }
+  
+  func login(email: String, password: String) {
+    Alamofire.request(.POST, baseUrl + "users/login.json", parameters: ["email": email, "password": password])
+      .validate(statusCode: 200..<300)
+      .validate(contentType: ["application/json"])
+      .responseJSON(completionHandler: { (_, response, result) -> Void in
+        if let callback = self._success where result.isSuccess {
+          if let value = result.value as? [String: AnyObject] {
+            let user = User.fromDict(value);
+            if let headerFields = response?.allHeaderFields as? [String: String], URL = response?.URL {
+              let cookies = NSHTTPCookie.cookiesWithResponseHeaderFields(headerFields, forURL: URL)
+              print(cookies)
+              user.session_id = cookies.first!.value
+            }
+            UserModel.setCurrentUser(user);
+            callback(nil, user);
+          }
+        }
+        if let callback = self._error where result.isFailure {
+          callback(nil)
+        }
+      });
+  }
+  
+  func saveImage(user: User, image: UIImage) {
+    // use "Aspect Fit" to resize the image
+    let ratioW = 50 / image.size.width;
+    let ratioH = 50 / image.size.height;
+    let ratio = min(ratioW, ratioH)
+    
+    let size = CGSizeApplyAffineTransform(image.size, CGAffineTransformMakeScale(ratio, ratio))
+    let hasAlpha = false
+    let scale: CGFloat = 0.0 // Automatically use scale factor of main screen
+    
+    UIGraphicsBeginImageContextWithOptions(size, !hasAlpha, scale)
+    image.drawInRect(CGRect(origin: CGPointZero, size: size))
+    let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    
+    print(scaledImage)
+    
+    let imageData = UIImagePNGRepresentation(scaledImage)
+    let base64Data = imageData?.base64EncodedDataWithOptions(NSDataBase64EncodingOptions())
+    
+    ImagesCache.sharedInstance.images[user.id] = scaledImage
+    updateField(user, field: "image", value: String(data: base64Data!, encoding: NSUTF8StringEncoding)!)
+    
+//    Alamofire.request(.POST, baseUrl + "users/" + String(user.id) + "/upload.json", parameters: ["image": String(data: base64Data!, encoding: NSUTF8StringEncoding)!])
+//      .validate(statusCode: 200..<300)
+//      .validate(contentType: ["application/octet-stream"])
+//      .responseJSON(completionHandler: { (_, response, result) -> Void in
+//        ImagesCache.sharedInstance.images[user.id] = scaledImage
+//          let documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
+//          if (imageData!.writeToFile(documentsPath + "/" + String(user.id) + ".png", atomically: true)) {
+//            print(documentsPath)
+//          }
+//      })
+  }
+  
   static func setCurrentUser(user: User) {
+    currentUser = user
     let defaults = NSUserDefaults.standardUserDefaults()
-    currentUser = user;
-    defaults.setInteger(user.id, forKey: "user_id")
-    defaults.setObject(user.name, forKey: "user_name")
-    defaults.synchronize()
+    defaults.setObject(user.toJson(), forKey: "current_user")
   }
   
   static func getCurrentUser() -> User? {
-    let defaults = NSUserDefaults.standardUserDefaults()
-    let id = defaults.integerForKey("user_id")
-    if let name = defaults.objectForKey("user_name") as? String {
-      currentUser = User(id: id, name: name)
+    if let currentUser = currentUser {
       return currentUser
+    } else {
+      let defaults = NSUserDefaults.standardUserDefaults()
+      if let user = defaults.dictionaryForKey("current_user") {
+        currentUser = User.fromDict(user)
+        return currentUser
+      }
     }
     return nil
   }
   
   static func logout() {
-    currentUser = nil
-    let defaults = NSUserDefaults.standardUserDefaults()
-    defaults.removeObjectForKey("user_name")
-    defaults.removeObjectForKey("user_id")
-    defaults.synchronize()
+    
+  }
+}
+
+extension NSData {
+  func toHexString() -> String {
+    var hexString: String = ""
+    let dataBytes =  UnsafePointer<CUnsignedChar>(self.bytes)
+    for (var i: Int=0; i<self.length; ++i) {
+      hexString +=  String(format: "%02X", dataBytes[i])
+    }
+    return hexString
   }
 }

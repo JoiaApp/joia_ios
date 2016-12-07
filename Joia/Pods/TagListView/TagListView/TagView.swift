@@ -39,13 +39,13 @@ public class TagView: UIButton {
     }
     @IBInspectable var paddingY: CGFloat = 2 {
         didSet {
-            titleEdgeInsets.top = paddingY
-            titleEdgeInsets.bottom = paddingY
+//            titleEdgeInsets.top = paddingY
+//            titleEdgeInsets.bottom = paddingY
         }
     }
     @IBInspectable var paddingX: CGFloat = 5 {
         didSet {
-            titleEdgeInsets.left = paddingX
+            titleEdgeInsets.left = paddingX * 2 + removeButtonIconSize
             updateRightInsets()
         }
     }
@@ -142,16 +142,25 @@ public class TagView: UIButton {
         
         setupView()
     }
-    
+  
+    public var image:UIImageView!
+  
     public init(title: String) {
         super.init(frame: CGRectZero)
         setTitle(title, forState: .Normal)
-        
+      
+//      UIImage *btnImage = [UIImage imageNamed:@"image.png"];
+//      [btnTwo setImage:btnImage forState:UIControlStateNormal]
+      let btnImage = UIImage.init(named: "Line_Opal - Eyes Open")
+      image = UIImageView(image: btnImage)
+      addSubview(image)
+      
         setupView()
     }
     
     private func setupView() {
         frame.size = intrinsicContentSize()
+//      print(frame)
         addSubview(removeButton)
         removeButton.tagView = self
     }
@@ -173,7 +182,9 @@ public class TagView: UIButton {
         size.width += paddingX * 2
         if enableRemoveButton {
             size.width += removeButtonIconSize + paddingX
+          
         }
+      size.width += removeButtonIconSize + paddingX * 2
         return size
     }
     
@@ -185,5 +196,10 @@ public class TagView: UIButton {
             removeButton.frame.size.height = self.frame.height
             removeButton.frame.origin.y = 0
         }
+      
+        image.frame.size.width = removeButton.frame.width
+        image.frame.origin.x = 0
+        image.frame.size.height = removeButton.frame.height
+        image.frame.origin.y = 0
     }
 }

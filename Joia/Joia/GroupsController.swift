@@ -3,7 +3,7 @@
 //  Joia
 //
 //  Created by Josh Bodily on 11/16/16.
-//  Copyright © 2016 Josh Bodily. All rights reserved.
+//  Copyright © 2016 Joia. All rights reserved.
 //
 
 import UIKit
@@ -21,29 +21,33 @@ class GroupsController : UITableViewController {
     
     let groupsModel = GroupModel()
     if let user = UserModel.getCurrentUser() {
+      groupsModel.success { (message:String?, model:AnyObject?) -> Void in
+        self.groups = model as! Array<Group>
+        self.tableView.reloadData()
+      }
+      groupsModel.error { (message:String?) -> Void in
+        let alert = UIAlertController(title: "Oops", message: message ?? "Something went wrong", preferredStyle: .Alert)
+        let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) in
+          
+        }
+        alert.addAction(OKAction)
+        self.presentViewController(alert, animated: true, completion: nil)
+      }
       groupsModel.getAll(user)
     } else {
+      // Logout ?
+    }
+
+    if let _ = GroupModel.currentGroup {
       
-    }
-    groupsModel.success { (message:String?, model:AnyObject?) -> Void in
-      self.groups = model as! Array<Group>
-      self.tableView.reloadData()
-    }
-    groupsModel.error { (message:String?) -> Void in
-      let alert = UIAlertController(title: "Oops", message: message ?? "Something went wrong", preferredStyle: .Alert)
-      let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) in
+    } else {
+      let alert = UIAlertController(title: "Select group", message: "Select current group", preferredStyle: .Alert)
+      let OKAction = UIAlertAction(title: "Dismiss", style: .Default) { (action) in
         
       }
       alert.addAction(OKAction)
       self.presentViewController(alert, animated: true, completion: nil)
     }
-    
-    let alert = UIAlertController(title: "Select group", message: "Select current group", preferredStyle: .Alert)
-    let OKAction = UIAlertAction(title: "Dismiss", style: .Default) { (action) in
-      
-    }
-    alert.addAction(OKAction)
-    self.presentViewController(alert, animated: true, completion: nil)
   }
   
   override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

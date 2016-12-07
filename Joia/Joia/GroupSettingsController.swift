@@ -3,7 +3,7 @@
 //  Joia
 //
 //  Created by Josh Bodily on 11/20/16.
-//  Copyright © 2016 Josh Bodily. All rights reserved.
+//  Copyright © 2016 Joia. All rights reserved.
 //
 
 import UIKit
@@ -34,7 +34,7 @@ class GroupSettingsController : BaseController, UITextFieldDelegate {
     guard let _ = GroupModel.getCurrentGroup() else {
       let alert = UIAlertController(title: "No group selected", message: "Please select a group", preferredStyle: .Alert)
       let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) in
-        NSNotificationCenter.defaultCenter().postNotificationName("gotoGroups", object: nil)
+        self.tabBarController?.selectedIndex = GROUPS_INDEX
       }
       alert.addAction(OKAction)
       self.presentViewController(alert, animated: true, completion: nil)
@@ -70,14 +70,22 @@ class GroupSettingsController : BaseController, UITextFieldDelegate {
   func submit(textField:UITextField) {
     if textField == invite {
       if let email = textField.text {
-        GroupModel().invite(email)
+        let model = GroupModel()
+        model.success({ (_, model) -> Void in
+          self.showAlert("Sent", message: "Invite sent to \(email)")
+        })
+        model.invite(email)
       }
     } else if let name = originalName {
       if let currentName = textField.text where currentName != name {
         let group = GroupModel.getCurrentGroup()!
         originalName = currentName
         group.name = currentName
-        GroupModel().update(group)
+        let model = GroupModel()
+        model.success({ (_, model) -> Void in
+          self.showAlert("Updated", message: "Group name updated to \(currentName)")
+        })
+        model.update(group)
       }
     }
   }

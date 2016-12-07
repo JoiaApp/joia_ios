@@ -3,47 +3,80 @@
 //  Joia
 //
 //  Created by Josh Bodily on 11/14/16.
-//  Copyright © 2016 Josh Bodily. All rights reserved.
+//  Copyright © 2016 Joia. All rights reserved.
 //
 
 import Alamofire
 
 struct UnpublishedResponse {
-  var prompt:String
-  var response:String
+  var prompt:String?
+  var response:String?
+  var mentions:[Int] = []
 }
 
 class ResponseModel : BaseModel {
   
-  var tempResponses:[UnpublishedResponse] = []
+  static var tempResponses:[Int:UnpublishedResponse] = [:]
   
-  func setTempResponse(prompt:String, response:String) {
-    let unpublishedResponse = UnpublishedResponse(prompt: prompt, response: response);
-    tempResponses.append(unpublishedResponse)
+  static func setPrompt(index:Int, prompt:String) {
+    if let _ = tempResponses[index] {
+      tempResponses[index]!.prompt = prompt
+    } else {
+      let unpublishedResponse = UnpublishedResponse.init(prompt: prompt, response: nil, mentions:[])
+      tempResponses[index] = unpublishedResponse
+    }
   }
   
-  func getTempResponse(index:Int) -> UnpublishedResponse? {
-//    return tempResponses[promptId]
-    return nil
+  static func setResponse(index:Int, response:String) {
+    if let _ = tempResponses[index] {
+      tempResponses[index]!.response = response
+    } else {
+      let unpublishedResponse = UnpublishedResponse.init(prompt: nil, response: response, mentions:[])
+      tempResponses[index] = unpublishedResponse
+    }
   }
   
-//  func publishTempResponses(prompt
+  static func setMentions(index:Int, mentions:[Int]) {
+    if let _ = tempResponses[index] {
+      tempResponses[index]!.mentions = mentions
+    } else {
+      let unpublishedResponse = UnpublishedResponse.init(prompt: nil, response: nil, mentions:mentions)
+      tempResponses[index] = unpublishedResponse
+    }
+  }
   
-//  func submitResponses(group:Group, user:User) {
-//    let responses:[Response] = tempResponses.map {
-//      let prompt = Prompt(id: $0, text:"")
-//      return Response(text: $1, prompt:prompt, user:user)
-//    }
-//    for response in responses {
-//      Alamofire.request(.POST, baseUrl + "groups/" + group.guid + "/responses.json", parameters: ["response": response.toJson()])
-//        .validate(statusCode: 200..<300)
-//        .validate(contentType: ["application/json"])
-//        .responseJSON(completionHandler: { (_, response, result) -> Void in
-//
-//        });
-//    }
-//  }
-//  
+  static func getTempResponse(index:Int) -> UnpublishedResponse? {
+    return tempResponses[index]
+  }
+  
+  static var _composing:Bool = false
+  static var composing:Bool {
+    get {
+      return _composing
+    }
+    set {
+      _composing = newValue
+    }
+  }
+  
+  func publishResponses(group:Group, user:User) -> Bool {
+    let responses:[Response] = ResponseModel.tempResponses.map { Response(text: $1.response!, prompt: $1.prompt!, user:user) }
+    var success = true;
+    for response in responses {
+      Alamofire.request(.POST, baseUrl + "groups/" + group.guid + "/responses.json", parameters: ["response": response.toJson()])
+        .validate(statusCode: 200..<300)
+        .validate(contentType: ["application/json"])
+        .responseJSON(completionHandler: { (_, response, result) -> Void in
+          if (!result.isSuccess) {
+            success = false
+          }
+        });
+    }
+    // Done composing
+    ResponseModel.composing = false
+    return success
+  }
+
 //  func validate() -> Bool {
 //    for (_, response) in tempResponses {
 //      let trimmed = response.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())

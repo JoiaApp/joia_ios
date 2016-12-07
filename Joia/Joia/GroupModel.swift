@@ -3,7 +3,7 @@
 //  Joia
 //
 //  Created by Josh Bodily on 11/13/16.
-//  Copyright © 2016 Josh Bodily. All rights reserved.
+//  Copyright © 2016 Joia. All rights reserved.
 //
 
 import Foundation
@@ -34,6 +34,18 @@ class GroupModel : BaseModel {
     Alamofire.request(.PUT, baseUrl + "groups/" + group.guid + ".json", parameters: ["group": group.toJson()])
       .validate(statusCode: 200..<300)
       .validate(contentType: ["application/json"])
+      .responseJSON(completionHandler: { (_, response, result) -> Void in
+        if let callback = self._success where result.isSuccess {
+          if let value = result.value as? [String: AnyObject] {
+            let group = Group.fromDict(value)
+            GroupModel.setCurrentGroup(group)
+            callback(nil, group);
+          }
+        }
+        if let callback = self._error where result.isFailure {
+          callback(self.parseError(result.data))
+        }
+      });
   }
   
   func join(user:User) {
@@ -75,6 +87,35 @@ class GroupModel : BaseModel {
             let group = Group.fromDict(value);
             callback(nil, group);
           }
+        }
+        if let callback = self._error where result.isFailure {
+          callback(nil)
+        }
+      });
+  }
+  
+  func getMembers(number: String) {
+    Alamofire.request(.GET, baseUrl + "groups/" + number + "/members.json", parameters: nil)
+      .validate(statusCode: 200..<300)
+      .validate(contentType: ["application/json"])
+      .responseJSON(completionHandler: { (_, response, result) -> Void in
+        if let callback = self._success where result.isSuccess {
+          var users:[User] = Array()
+          if let array = result.value as? [AnyObject] {
+            for item in array {
+              let user = User.fromDict(item as! [String: AnyObject])
+              users.append(user)
+              
+              // Save the images
+              let userData = item as! [String: AnyObject]
+              if let imageData = userData["image"] as? String {
+                let dataDecoded:NSData = NSData(base64EncodedString: imageData, options: NSDataBase64DecodingOptions(rawValue: 0))!
+                let decodedimage:UIImage = UIImage(data: dataDecoded)!
+                ImagesCache.sharedInstance.images[user.id] = decodedimage
+              }
+            }
+          }
+          callback(nil, users)
         }
         if let callback = self._error where result.isFailure {
           callback(nil)
