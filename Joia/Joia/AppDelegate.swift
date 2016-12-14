@@ -43,11 +43,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     print("Failed to register for remote notifications \(error.localizedDescription)")
   }
   
+  func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
+
+  }
+  
   func applicationDidBecomeActive(application: UIApplication) {
-    let types:UIUserNotificationType = [UIUserNotificationType.Badge, UIUserNotificationType.Sound, UIUserNotificationType.Alert]
-    let settings = UIUserNotificationSettings(forTypes: types, categories: nil)
+    let settings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
     UIApplication.sharedApplication().registerUserNotificationSettings(settings)
     UIApplication.sharedApplication().registerForRemoteNotifications()
+    
+    let calendar = NSCalendar.currentCalendar()
+    let components = NSDateComponents()
+    components.hour = 12 + 7
+    components.minute = 0
+    
+    UIApplication.sharedApplication().cancelAllLocalNotifications()
+    let localNotification = UILocalNotification()
+    localNotification.fireDate = calendar.dateFromComponents(components)
+    localNotification.alertBody = "Did you remember to write in your Joia journal today?"
+    localNotification.timeZone = NSTimeZone.localTimeZone()
+    localNotification.repeatInterval = NSCalendarUnit.Day
+    localNotification.soundName = UILocalNotificationDefaultSoundName
+    localNotification.category = "Write" //Optional
+    UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
   }
   
   func applicationWillTerminate(application: UIApplication) {

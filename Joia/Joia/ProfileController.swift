@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import WDImagePicker
+import ActionSheetPicker_3_0
 
 class ProfileController : BaseController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
   
@@ -15,6 +15,7 @@ class ProfileController : BaseController, UIImagePickerControllerDelegate, UINav
   @IBOutlet weak var confirmPassword: UITextField!
   @IBOutlet weak var image: UIImageView!
   @IBOutlet weak var password: UITextField!
+  @IBOutlet weak var birthday: UILabel!
   
   var imagePicker:UIImagePickerController!
   
@@ -34,6 +35,45 @@ class ProfileController : BaseController, UIImagePickerControllerDelegate, UINav
     if let cachedImage = ImagesCache.sharedInstance.images[currentUser.id] {
       image.image = cachedImage
     }
+    
+    if let userBirthday = currentUser.birthday {
+      let dateFormatter = NSDateFormatter()
+      dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
+      birthday.text = "Birthday - \(dateFormatter.stringFromDate(userBirthday))"
+    } else {
+      birthday.text = "Birthday - Not Set"
+    }
+  }
+  @IBAction func editBirthday(sender: AnyObject) {
+    let days = Array(1...31).map { String($0) }
+    let years = Array(1916...2016).map { String($0) }
+    let rows:Array<Array<String>> = [
+      ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], days, years
+    ]
+    let calendar = NSCalendar.currentCalendar()
+    var components = calendar.components([.Day, .Month, .Year], fromDate: NSDate(timeIntervalSince1970: 0))
+    if let userBirthday = UserModel.getCurrentUser()?.birthday {
+      components = calendar.components([.Day, .Month, .Year], fromDate: userBirthday)
+    }
+    let initialSelection = [components.month - 1, components.day - 1, components.year - 1916]
+    
+    ActionSheetMultipleStringPicker.showPickerWithTitle("Select ", rows: rows, initialSelection: initialSelection, doneBlock: {_,values,indices in
+      let user = UserModel.getCurrentUser()
+      let userModel = UserModel()
+      userModel.success({ (_, model) -> Void in
+        let dateComponents = NSDateComponents()
+        let vals = values as! [Int]
+        dateComponents.month = 1 + vals[0]
+        dateComponents.day = 1 + vals[1]
+        dateComponents.year = 1916 + vals[2]
+        let calendar = NSCalendar.currentCalendar()
+        let date = calendar.dateFromComponents(dateComponents)
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
+        self.birthday.text = "Birthday - \(dateFormatter.stringFromDate(date!))"
+      })
+      userModel.updateBirthday(user!, components: values as! [Int])
+    }, cancelBlock: nil, origin: self.view)
   }
   
   override func dismissKeyboard() {

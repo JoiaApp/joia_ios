@@ -303,6 +303,7 @@
 				TargetAttributes = {
 					A22ABCB21DC6656F000BB13C = {
 						CreatedOnToolsVersion = 7.2.1;
+						DevelopmentTeam = JTL76378AY;
 					};
 					A22ABCC61DC6656F000BB13C = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -583,10 +584,13 @@
 			baseConfigurationReference = D35ADBE12BFA38CFD027042E /* Pods-Joia.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Danny Anderson (H5TT9CUEXN)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Joia/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.joiaapp.Joia;
+				PRODUCT_BUNDLE_IDENTIFIER = com.joia.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "4f014978-f2f5-43e9-87a4-d62acf5d6ec6";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -596,10 +600,13 @@
 			baseConfigurationReference = F7883E14A302AF097C73CDFA /* Pods-Joia.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Danny Anderson (H5TT9CUEXN)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Joia/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.joiaapp.Joia;
+				PRODUCT_BUNDLE_IDENTIFIER = com.joia.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "4f014978-f2f5-43e9-87a4-d62acf5d6ec6";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

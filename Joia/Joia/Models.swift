@@ -12,15 +12,33 @@ public protocol Serializable {
   func toJson() -> Dictionary<String, AnyObject>
 }
 
+class Mention : Serializable {
+  let response:Int
+  let user:Int
+  init(response:Int, user:Int) {
+    self.response = response
+    self.user = user
+  }
+  
+  func toJson() -> Dictionary<String, AnyObject> {
+    return [
+      "response_id": self.response,
+      "user_id": self.user
+    ]
+  }
+}
+
 class Response : CustomStringConvertible, Serializable {
   let text:String;
   let prompt:String;
   let user:User?;
+  let mentions:[Int]?;
   
-  init(text:String, prompt:String, user:User?) {
+  init(text:String, prompt:String, user:User?, mentions:[Int]?) {
     self.text = text;
     self.prompt = prompt;
     self.user = user;
+    self.mentions = mentions;
   }
   
   var description:String {
@@ -31,7 +49,7 @@ class Response : CustomStringConvertible, Serializable {
     let unwrappedText = dict["text"] as! String
     let unwrappedPrompt = dict["prompt"] as! String
     let unwrappedUser = dict["user"] as! Dictionary<String, AnyObject>
-    return Response(text: unwrappedText, prompt: unwrappedPrompt, user:User.fromDict(unwrappedUser))
+    return Response(text: unwrappedText, prompt: unwrappedPrompt, user:User.fromDict(unwrappedUser), mentions:nil)
   }
   
   func toJson() -> Dictionary<String, AnyObject> {
@@ -75,6 +93,7 @@ class User : CustomStringConvertible, Serializable {
   let id:Int;
   var session_id:String?;
   var image:String?
+  var birthday:NSDate?
   
   init(id:Int, name:String) {
     self.id = id;
@@ -104,6 +123,11 @@ class User : CustomStringConvertible, Serializable {
     if let image = dict["image"] as? String where image.characters.count > 0 {
       user.image = image
       ImagesCache.sharedInstance.put(unwrappedId, data: image)
+    }
+    if let birthday = dict["birthday"] as? String {
+      let dateFormatter = NSDateFormatter()
+      dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+      user.birthday = dateFormatter.dateFromString(birthday)
     }
     return user
   }

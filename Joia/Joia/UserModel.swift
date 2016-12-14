@@ -52,6 +52,18 @@ class UserModel : BaseModel {
       });
   }
   
+  func updateBirthday(user:User, components:[Int]) {
+    let dateComponents = NSDateComponents()
+    dateComponents.month = 1 + components[0]
+    dateComponents.day = 1 + components[1]
+    dateComponents.year = 1916 + components[2]
+    let calendar = NSCalendar.currentCalendar()
+    let date = calendar.dateFromComponents(dateComponents)
+    let dateFormatter = NSDateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    updateField(user, field: "birthday", value: dateFormatter.stringFromDate(date!))
+  }
+  
   func updatePassword(user:User, password:String) {
     updateField(user, field: "password", value: password)
   }
@@ -110,21 +122,24 @@ class UserModel : BaseModel {
   }
   
   func saveImage(user: User, image: UIImage) {
-    // use "Aspect Fit" to resize the image
+    // use "Aspect Fill" to resize the image
     let ratioW = 50 / image.size.width;
     let ratioH = 50 / image.size.height;
-    let ratio = min(ratioW, ratioH)
+    let ratio = max(ratioW, ratioH)
     
     let size = CGSizeApplyAffineTransform(image.size, CGAffineTransformMakeScale(ratio, ratio))
-    let hasAlpha = false
     let scale: CGFloat = 0.0 // Automatically use scale factor of main screen
     
-    UIGraphicsBeginImageContextWithOptions(size, !hasAlpha, scale)
-    image.drawInRect(CGRect(origin: CGPointZero, size: size))
+//    let minimum = min(size.width, size.height)
+    
+    UIGraphicsBeginImageContextWithOptions(size, false, scale)
+    let path = UIBezierPath(ovalInRect: CGRect(origin: CGPointZero, size: CGSize(width: 50, height: 50)))
+    path.addClip()
+    image.drawInRect(CGRect(origin: CGPoint(x: (50 - size.width) * 0.5, y: (50 - size.height) * 0.5), size: size))
     let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
     UIGraphicsEndImageContext()
     
-    print(scaledImage)
+//    print(scaledImage)
     
     let imageData = UIImagePNGRepresentation(scaledImage)
     let base64Data = imageData?.base64EncodedDataWithOptions(NSDataBase64EncodingOptions())

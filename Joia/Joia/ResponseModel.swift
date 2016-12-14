@@ -60,15 +60,22 @@ class ResponseModel : BaseModel {
   }
   
   func publishResponses(group:Group, user:User) -> Bool {
-    let responses:[Response] = ResponseModel.tempResponses.map { Response(text: $1.response!, prompt: $1.prompt!, user:user) }
+    let responses:[Response] = ResponseModel.tempResponses.map { Response(text: $1.response!, prompt: $1.prompt!, user:user, mentions:$1.mentions ?? []) }
     var success = true;
     for response in responses {
       Alamofire.request(.POST, baseUrl + "groups/" + group.guid + "/responses.json", parameters: ["response": response.toJson()])
         .validate(statusCode: 200..<300)
         .validate(contentType: ["application/json"])
-        .responseJSON(completionHandler: { (_, response, result) -> Void in
+        .responseJSON(completionHandler: { (_, _, result) -> Void in
           if (!result.isSuccess) {
             success = false
+          } else if let value = result.value as? [String: AnyObject] {
+            for mentionedUserId in response.mentions! {
+              let mention = Mention(response:value["id"] as! Int, user:mentionedUserId)
+              Alamofire.request(.POST, self.baseUrl + "groups/" + group.guid + "/mentions.json", parameters: ["mention": mention.toJson()])
+                .validate(statusCode: 200..<300)
+                .validate(contentType: ["application/json"])
+            }
           }
         });
     }

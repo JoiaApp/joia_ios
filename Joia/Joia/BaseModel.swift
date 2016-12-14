@@ -11,7 +11,9 @@ import SwiftyJSON
 
 class BaseModel {
   
-  let baseUrl:String = BASE_URL;
+  var baseUrl:String {
+    get { return Config.baseUrl; }
+  }
   
   var _success: ((String?, AnyObject?) -> Void)? = nil
   var _error: ((String?) -> Void)? = nil

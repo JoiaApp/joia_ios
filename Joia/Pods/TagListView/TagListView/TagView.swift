@@ -153,6 +153,7 @@ public class TagView: UIButton {
 //      [btnTwo setImage:btnImage forState:UIControlStateNormal]
       let btnImage = UIImage.init(named: "Line_Opal - Eyes Open")
       image = UIImageView(image: btnImage)
+      image.contentMode = .ScaleAspectFit
       addSubview(image)
       
         setupView()
@@ -197,8 +198,8 @@ public class TagView: UIButton {
             removeButton.frame.origin.y = 0
         }
       
-        image.frame.size.width = removeButton.frame.width
-        image.frame.origin.x = 0
+        image.frame.size.width = removeButton.frame.height
+        image.frame.origin.x = 4
         image.frame.size.height = removeButton.frame.height
         image.frame.origin.y = 0
     }

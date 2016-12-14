@@ -47,7 +47,7 @@ class ReviewController : UITableViewController {
   override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     let user = UserModel.getCurrentUser()
     let unpublishedResponse = ResponseModel.getTempResponse(indexPath.row)!
-    let response = Response.init(text: unpublishedResponse.response!, prompt: unpublishedResponse.prompt!, user: user)
+    let response = Response.init(text: unpublishedResponse.response!, prompt: unpublishedResponse.prompt!, user: user, mentions:nil)
     let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as! EntryTableViewCell
     cell.response = response
     return cell
