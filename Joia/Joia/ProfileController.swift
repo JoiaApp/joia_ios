@@ -21,6 +21,8 @@ class ProfileController : BaseController, UIImagePickerControllerDelegate, UINav
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    let tap = UITapGestureRecognizer(target: self, action: Selector("update:"))
+    self.image.addGestureRecognizer(tap)
   }
   
   override func viewDidAppear(animated: Bool) {

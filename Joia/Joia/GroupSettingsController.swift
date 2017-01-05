@@ -17,7 +17,7 @@ class GroupSettingsController : BaseController, UITextFieldDelegate {
   
   @IBAction func send(sender: AnyObject) {
     if let email = invite.text {
-      GroupModel().invite(email)
+      GroupModel().invite(email, isMention: false)
     }
   }
   
@@ -74,7 +74,7 @@ class GroupSettingsController : BaseController, UITextFieldDelegate {
         model.success({ (_, model) -> Void in
           self.showAlert("Sent", message: "Invite sent to \(email)")
         })
-        model.invite(email)
+        model.invite(email, isMention: true)
       }
     } else if let name = originalName {
       if let currentName = textField.text where currentName != name {

@@ -11,6 +11,7 @@ import UIKit
 class CreateGroupController : BaseController, UITextViewDelegate {
   
   var createdGroup:Group!
+  @IBOutlet weak var height: NSLayoutConstraint!
   @IBOutlet weak var name: UITextField!
   
   override func viewDidAppear(animated: Bool) {
@@ -33,6 +34,22 @@ class CreateGroupController : BaseController, UITextViewDelegate {
     if (segue.identifier == "gotoRegister") {
       let registerController = (segue.destinationViewController as! RegisterController)
       registerController.action = RegisterController.GroupAction.Create
+    }
+  }
+  
+  override func keyboardWillShow(notification:NSNotification) {
+    super.keyboardWillShow(notification)
+    height.constant = 0
+    UIView.animateWithDuration(0.3) { () -> Void in
+      self.view.layoutIfNeeded()
+    }
+  }
+  
+  override func keyboardWillHide(notification:NSNotification) {
+    super.keyboardWillHide(notification)
+    height.constant = 200
+    UIView.animateWithDuration(0.3) { () -> Void in
+      self.view.layoutIfNeeded()
     }
   }
   

@@ -11,7 +11,7 @@ import Alamofire
 struct UnpublishedResponse {
   var prompt:String?
   var response:String?
-  var mentions:[Int] = []
+  var mentions:[String] = []
 }
 
 class ResponseModel : BaseModel {
@@ -36,7 +36,7 @@ class ResponseModel : BaseModel {
     }
   }
   
-  static func setMentions(index:Int, mentions:[Int]) {
+  static func setMentions(index:Int, mentions:[String]) {
     if let _ = tempResponses[index] {
       tempResponses[index]!.mentions = mentions
     } else {
@@ -63,18 +63,24 @@ class ResponseModel : BaseModel {
     let responses:[Response] = ResponseModel.tempResponses.map { Response(text: $1.response!, prompt: $1.prompt!, user:user, mentions:$1.mentions ?? []) }
     var success = true;
     for response in responses {
-      Alamofire.request(.POST, baseUrl + "groups/" + group.guid + "/responses.json", parameters: ["response": response.toJson()])
+      BaseModel.Manager.request(.POST, baseUrl + "groups/" + group.guid + "/responses.json", parameters: ["response": response.toJson()])
         .validate(statusCode: 200..<300)
         .validate(contentType: ["application/json"])
         .responseJSON(completionHandler: { (_, _, result) -> Void in
           if (!result.isSuccess) {
             success = false
           } else if let value = result.value as? [String: AnyObject] {
-            for mentionedUserId in response.mentions! {
-              let mention = Mention(response:value["id"] as! Int, user:mentionedUserId)
-              Alamofire.request(.POST, self.baseUrl + "groups/" + group.guid + "/mentions.json", parameters: ["mention": mention.toJson()])
-                .validate(statusCode: 200..<300)
-                .validate(contentType: ["application/json"])
+            for mentionedUser in response.mentions! {
+              // User in group mention
+              if let id = Int(mentionedUser) {
+                let mention = Mention(response:value["id"] as! Int, user: id)
+                BaseModel.Manager.request(.POST, self.baseUrl + "groups/" + group.guid + "/mentions.json", parameters: ["mention": mention.toJson()])
+                  .validate(statusCode: 200..<300)
+                  .validate(contentType: ["application/json"])
+              // Custom mention
+              } else {
+                GroupModel().invite(mentionedUser, isMention: true)
+              }
             }
           }
         });
@@ -97,7 +103,7 @@ class ResponseModel : BaseModel {
 //  }
   
   func getThread(group:Group) {
-    Alamofire.request(.GET, baseUrl + "groups/" + group.guid + "/responses.json", parameters: nil)
+    BaseModel.Manager.request(.GET, baseUrl + "groups/" + group.guid + "/responses.json", parameters: nil)
       .validate(statusCode: 200..<300)
       .validate(contentType: ["application/json"])
       .responseJSON(completionHandler: { (_, response, result) -> Void in

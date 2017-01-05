@@ -14,7 +14,7 @@ class GroupModel : BaseModel {
   static var currentGroup:Group?
   
   func create(name: String) {
-    Alamofire.request(.POST, baseUrl + "groups.json", parameters: ["group": ["name": name]])
+    BaseModel.Manager.request(.POST, baseUrl + "groups.json", parameters: ["group": ["name": name]])
       .validate(statusCode: 200..<300)
       .validate(contentType: ["application/json"])
       .responseJSON(completionHandler: { (_, response, result) -> Void in
@@ -31,7 +31,7 @@ class GroupModel : BaseModel {
   }
   
   func update(group: Group) {
-    Alamofire.request(.PUT, baseUrl + "groups/" + group.guid + ".json", parameters: ["group": group.toJson()])
+    BaseModel.Manager.request(.PUT, baseUrl + "groups/" + group.guid + ".json", parameters: ["group": group.toJson()])
       .validate(statusCode: 200..<300)
       .validate(contentType: ["application/json"])
       .responseJSON(completionHandler: { (_, response, result) -> Void in
@@ -49,7 +49,7 @@ class GroupModel : BaseModel {
   }
   
   func join(user:User) {
-    Alamofire.request(.POST, baseUrl + "groups/" + GroupModel.currentGroup!.guid + "/join.json", parameters: ["user_id": user.id])
+    BaseModel.Manager.request(.POST, baseUrl + "groups/" + GroupModel.currentGroup!.guid + "/join.json", parameters: ["user_id": user.id])
       .validate(statusCode: 200..<300)
       .validate(contentType: ["application/json"])
       .responseJSON(completionHandler: { (_, response, result) -> Void in
@@ -64,8 +64,8 @@ class GroupModel : BaseModel {
       });
   }
   
-  func invite(email:String) {
-    Alamofire.request(.POST, baseUrl + "groups/" + GroupModel.currentGroup!.guid + "/invite.json", parameters: ["email": email])
+  func invite(email:String, isMention: Bool) {
+    BaseModel.Manager.request(.POST, baseUrl + "groups/" + GroupModel.currentGroup!.guid + "/invite.json", parameters: ["email": email, "isMention": isMention])
       .validate(statusCode: 200..<300)
       .response(completionHandler: { (_, response, data, error) -> Void in
         if let callback = self._success where response!.statusCode == 204 {
@@ -78,7 +78,7 @@ class GroupModel : BaseModel {
   }
   
   func get(number: String, password: String) {
-    Alamofire.request(.GET, baseUrl + "groups/" + number + ".json", parameters: ["password": password])
+    BaseModel.Manager.request(.GET, baseUrl + "groups/" + number + ".json", parameters: ["password": password])
       .validate(statusCode: 200..<300)
       .validate(contentType: ["application/json"])
       .responseJSON(completionHandler: { (_, response, result) -> Void in
@@ -95,7 +95,7 @@ class GroupModel : BaseModel {
   }
   
   func getMembers(number: String) {
-    Alamofire.request(.GET, baseUrl + "groups/" + number + "/members.json", parameters: nil)
+    BaseModel.Manager.request(.GET, baseUrl + "groups/" + number + "/members.json", parameters: nil)
       .validate(statusCode: 200..<300)
       .validate(contentType: ["application/json"])
       .responseJSON(completionHandler: { (_, response, result) -> Void in
@@ -109,7 +109,7 @@ class GroupModel : BaseModel {
               // Save the images
               let userData = item as! [String: AnyObject]
               if let imageData = userData["image"] as? String {
-                let dataDecoded:NSData = NSData(base64EncodedString: imageData, options: NSDataBase64DecodingOptions(rawValue: 0))!
+                let dataDecoded:NSData = NSData(base64EncodedString: imageData, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)!
                 let decodedimage:UIImage = UIImage(data: dataDecoded)!
                 ImagesCache.sharedInstance.images[user.id] = decodedimage
               }
@@ -124,7 +124,7 @@ class GroupModel : BaseModel {
   }
   
   func getAll(user: User) {
-    Alamofire.request(.GET, baseUrl + "users/" + String(user.id) + "/groups.json", parameters: nil)
+    BaseModel.Manager.request(.GET, baseUrl + "users/" + String(user.id) + "/groups.json", parameters: nil)
       .validate(statusCode: 200..<300)
       .validate(contentType: ["application/json"])
       .responseJSON(completionHandler: { (_, response, result) -> Void in

@@ -21,6 +21,7 @@ class RegisterController : BaseController, UITextViewDelegate {
   @IBOutlet weak var username: UITextField!
   @IBOutlet weak var email: UITextField!
   @IBOutlet weak var password: UITextField!
+  @IBOutlet weak var register: UIButton!
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -33,6 +34,7 @@ class RegisterController : BaseController, UITextViewDelegate {
   }
   
   override func keyboardWillShow(notification:NSNotification) {
+    register.hidden = true
     super.keyboardWillShow(notification)
     height.constant = 0
     UIView.animateWithDuration(0.3) { () -> Void in
@@ -41,6 +43,7 @@ class RegisterController : BaseController, UITextViewDelegate {
   }
   
   override func keyboardWillHide(notification:NSNotification) {
+    register.hidden = false
     super.keyboardWillHide(notification)
     height.constant = 200
     UIView.animateWithDuration(0.3) { () -> Void in

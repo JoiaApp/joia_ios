@@ -22,8 +22,9 @@ class WriteNavigationController : UINavigationController {
   func initialize() {
     self.popToRootViewControllerAnimated(false);
     let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
-    let controller = storyboard.instantiateViewControllerWithIdentifier("Write") as! WriteController
-    controller.index = 0
+    let controller = storyboard.instantiateViewControllerWithIdentifier("writeZeroState") as! UIViewController
+    let nextButton = UIBarButtonItem.init(title: "Next", style: .Plain, target: self, action: Selector("gotoNext"))
+    controller.navigationItem.rightBarButtonItem = nextButton
     self.pushViewController(controller, animated: false)
     ResponseModel.composing = true
     
@@ -31,8 +32,9 @@ class WriteNavigationController : UINavigationController {
     let promptModel = PromptModel()
     promptModel.success { (message:String?, model:AnyObject?) -> Void in
       self.prompts = model as! Array<Prompt>
+      self.randomPrompts = PromptModel.choose(3, from: self.prompts.count)
+      
       if let viewController = self.topViewController as? WriteController {
-        self.randomPrompts = PromptModel.choose(3, from: self.prompts.count)
         viewController.prompts = self.prompts
         viewController.setPrompt(self.prompts[ self.randomPrompts![0] ].text)
       }
@@ -52,22 +54,22 @@ class WriteNavigationController : UINavigationController {
   }
   
   func gotoNext() {
-    print("gotoNext")
-    var index = 0
+    var currentIndex = 0
+    
     if let viewController = self.topViewController as? WriteController {
-      index = viewController.index
+      currentIndex = viewController.index
     }
-    // go to the next prompt
-    if (index < 2) {
+    
+    if (currentIndex < 3) {
       let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
       let controller = storyboard.instantiateViewControllerWithIdentifier("Write") as! WriteController
       controller.prompts = prompts
       controller.users = users
-      controller.index = index + 1
-      controller.currentPrompt = self.prompts[ self.randomPrompts![index + 1] ].text
+      controller.index = currentIndex + 1
+      controller.currentPrompt = self.prompts[ self.randomPrompts![currentIndex] ].text
       self.pushViewController(controller, animated: false)
     } else {
-    // else, go to the review page
+      // else, go to the review page
       let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
       let controller = storyboard.instantiateViewControllerWithIdentifier("Review") as! ReviewController
       self.pushViewController(controller, animated: false)

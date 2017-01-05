@@ -9,14 +9,16 @@
 import UIKit
 import TagListView
 import ActionSheetPicker_3_0
+import AddressBookUI
 
-class WriteController : BaseController, TagListViewDelegate, UITextViewDelegate {
+class WriteController : BaseController, TagListViewDelegate, UITextViewDelegate, ABPeoplePickerNavigationControllerDelegate {
   
   @IBOutlet weak var response: UITextView!
   @IBOutlet weak var promptNumber: UILabel!
   @IBOutlet weak var customPrompt: UITextField!
   @IBOutlet weak var promptLabel: UILabel!
   @IBOutlet weak var mentions: TagListView!
+  @IBOutlet weak var mentionButton: UIButton!
   
   @IBOutlet weak var mentionsPlaceholder: UILabel!
   var prompts:Array<Prompt>?
@@ -47,6 +49,36 @@ class WriteController : BaseController, TagListViewDelegate, UITextViewDelegate 
   func textViewDidChange(textView:UITextView) {
     ResponseModel.setResponse(index, response: response.text)
     updateNextButton()
+    response.scrollRangeToVisible(response.selectedRange)
+  }
+  
+  func textView(textView: UITextView, shouldChangeTextInRange range:NSRange, replacementText text:String) -> Bool {
+//  func textView(textView: UITextView, shouldChangeTextIn range: NSRange, replacementText replacement: String) -> Bool {
+    let currentText = response.text as NSString
+    let updatedText = currentText.stringByReplacingCharactersInRange(range, withString: text)
+    if updatedText.isEmpty || updatedText == "Write response here..." {
+      response.text = "Write response here..."
+      response.textColor = UIColor.lightGrayColor()
+      response.selectedTextRange = response.textRangeFromPosition(response.beginningOfDocument, toPosition: response.beginningOfDocument)
+      return false
+    } else if textView.textColor == UIColor.lightGrayColor() && !updatedText.isEmpty {
+      textView.text = ""
+      textView.textColor = UIColor.blackColor()
+    }
+    
+    return true
+  }
+  
+  func textViewDidChangeSelection(textView: UITextView) {
+    if self.view.window != nil {
+      let firstPosition = textView.textRangeFromPosition(textView.beginningOfDocument, toPosition: textView.beginningOfDocument)
+      if (response.selectedRange.location == 0) {
+        return
+      }
+      if response.textColor == UIColor.lightGrayColor() && response.selectedRange.location != 0 {
+        response.selectedTextRange = firstPosition
+      }
+    }
   }
   
   func updateNextButton() {
@@ -68,20 +100,37 @@ class WriteController : BaseController, TagListViewDelegate, UITextViewDelegate 
     }
   }
   
+  @IBAction func addMention(sender: AnyObject) {
+    selectMention()
+  }
+  
   func selectMention() {
     if let users = users {
-      let rows = users.map { $0.name }
+      var rows = users.map { $0.name }
+      rows.insert("Select Contact...", atIndex: 0)
+      rows.insert("Enter Email...", atIndex: 0)
       ActionSheetMultipleStringPicker.showPickerWithTitle("Select ", rows: [rows], initialSelection: [0], doneBlock: {_,values,indices in
         let selected = indices[0] as! String
+        if (selected == "Select Contact...") {
+          let picker = ABPeoplePickerNavigationController()
+          picker.peoplePickerDelegate = self;
+          self.presentViewController(picker, animated: true, completion: nil);
+          return
+        } else if (selected == "Enter Email...") {
+          self.createEmailAlert()
+          return
+        }
         for tagView in self.mentions.tagViews {
           if (tagView.titleLabel!.text! == selected) { return }
         }
+        
         var view = self.mentions.addTag(selected)
-        view.tag = users[values[0] as! Int].id
+        view.accessibilityIdentifier = String(users[values[0]as! Int - 2].id)
         if let imageData = ImagesCache.sharedInstance.images[view.tag] {
           view.image.image = imageData
         }
         self.updateMentions()
+        
       }, cancelBlock: nil, origin: self.view)
     }
   }
@@ -98,9 +147,9 @@ class WriteController : BaseController, TagListViewDelegate, UITextViewDelegate 
   }
   
   func updateMentions() {
-    var ids:[Int] = []
+    var ids:[String] = []
     for tagView in self.mentions.tagViews {
-      ids.append(Int(tagView.tag))
+      ids.append(tagView.accessibilityIdentifier!)
     }
     ResponseModel.setMentions(index, mentions:ids)
     mentionsPlaceholder.hidden = self.mentions.tagViews.count > 0
@@ -122,6 +171,15 @@ class WriteController : BaseController, TagListViewDelegate, UITextViewDelegate 
     mentions.delegate = self
     
     promptLabel.hidden = true
+    
+    if let _ = response.text?.isEmpty {
+      response.text = "Write response here..."
+      response.textColor = UIColor.lightGrayColor()
+      response.selectedTextRange = response.textRangeFromPosition(response.beginningOfDocument, toPosition: response.beginningOfDocument)
+      response.contentInset = UIEdgeInsetsMake(-4,-4,0,0);
+    }
+    
+    mentionButton.layer.borderColor = APP_COLOR.CGColor
   }
   
   override func viewDidAppear(animated:Bool) {
@@ -147,6 +205,49 @@ class WriteController : BaseController, TagListViewDelegate, UITextViewDelegate 
       writeNavigationController.gotoNext()
     }
   }
+  
+  func createEmailAlert() {
+    let alertController = UIAlertController(title: "Add Mention", message: "An invite will be sent to the following email after your response is published.", preferredStyle: .Alert)
+    let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) in
+      let emailField = alertController.textFields![0] as? UITextField
+      if let email = emailField?.text {
+        let view = self.mentions.addTag(email)
+        view.accessibilityIdentifier = String(email)
+        self.updateMentions()
+      }
+    }
+    alertController.addAction(OKAction)
+    let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
+      
+    }
+    alertController.addAction(cancelAction)
+    alertController.addTextFieldWithConfigurationHandler { textField in
+      textField.placeholder = "Email"
+      NSNotificationCenter.defaultCenter().addObserverForName(UITextFieldTextDidChangeNotification, object: textField, queue: NSOperationQueue.mainQueue()) { notification in
+        OKAction.enabled = textField.text != ""
+      }
+    }
+    self.presentViewController(alertController, animated: true, completion: nil)
+  }
+  
+  func peoplePickerNavigationController(peoplePicker: ABPeoplePickerNavigationController, didSelectPerson person: ABRecord) {
+    let list: ABMultiValueRef = ABRecordCopyValue(person, kABPersonEmailProperty).takeRetainedValue() //
+    let index = Int(0) as CFIndex
+    if (ABMultiValueGetCount(list) > 0) {
+      let email:String = ABMultiValueCopyValueAtIndex(list, index).takeRetainedValue() as! String
+      
+      let view = self.mentions.addTag(email)
+      view.accessibilityIdentifier = String(email)
+      self.updateMentions()
+      
+    } else {
+      
+    }
+  }
+  
+  func peoplePickerNavigationController(peoplePicker: ABPeoplePickerNavigationController, shouldContinueAfterSelectingPerson person: ABRecord, property: ABPropertyID, identifier: ABMultiValueIdentifier) -> Bool {
+    return false
+  }
 }
 
 
@@ -165,3 +266,20 @@ extension UIView {
     self.layer.addSublayer(border)
   }
 }
+
+//extension UIViewController: ABPeoplePickerNavigationControllerDelegate {
+//  func peoplePickerNavigationController(peoplePicker: ABPeoplePickerNavigationController!, didSelectPerson person: ABRecord!, property: ABPropertyID, identifier: ABMultiValueIdentifier) {
+//    
+//    // Property
+//    let list: ABMultiValueRef = ABRecordCopyValue(person, property).takeRetainedValue() //kABPersonEmailProperty
+//    // Value index
+//    let index = Int(identifier) as CFIndex
+//    // Retrieve value
+//    let email: String = ABMultiValueCopyValueAtIndex(list, index).takeRetainedValue() as! String
+//    
+//    // Result
+//    print(email)
+//    
+//    peoplePicker.dismissViewControllerAnimated(true, completion: nil)
+//  }
+//}

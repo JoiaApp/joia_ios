@@ -6,5 +6,4 @@ target 'Joia' do
   pod 'SwiftyJSON', '~> 2.3'
   pod 'ActionSheetPicker-3.0', '~> 2.2.0'
   pod 'TagListView', '~> 0.2'
-  pod 'WDImagePicker', :git => 'https://github.com/justwudi/WDImagePicker.git', :tag => 'swift-2.0'
 end

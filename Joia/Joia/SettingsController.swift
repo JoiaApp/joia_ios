@@ -24,6 +24,10 @@ class SettingsController: UITableViewController {
       self.performSegueWithIdentifier("gotoGroupSettings", sender: self)
     case 2:
       self.performSegueWithIdentifier("gotoTermsAndConditions", sender: self)
+    case 4:
+      UserModel().logout();
+      let landingController = self.storyboard?.instantiateViewControllerWithIdentifier("Landing") as? LandingController
+      self.presentViewController(landingController!, animated: true, completion: nil)
     default:
       print("Unrecognized setting selected");
     }

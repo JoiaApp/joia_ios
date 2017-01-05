@@ -8,8 +8,24 @@
 
 import Foundation
 import SwiftyJSON
+import Alamofire
 
 class BaseModel {
+  
+  static var Manager : Alamofire.Manager = {
+    let serverTrustPolicies: [String: ServerTrustPolicy] = [
+      "joia-dev.us-west-2.elasticbeanstalk.com": .DisableEvaluation,
+      "joia-staging.us-west-2.elasticbeanstalk.com": .DisableEvaluation
+    ]
+    
+    let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+    configuration.HTTPAdditionalHeaders = Alamofire.Manager.defaultHTTPHeaders
+    
+    return Alamofire.Manager(
+      configuration: configuration,
+      serverTrustPolicyManager: ServerTrustPolicyManager(policies: serverTrustPolicies)
+    )
+  }()
   
   var baseUrl:String {
     get { return Config.baseUrl; }

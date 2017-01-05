@@ -39,6 +39,6 @@ class InvitesController : BaseController {
       let messageUnwrapped = message ?? "Something went wrong."
       self.showAlert("Oops!", message:messageUnwrapped)
     }
-    groupModel.invite(email.text!)
+    groupModel.invite(email.text!, isMention: false)
   }
 }

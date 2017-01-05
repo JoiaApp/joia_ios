@@ -7,13 +7,21 @@
 //
 
 import UIKit
+import Alamofire
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, NSURLSessionDelegate {
   
   var window: UIWindow?
   
   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    
+    // Set up the stored default environment
+    let defaults = NSUserDefaults.standardUserDefaults()
+    if let storedEnvironment = defaults.objectForKey("environment") as? String {
+      Config.baseUrl = storedEnvironment
+    }
+    
     return true
   }
   
@@ -30,7 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
   
   func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-    if let user = UserModel.currentUser {
+    if let user = UserModel.getCurrentUser() {
       UserModel().updatePushToken(user, token: deviceToken)
     } else {
       // store for later updating

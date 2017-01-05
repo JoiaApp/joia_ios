@@ -10,6 +10,10 @@ import UIKit
 
 class JoinOrCreateController : UIViewController {
   
+  @IBAction func back(sender: AnyObject) {
+    self.dismissViewControllerAnimated(true, completion: nil)
+  }
+  
   @IBAction func join(sender: AnyObject) {
     performSegueWithIdentifier("gotoJoin", sender: self)
   }

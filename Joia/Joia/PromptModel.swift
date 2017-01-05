@@ -10,7 +10,7 @@ import Alamofire
 
 class PromptModel : BaseModel {
   func get() {
-    Alamofire.request(.GET, baseUrl + "prompts.json", parameters: nil)
+    BaseModel.Manager.request(.GET, baseUrl + "prompts.json", parameters: nil)
       .validate(statusCode: 200..<300)
       .validate(contentType: ["application/json"])
       .responseJSON(completionHandler: { (_, response, result) -> Void in

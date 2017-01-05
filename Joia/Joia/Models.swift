@@ -32,9 +32,9 @@ class Response : CustomStringConvertible, Serializable {
   let text:String;
   let prompt:String;
   let user:User?;
-  let mentions:[Int]?;
+  let mentions:[String]?;
   
-  init(text:String, prompt:String, user:User?, mentions:[Int]?) {
+  init(text:String, prompt:String, user:User?, mentions:[String]?) {
     self.text = text;
     self.prompt = prompt;
     self.user = user;

@@ -18,6 +18,10 @@ class BaseController : UIViewController {
     self.view.addGestureRecognizer(tap)
   }
   
+  @IBAction func back(sender: AnyObject) {
+    self.dismissViewControllerAnimated(true, completion: nil)
+  }
+  
   func dismissKeyboard() {
     
   }

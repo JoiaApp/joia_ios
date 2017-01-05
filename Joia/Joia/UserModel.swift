@@ -11,10 +11,10 @@ import Alamofire
 
 class UserModel : BaseModel {
   
-  static var currentUser:User?
+  private static var currentUser:User?
   
   func create(username: String, email: String, password: String) {
-    Alamofire.request(.POST, baseUrl + "users.json", parameters: ["user": ["name": username, "email": email, "password": password]])
+    BaseModel.Manager.request(.POST, baseUrl + "users.json", parameters: ["user": ["name": username, "email": email, "password": password]])
       .validate(statusCode: 200..<300)
       .validate(contentType: ["application/json"])
       .responseJSON(completionHandler: { (_, response, result) -> Void in
@@ -30,7 +30,7 @@ class UserModel : BaseModel {
   }
   
   func get(user:User) {
-    Alamofire.request(.POST, baseUrl + "users/" + String(user.id) + "/refresh.json", parameters: nil, encoding: .URL, headers: ["Cookie": "_srv_session=" + (user.session_id ?? "")])
+    BaseModel.Manager.request(.GET, baseUrl + "users/" + String(user.id) + ".json", parameters: nil)
       .validate(statusCode: 200..<300)
       .validate(contentType: ["application/json"])
       .responseJSON(completionHandler: { (_, response, result) -> Void in
@@ -78,7 +78,7 @@ class UserModel : BaseModel {
   }
   
   private func updateField(user:User, field:String, value:String) {
-    Alamofire.request(.PUT, baseUrl + "users/" + String(user.id) + ".json", parameters: ["user": [field: value]])
+    BaseModel.Manager.request(.PUT, baseUrl + "users/" + String(user.id) + ".json", parameters: ["user": [field: value]])
       .validate(statusCode: 200..<300)
       .validate(contentType: ["application/json"])
       .responseJSON(completionHandler: { (_, response, result) -> Void in
@@ -99,7 +99,7 @@ class UserModel : BaseModel {
   }
   
   func login(email: String, password: String) {
-    Alamofire.request(.POST, baseUrl + "users/login.json", parameters: ["email": email, "password": password])
+    BaseModel.Manager.request(.POST, baseUrl + "users/login.json", parameters: ["email": email, "password": password])
       .validate(statusCode: 200..<300)
       .validate(contentType: ["application/json"])
       .responseJSON(completionHandler: { (_, response, result) -> Void in
@@ -147,7 +147,7 @@ class UserModel : BaseModel {
     ImagesCache.sharedInstance.images[user.id] = scaledImage
     updateField(user, field: "image", value: String(data: base64Data!, encoding: NSUTF8StringEncoding)!)
     
-//    Alamofire.request(.POST, baseUrl + "users/" + String(user.id) + "/upload.json", parameters: ["image": String(data: base64Data!, encoding: NSUTF8StringEncoding)!])
+//    BaseModel.Manager.request(.POST, baseUrl + "users/" + String(user.id) + "/upload.json", parameters: ["image": String(data: base64Data!, encoding: NSUTF8StringEncoding)!])
 //      .validate(statusCode: 200..<300)
 //      .validate(contentType: ["application/octet-stream"])
 //      .responseJSON(completionHandler: { (_, response, result) -> Void in
@@ -159,10 +159,14 @@ class UserModel : BaseModel {
 //      })
   }
   
-  static func setCurrentUser(user: User) {
+  static func setCurrentUser(user: User?) {
     currentUser = user
     let defaults = NSUserDefaults.standardUserDefaults()
-    defaults.setObject(user.toJson(), forKey: "current_user")
+    if let user = user {
+      defaults.setObject(user.toJson(), forKey: "current_user")
+    } else {
+      defaults.removeObjectForKey("current_user")
+    }
   }
   
   static func getCurrentUser() -> User? {
@@ -178,8 +182,8 @@ class UserModel : BaseModel {
     return nil
   }
   
-  static func logout() {
-    
+  func logout() {
+    UserModel.setCurrentUser(nil)
   }
 }
 

@@ -13,7 +13,7 @@ class ImagesCache {
   static let sharedInstance = ImagesCache()
   
   func put(id:Int, data:String) {
-    let dataDecoded:NSData = NSData(base64EncodedString: data, options: NSDataBase64DecodingOptions(rawValue: 0))!
+    let dataDecoded:NSData = NSData(base64EncodedString: data, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)!
     let decodedimage:UIImage = UIImage(data: dataDecoded)!
     images[id] = decodedimage
   }
