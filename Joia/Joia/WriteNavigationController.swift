@@ -57,7 +57,7 @@ class WriteNavigationController : UINavigationController {
     var currentIndex = 0
     
     if let viewController = self.topViewController as? WriteController {
-      currentIndex = viewController.index
+      currentIndex = viewController.index + 1
     }
     
     if (currentIndex < 3) {
@@ -65,7 +65,7 @@ class WriteNavigationController : UINavigationController {
       let controller = storyboard.instantiateViewControllerWithIdentifier("Write") as! WriteController
       controller.prompts = prompts
       controller.users = users
-      controller.index = currentIndex + 1
+      controller.index = currentIndex
       controller.currentPrompt = self.prompts[ self.randomPrompts![currentIndex] ].text
       self.pushViewController(controller, animated: false)
     } else {
