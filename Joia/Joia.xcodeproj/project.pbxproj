@@ -13,6 +13,8 @@
 		A21A13381DDC03D4001B0886 /* ReadController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21A13371DDC03D4001B0886 /* ReadController.swift */; };
 		A21A133A1DDD695F001B0886 /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21A13391DDD695F001B0886 /* EntryTableViewCell.swift */; };
 		A21A133C1DDD77DE001B0886 /* GroupsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21A133B1DDD77DE001B0886 /* GroupsController.swift */; };
+		A2287C911E2C552F005CDDFF /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A2287C8F1E2C552F005CDDFF /* OpenSans-Regular.ttf */; };
+		A2287C921E2C552F005CDDFF /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A2287C901E2C552F005CDDFF /* OpenSans-Semibold.ttf */; };
 		A22ABCB71DC6656F000BB13C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22ABCB61DC6656F000BB13C /* AppDelegate.swift */; };
 		A22ABCB91DC6656F000BB13C /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22ABCB81DC6656F000BB13C /* LoginController.swift */; };
 		A22ABCBE1DC6656F000BB13C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A22ABCBD1DC6656F000BB13C /* Assets.xcassets */; };
@@ -67,6 +69,8 @@
 		A21A13371DDC03D4001B0886 /* ReadController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadController.swift; sourceTree = "<group>"; };
 		A21A13391DDD695F001B0886 /* EntryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
 		A21A133B1DDD77DE001B0886 /* GroupsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsController.swift; sourceTree = "<group>"; };
+		A2287C8F1E2C552F005CDDFF /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Regular.ttf"; path = "Joia/Resources/OpenSans-Regular.ttf"; sourceTree = "<group>"; };
+		A2287C901E2C552F005CDDFF /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Semibold.ttf"; path = "Joia/Resources/OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
 		A22ABCB31DC6656F000BB13C /* Joia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Joia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A22ABCB61DC6656F000BB13C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A22ABCB81DC6656F000BB13C /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
@@ -160,9 +164,19 @@
 			name = Models;
 			sourceTree = "<group>";
 		};
+		A2287C8E1E2C54E5005CDDFF /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A2287C8F1E2C552F005CDDFF /* OpenSans-Regular.ttf */,
+				A2287C901E2C552F005CDDFF /* OpenSans-Semibold.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		A22ABCAA1DC6656F000BB13C = {
 			isa = PBXGroup;
 			children = (
+				A2287C8E1E2C54E5005CDDFF /* Resources */,
 				A22ABCB51DC6656F000BB13C /* Joia */,
 				A22ABCCA1DC6656F000BB13C /* JoiaTests */,
 				A22ABCD51DC6656F000BB13C /* JoiaUITests */,
@@ -342,7 +356,9 @@
 			files = (
 				A23FB3761DD8175C004A7CFD /* Main.storyboard in Resources */,
 				A22ABCC11DC6656F000BB13C /* LaunchScreen.storyboard in Resources */,
+				A2287C911E2C552F005CDDFF /* OpenSans-Regular.ttf in Resources */,
 				A22ABCBE1DC6656F000BB13C /* Assets.xcassets in Resources */,
+				A2287C921E2C552F005CDDFF /* OpenSans-Semibold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

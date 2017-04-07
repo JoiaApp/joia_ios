@@ -25,9 +25,13 @@ class EntryTableViewCell : UITableViewCell {
   
   var response:Response? {
     set {
-      customText.text = newValue!.text
-      user.text = newValue!.user?.name ?? ""
-      prompt.text = newValue!.prompt
+      customText.text = newValue!.prompt + " " + newValue!.text
+      if let mentions = newValue!.mentions {
+        user.text = "With " + newValue!.mentions!.joinWithSeparator(" ")
+      } else {
+        user.text = "With "
+      }
+      prompt.text = newValue!.user?.name ?? ""
       if let user = newValue!.user {
         if let imageData = ImagesCache.sharedInstance.images[user.id] {
           customImage.image = imageData

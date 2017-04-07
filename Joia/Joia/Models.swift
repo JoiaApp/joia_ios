@@ -33,6 +33,7 @@ class Response : CustomStringConvertible, Serializable {
   let prompt:String;
   let user:User?;
   let mentions:[String]?;
+  var date:NSDate?
   
   init(text:String, prompt:String, user:User?, mentions:[String]?) {
     self.text = text;
@@ -49,7 +50,15 @@ class Response : CustomStringConvertible, Serializable {
     let unwrappedText = dict["text"] as! String
     let unwrappedPrompt = dict["prompt"] as! String
     let unwrappedUser = dict["user"] as! Dictionary<String, AnyObject>
-    return Response(text: unwrappedText, prompt: unwrappedPrompt, user:User.fromDict(unwrappedUser), mentions:nil)
+    
+    let response = Response(text: unwrappedText, prompt: unwrappedPrompt, user:User.fromDict(unwrappedUser), mentions:nil)
+    if let date = dict["created_at"] as? String {
+      let dateFormatter = NSDateFormatter()
+      dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+      response.date = dateFormatter.dateFromString(date)
+    }
+    
+    return response
   }
   
   func toJson() -> Dictionary<String, AnyObject> {

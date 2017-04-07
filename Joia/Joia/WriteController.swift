@@ -25,6 +25,7 @@ class WriteController : BaseController, TagListViewDelegate, UITextViewDelegate,
   var users:Array<User>?
   var index:Int!
   var currentPrompt:String?
+  var picker:AbstractActionSheetPicker?
   
   @IBAction func changePrompt(sender: AnyObject) {
     if let prompts = prompts {
@@ -34,7 +35,7 @@ class WriteController : BaseController, TagListViewDelegate, UITextViewDelegate,
       if (promptLabel.hidden) {
         current = rows.count - 1
       }
-      ActionSheetMultipleStringPicker.showPickerWithTitle("Select Prompt",
+      self.picker = ActionSheetMultipleStringPicker.showPickerWithTitle("Select Prompt",
         rows: [rows], initialSelection: [current], doneBlock: {_,values,indices in
           self.setPrompt(indices[0] as! String)
       }, cancelBlock: nil, origin: self.view)
@@ -105,6 +106,7 @@ class WriteController : BaseController, TagListViewDelegate, UITextViewDelegate,
   }
   
   func selectMention() {
+    dismissKeyboard()
     if let users = users {
       var rows = users.map { $0.name }
       rows.insert("Select Contact...", atIndex: 0)
@@ -180,6 +182,8 @@ class WriteController : BaseController, TagListViewDelegate, UITextViewDelegate,
     }
     
     mentionButton.layer.borderColor = APP_COLOR.CGColor
+    
+    self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style:.Plain, target:nil, action:nil)
   }
   
   override func viewDidAppear(animated:Bool) {
@@ -189,6 +193,8 @@ class WriteController : BaseController, TagListViewDelegate, UITextViewDelegate,
     if let currentPrompt = currentPrompt {
       setPrompt(currentPrompt)
     }
+    
+    
   }
   
   override func dismissKeyboard() {
@@ -197,7 +203,7 @@ class WriteController : BaseController, TagListViewDelegate, UITextViewDelegate,
   }
   
   override func keyboardWillShow(notification:NSNotification) {
-    
+    super.keyboardWillShow(notification)
   }
   
   func gotoNext() {
@@ -223,6 +229,7 @@ class WriteController : BaseController, TagListViewDelegate, UITextViewDelegate,
     alertController.addAction(cancelAction)
     alertController.addTextFieldWithConfigurationHandler { textField in
       textField.placeholder = "Email"
+//      textField.keyboardType = UIKeyboardType.EmailAddress
       NSNotificationCenter.defaultCenter().addObserverForName(UITextFieldTextDidChangeNotification, object: textField, queue: NSOperationQueue.mainQueue()) { notification in
         OKAction.enabled = textField.text != ""
       }
@@ -266,20 +273,3 @@ extension UIView {
     self.layer.addSublayer(border)
   }
 }
-
-//extension UIViewController: ABPeoplePickerNavigationControllerDelegate {
-//  func peoplePickerNavigationController(peoplePicker: ABPeoplePickerNavigationController!, didSelectPerson person: ABRecord!, property: ABPropertyID, identifier: ABMultiValueIdentifier) {
-//    
-//    // Property
-//    let list: ABMultiValueRef = ABRecordCopyValue(person, property).takeRetainedValue() //kABPersonEmailProperty
-//    // Value index
-//    let index = Int(identifier) as CFIndex
-//    // Retrieve value
-//    let email: String = ABMultiValueCopyValueAtIndex(list, index).takeRetainedValue() as! String
-//    
-//    // Result
-//    print(email)
-//    
-//    peoplePicker.dismissViewControllerAnimated(true, completion: nil)
-//  }
-//}

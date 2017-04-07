@@ -38,9 +38,10 @@ class ProfileController : BaseController, UIImagePickerControllerDelegate, UINav
       image.image = cachedImage
     }
     
-    if let userBirthday = currentUser.birthday {
+    if var userBirthday = currentUser.birthday {
       let dateFormatter = NSDateFormatter()
       dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
+      dateFormatter.timeZone = NSTimeZone.init(name: "UTC")
       birthday.text = "Birthday - \(dateFormatter.stringFromDate(userBirthday))"
     } else {
       birthday.text = "Birthday - Not Set"
@@ -53,6 +54,7 @@ class ProfileController : BaseController, UIImagePickerControllerDelegate, UINav
       ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], days, years
     ]
     let calendar = NSCalendar.currentCalendar()
+    calendar.timeZone = NSTimeZone.init(name: "UTC")!
     var components = calendar.components([.Day, .Month, .Year], fromDate: NSDate(timeIntervalSince1970: 0))
     if let userBirthday = UserModel.getCurrentUser()?.birthday {
       components = calendar.components([.Day, .Month, .Year], fromDate: userBirthday)
@@ -72,6 +74,7 @@ class ProfileController : BaseController, UIImagePickerControllerDelegate, UINav
         let date = calendar.dateFromComponents(dateComponents)
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
+        dateFormatter.timeZone = NSTimeZone.init(name: "UTC")
         self.birthday.text = "Birthday - \(dateFormatter.stringFromDate(date!))"
       })
       userModel.updateBirthday(user!, components: values as! [Int])

@@ -12,8 +12,8 @@ struct Config {
   static var baseUrl = "http://localhost.charlesproxy.com:3000/"
 }
 
-let PRODUCTION_URL = "https://joia-dev.us-west-2.elasticbeanstalk.com/"
-let STAGING_URL = "https://joia-staging.us-west-2.elasticbeanstalk.com/"
+let PRODUCTION_URL = "http://sample-env.qd8vv2zefd.us-west-2.elasticbeanstalk.com/"
+let STAGING_URL = "http://sample-env.qd8vv2zefd.us-west-2.elasticbeanstalk.com/"
 let CHARLES_URL = "http://localhost.charlesproxy.com:3000/"
 let LOCAL_URL = "http://localhost:3000/"
 

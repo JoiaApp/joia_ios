@@ -14,6 +14,10 @@ class SettingsController: UITableViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad();
+    
+    let buttonItem = UIBarButtonItem(title:"", style:.Plain, target:nil, action:nil)
+    buttonItem.tintColor = UIColor.whiteColor()
+    self.navigationItem.backBarButtonItem = buttonItem
   }
   
   override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
