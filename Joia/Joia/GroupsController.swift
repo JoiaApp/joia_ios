@@ -14,6 +14,7 @@ class GroupsController : UITableViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad();
+    self.navigationController?.navigationBar.titleTextAttributes =  [NSFontAttributeName: UIFont(name: "OpenSans-Semibold", size: 16)!, NSForegroundColorAttributeName: UIColor.whiteColor()];
   }
   
   override func viewDidAppear(animated: Bool) {

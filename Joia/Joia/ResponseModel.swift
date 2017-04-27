@@ -70,7 +70,7 @@ class ResponseModel : BaseModel {
           if (!result.isSuccess) {
             success = false
           } else if let value = result.value as? [String: AnyObject] {
-            for mentionedUser in response.mentions! {
+            for mentionedUser in response.mentions {
               // User in group mention
               if let id = Int(mentionedUser) {
                 let mention = Mention(response:value["id"] as! Int, user: id)

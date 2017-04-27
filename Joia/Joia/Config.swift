@@ -21,6 +21,7 @@ let GROUPS_INDEX:Int = 2
 
 // Colors
 let APP_COLOR = UIColor(red:95/255.0, green:202/255.0, blue:237/255.0, alpha: 1.0)
+let DISABLED_COLOR = UIColor(red:238/255.0, green:238/255.0, blue:238/255.0, alpha: 1.0)
 
 // Debugging
 //let DEBUG_GROUP = Group(guid: "a937ec91", name: "Joia Devs")

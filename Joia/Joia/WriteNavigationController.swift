@@ -18,10 +18,8 @@ class WriteNavigationController : UINavigationController {
     super.viewDidLoad()
     initialize()
     
-    self.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: UIFont.init(name: "OpenSans-Semibold", size: 20)!];
-    self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
-    self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style:.Plain, target:nil, action:nil)
-    self.navigationItem.backBarButtonItem?.tintColor = UIColor.whiteColor()
+    self.navigationBar.titleTextAttributes =  [NSFontAttributeName: UIFont(name: "OpenSans-Semibold", size: 16)!, NSForegroundColorAttributeName: UIColor.whiteColor()];
+    self.navigationBar.tintColor = UIColor.whiteColor();
   }
   
   func initialize() {
@@ -31,7 +29,9 @@ class WriteNavigationController : UINavigationController {
     let nextButton = UIBarButtonItem.init(title: "Next", style: .Plain, target: self, action: Selector("gotoNext"))
     controller.navigationItem.rightBarButtonItem = nextButton
     controller.navigationItem.rightBarButtonItem?.tintColor = UIColor.whiteColor()
+    controller.navigationItem.rightBarButtonItem?.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "OpenSans", size: 16)!, NSForegroundColorAttributeName: UIColor.whiteColor()], forState: .Normal)
     self.pushViewController(controller, animated: false)
+    controller.navigationItem.title = "Write"
     ResponseModel.composing = true
     
     // Get Prompts

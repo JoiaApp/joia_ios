@@ -18,6 +18,9 @@ class SettingsController: UITableViewController {
     let buttonItem = UIBarButtonItem(title:"", style:.Plain, target:nil, action:nil)
     buttonItem.tintColor = UIColor.whiteColor()
     self.navigationItem.backBarButtonItem = buttonItem
+    
+    self.navigationController?.navigationBar.titleTextAttributes =  [NSFontAttributeName: UIFont(name: "OpenSans-Semibold", size: 16)!, NSForegroundColorAttributeName: UIColor.whiteColor()];
+    self.navigationController?.navigationBar.tintColor = UIColor.whiteColor();
   }
   
   override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

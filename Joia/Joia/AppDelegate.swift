@@ -22,6 +22,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, NSURLSessionDelegate {
       Config.baseUrl = storedEnvironment
     }
     
+    UITabBarItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont(name:"OpenSans", size:12)!, NSForegroundColorAttributeName: UIColor.grayColor()], forState: .Normal)
+    UITabBarItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont(name:"OpenSans", size:12)!, NSForegroundColorAttributeName: APP_COLOR], forState: .Selected)
+    
     return true
   }
   

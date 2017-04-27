@@ -19,6 +19,8 @@ class ReadController : UITableViewController {
     tableView.estimatedRowHeight = 140
     tableView.allowsSelection = false
     super.viewDidLoad();
+    
+    self.navigationController?.navigationBar.titleTextAttributes =  [NSFontAttributeName: UIFont(name: "OpenSans-Semibold", size: 16)!, NSForegroundColorAttributeName: UIColor.whiteColor()];
   }
   
   override func viewDidAppear(animated: Bool) {
@@ -56,8 +58,7 @@ class ReadController : UITableViewController {
   override func numberOfSectionsInTableView(_:UITableView) -> Int {
     return 1
   }
-  
-  // There is just one row in every section
+
   override func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
     if let responses = self.responses {
       return responses.count
@@ -66,13 +67,8 @@ class ReadController : UITableViewController {
     }
   }
   
-  // Set the spacing between sections
-  override func tableView(_ : UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-    return 0
-  }
-  
   override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    let response = responses![indexPath.section]
+    let response = responses![indexPath.row]
     let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as! EntryTableViewCell
     cell.response = response
     return cell

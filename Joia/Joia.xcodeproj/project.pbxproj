@@ -41,6 +41,7 @@
 		A261D3DE1DF543BA00C94749 /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A261D3DD1DF543BA00C94749 /* ProfileController.swift */; };
 		A261D3E01DF5578600C94749 /* ImagesCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = A261D3DF1DF5578600C94749 /* ImagesCache.swift */; };
 		A2D8D8E41DE1726600F89CE5 /* TabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D8D8E31DE1726600F89CE5 /* TabController.swift */; };
+		A2EEAC111EAEE3540012A3E9 /* WriteZeroStateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EEAC101EAEE3540012A3E9 /* WriteZeroStateController.swift */; };
 		D8D4CC8933966A8F5CD70A10 /* Pods_Joia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09693ACE84C1D63425C4C7AD /* Pods_Joia.framework */; };
 /* End PBXBuildFile section */
 
@@ -103,6 +104,7 @@
 		A261D3DD1DF543BA00C94749 /* ProfileController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
 		A261D3DF1DF5578600C94749 /* ImagesCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagesCache.swift; sourceTree = "<group>"; };
 		A2D8D8E31DE1726600F89CE5 /* TabController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabController.swift; sourceTree = "<group>"; };
+		A2EEAC101EAEE3540012A3E9 /* WriteZeroStateController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WriteZeroStateController.swift; sourceTree = "<group>"; };
 		D35ADBE12BFA38CFD027042E /* Pods-Joia.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Joia.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Joia/Pods-Joia.debug.xcconfig"; sourceTree = "<group>"; };
 		F7883E14A302AF097C73CDFA /* Pods-Joia.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Joia.release.xcconfig"; path = "Pods/Target Support Files/Pods-Joia/Pods-Joia.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -224,6 +226,7 @@
 				A23EEEA91DEE72F300165D03 /* WriteController.swift */,
 				A25BA6C31DF5191E00A96F08 /* ReviewController.swift */,
 				A261D3DD1DF543BA00C94749 /* ProfileController.swift */,
+				A2EEAC101EAEE3540012A3E9 /* WriteZeroStateController.swift */,
 			);
 			path = Joia;
 			sourceTree = "<group>";
@@ -436,6 +439,7 @@
 				A23930FB1DC6DECF001555D9 /* JoinGroupController.swift in Sources */,
 				A22ABCB91DC6656F000BB13C /* LoginController.swift in Sources */,
 				A21A132D1DDAA2F1001B0886 /* Config.swift in Sources */,
+				A2EEAC111EAEE3540012A3E9 /* WriteZeroStateController.swift in Sources */,
 				A261D3E01DF5578600C94749 /* ImagesCache.swift in Sources */,
 				A21A132B1DDAA2AA001B0886 /* BaseModel.swift in Sources */,
 				A23FB37F1DD8FB5A004A7CFD /* UserModel.swift in Sources */,
@@ -600,13 +604,13 @@
 			baseConfigurationReference = D35ADBE12BFA38CFD027042E /* Pods-Joia.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Danny Anderson (H5TT9CUEXN)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Danny Anderson (JTL76378AY)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				INFOPLIST_FILE = Joia/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.joia.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "4f014978-f2f5-43e9-87a4-d62acf5d6ec6";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -616,13 +620,13 @@
 			baseConfigurationReference = F7883E14A302AF097C73CDFA /* Pods-Joia.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Danny Anderson (H5TT9CUEXN)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Danny Anderson (JTL76378AY)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				INFOPLIST_FILE = Joia/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.joia.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "4f014978-f2f5-43e9-87a4-d62acf5d6ec6";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

@@ -162,7 +162,12 @@ class WriteController : BaseController, TagListViewDelegate, UITextViewDelegate,
     
     let nextButton = UIBarButtonItem.init(title: "Next", style: .Plain, target: self, action: Selector("gotoNext"))
     nextButton.enabled = false
+    
+    nextButton.tintColor = UIColor.whiteColor()
+    nextButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "OpenSans", size: 16)!, NSForegroundColorAttributeName: UIColor.whiteColor()], forState: .Normal)
+    nextButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "OpenSans", size: 16)!, NSForegroundColorAttributeName: DISABLED_COLOR], forState: .Disabled)
     self.navigationItem.rightBarButtonItem = nextButton
+    self.navigationItem.title = "Write"
     
     let borderColor = UIColor(red:95/255.0, green:202/255.0, blue:237/255.0, alpha: 1.0)
     mentions.superview?.addBottomBorderWithColor(borderColor, width: 1)
@@ -184,6 +189,10 @@ class WriteController : BaseController, TagListViewDelegate, UITextViewDelegate,
     mentionButton.layer.borderColor = APP_COLOR.CGColor
     
     self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style:.Plain, target:nil, action:nil)
+    
+    let buttonItem = UIBarButtonItem(title:"", style:.Plain, target:nil, action:nil)
+    buttonItem.tintColor = UIColor.whiteColor()
+    self.navigationController?.navigationBar.backItem?.title = "";
   }
   
   override func viewDidAppear(animated:Bool) {
@@ -197,13 +206,14 @@ class WriteController : BaseController, TagListViewDelegate, UITextViewDelegate,
     
   }
   
+  override func viewWillAppear(animated: Bool) {
+    super.viewWillAppear(animated)
+    self.navigationItem.title = "Write"
+  }
+  
   override func dismissKeyboard() {
     response.resignFirstResponder()
     customPrompt.resignFirstResponder()
-  }
-  
-  override func keyboardWillShow(notification:NSNotification) {
-    super.keyboardWillShow(notification)
   }
   
   func gotoNext() {
@@ -229,7 +239,7 @@ class WriteController : BaseController, TagListViewDelegate, UITextViewDelegate,
     alertController.addAction(cancelAction)
     alertController.addTextFieldWithConfigurationHandler { textField in
       textField.placeholder = "Email"
-//      textField.keyboardType = UIKeyboardType.EmailAddress
+      textField.keyboardType = UIKeyboardType.EmailAddress
       NSNotificationCenter.defaultCenter().addObserverForName(UITextFieldTextDidChangeNotification, object: textField, queue: NSOperationQueue.mainQueue()) { notification in
         OKAction.enabled = textField.text != ""
       }
@@ -254,6 +264,12 @@ class WriteController : BaseController, TagListViewDelegate, UITextViewDelegate,
   
   func peoplePickerNavigationController(peoplePicker: ABPeoplePickerNavigationController, shouldContinueAfterSelectingPerson person: ABRecord, property: ABPropertyID, identifier: ABMultiValueIdentifier) -> Bool {
     return false
+  }
+  
+  override func keyboardWillShow(notification:NSNotification) {
+  }
+  
+  override func keyboardWillHide(notification:NSNotification) {
   }
 }
 

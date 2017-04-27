@@ -32,10 +32,10 @@ class Response : CustomStringConvertible, Serializable {
   let text:String;
   let prompt:String;
   let user:User?;
-  let mentions:[String]?;
+  let mentions:[String];
   var date:NSDate?
   
-  init(text:String, prompt:String, user:User?, mentions:[String]?) {
+  init(text:String, prompt:String, user:User?, mentions:[String]) {
     self.text = text;
     self.prompt = prompt;
     self.user = user;
@@ -50,8 +50,17 @@ class Response : CustomStringConvertible, Serializable {
     let unwrappedText = dict["text"] as! String
     let unwrappedPrompt = dict["prompt"] as! String
     let unwrappedUser = dict["user"] as! Dictionary<String, AnyObject>
+    let unwrappedMentions = dict["mentions"] as! Array<AnyObject>
     
-    let response = Response(text: unwrappedText, prompt: unwrappedPrompt, user:User.fromDict(unwrappedUser), mentions:nil)
+    var names = Array<String>()
+    for mention in unwrappedMentions {
+      let mentionUser = mention as! [String: AnyObject]
+      let user = mentionUser["user"] as! [String: AnyObject]
+      let name = user["name"] as! String
+      names.append(name)
+    }
+    
+    let response = Response(text: unwrappedText, prompt: unwrappedPrompt, user:User.fromDict(unwrappedUser), mentions:names)
     if let date = dict["created_at"] as? String {
       let dateFormatter = NSDateFormatter()
       dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"

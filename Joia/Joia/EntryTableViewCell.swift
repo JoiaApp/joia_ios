@@ -11,7 +11,8 @@ import UIKit
 class EntryTableViewCell : UITableViewCell {
   
   @IBOutlet weak var customImage: UIImageView!
-  @IBOutlet weak var user: UILabel!
+  @IBOutlet weak var mentionsLabel: UILabel!
+  @IBOutlet weak var mentions: UILabel!
   @IBOutlet weak var customText: UILabel!
   @IBOutlet weak var prompt: UILabel!
   
@@ -26,10 +27,13 @@ class EntryTableViewCell : UITableViewCell {
   var response:Response? {
     set {
       customText.text = newValue!.prompt + " " + newValue!.text
-      if let mentions = newValue!.mentions {
-        user.text = "With " + newValue!.mentions!.joinWithSeparator(" ")
+      if !newValue!.mentions.isEmpty {
+        mentions.text = newValue!.mentions.joinWithSeparator(", ")
+        mentions.hidden = false;
+        mentionsLabel.hidden = false;
       } else {
-        user.text = "With "
+        mentions.hidden = true;
+        mentionsLabel.hidden = true;
       }
       prompt.text = newValue!.user?.name ?? ""
       if let user = newValue!.user {

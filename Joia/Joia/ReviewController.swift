@@ -28,7 +28,7 @@ class ReviewController : UITableViewController {
     let user = UserModel.getCurrentUser()
     let group = GroupModel.getCurrentGroup()
     if (ResponseModel().publishResponses(group!, user: user!)) {
-      self.tabBarController?.selectedIndex = 1 // go to Journal
+      self.tabBarController?.selectedIndex = 0 // go to Journal
       ResponseModel.composing = false
     } else {
       let alert = UIAlertController(title: "Oops", message: "Something went wrong, please try again later.", preferredStyle: .Alert)
@@ -47,7 +47,7 @@ class ReviewController : UITableViewController {
   override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     let user = UserModel.getCurrentUser()
     let unpublishedResponse = ResponseModel.getTempResponse(indexPath.row)!
-    let response = Response.init(text: unpublishedResponse.response!, prompt: unpublishedResponse.prompt!, user: user, mentions:nil)
+    let response = Response.init(text: unpublishedResponse.response!, prompt: unpublishedResponse.prompt!, user: user, mentions:[])
     let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as! EntryTableViewCell
     cell.response = response
     return cell
