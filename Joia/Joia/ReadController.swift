@@ -11,6 +11,9 @@ import UIKit
 class ReadController : UITableViewController {
   
   var responses:Array<Response>?
+  var sortedKeys:Array<String>?
+  var dataSorted:Array<Array<Response>>?
+  
   @IBOutlet var table: UITableView!
   
   override func viewDidLoad() {
@@ -41,14 +44,14 @@ class ReadController : UITableViewController {
       let data = self.responses?.categorise { (response:Response) -> String in
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "YYYY-MM-dd"
-        dateFormatter.timeZone = NSTimeZone.init(name: "UTC")
+        dateFormatter.timeZone = NSTimeZone.localTimeZone()
         return dateFormatter.stringFromDate(response.date!)
       }
       // Get the keys and sort them
-      let sortedKeys = data?.keys.sort()
-      var dataSorted = Array<Array<Response>>()
-      for key in sortedKeys! {
-        dataSorted.append(data![key]!)
+      self.sortedKeys = data?.keys.sort().reverse()
+      self.dataSorted = Array<Array<Response>>()
+      for key in self.sortedKeys! {
+        self.dataSorted!.append(data![key]!)
       }
       self.tableView.reloadData()
     }
@@ -56,19 +59,44 @@ class ReadController : UITableViewController {
   }
   
   override func numberOfSectionsInTableView(_:UITableView) -> Int {
-    return 1
+    guard let _ = self.dataSorted else {
+      return 0
+    }
+    return self.dataSorted!.count
   }
 
   override func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
-    if let responses = self.responses {
-      return responses.count
+    if section < self.dataSorted!.count {
+      return self.dataSorted![section].count
     } else {
       return 0
     }
   }
   
+  override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    guard let _ = self.sortedKeys else {
+      return nil
+    }
+    
+    let view = UIView.init(frame: CGRectMake(0, 0, tableView.frame.width, 20));
+    let label = UILabel.init(frame: CGRectMake(16, 8, tableView.frame.width, 20));
+    label.font = UIFont.init(name: "OpenSans", size: 12)!
+    label.textColor = UIColor.lightGrayColor()
+    view.backgroundColor = UIColor.whiteColor()
+    let dateString = self.sortedKeys![section]
+    
+    let dateFormatter = NSDateFormatter()
+    dateFormatter.dateFormat = "YYYY-MM-dd"
+    dateFormatter.timeZone = NSTimeZone.localTimeZone()
+    let date = dateFormatter.dateFromString(dateString)
+    label.text = ResponseModel.relativeDateStringForDate(date!) as String
+    
+    view.addSubview(label)
+    return view;
+  }
+  
   override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    let response = responses![indexPath.row]
+    let response = self.dataSorted![indexPath.section][indexPath.row]
     let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as! EntryTableViewCell
     cell.response = response
     return cell

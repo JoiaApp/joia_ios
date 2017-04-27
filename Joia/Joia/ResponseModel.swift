@@ -122,4 +122,32 @@ class ResponseModel : BaseModel {
         }
       });
   }
+  
+  static func relativeDateStringForDate(date : NSDate) -> NSString {
+    let todayDate = NSDate()
+    let units: NSCalendarUnit = [.Hour, .Day, .Month, .Year, .WeekOfYear]
+    let components = NSCalendar.currentCalendar().components(units, fromDate: date , toDate: todayDate, options: NSCalendarOptions.MatchFirst )
+
+    let year =  components.year
+    let month = components.month
+    let day = components.day
+    let hour = components.hour
+    let weeks = components.weekOfYear
+    
+    if components.year > 0 {
+      return NSString.init(format: "%d years ago", year);
+    } else if components.month > 0 {
+      return NSString.init(format: "%d months ago", month);
+    } else if components.weekOfYear > 0 {
+      return NSString.init(format: "%d weeks ago", weeks);
+    } else if (components.day > 0) {
+      if components.day > 1 {
+        return NSString.init(format: "%d days ago", day);
+      } else {
+        return "Yesterday";
+      }
+    } else {
+      return "Today";
+    }
+  }
 }

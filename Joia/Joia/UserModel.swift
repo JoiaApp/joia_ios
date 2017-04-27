@@ -130,33 +130,21 @@ class UserModel : BaseModel {
     let size = CGSizeApplyAffineTransform(image.size, CGAffineTransformMakeScale(ratio, ratio))
     let scale: CGFloat = 0.0 // Automatically use scale factor of main screen
     
-//    let minimum = min(size.width, size.height)
-    
     UIGraphicsBeginImageContextWithOptions(size, false, scale)
-    let path = UIBezierPath(ovalInRect: CGRect(origin: CGPointZero, size: CGSize(width: 50, height: 50)))
+    let ctx:CGContextRef = UIGraphicsGetCurrentContext()!;
+    CGContextSetStrokeColorWithColor(ctx, UIColor.lightGrayColor().CGColor)
+    CGContextStrokeEllipseInRect(ctx, CGRectMake(1, 1, 48, 48))
+    let path = UIBezierPath(ovalInRect: CGRect(origin: CGPoint(x: 2.5, y: 2.5), size: CGSize(width: 45, height: 45)))
     path.addClip()
-    image.drawInRect(CGRect(origin: CGPoint(x: (50 - size.width) * 0.5, y: (50 - size.height) * 0.5), size: size))
+    image.drawInRect(CGRect(origin: CGPoint(x: (45 - size.width) * 0.5, y: (45 - size.height) * 0.5), size: size))
     let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
     UIGraphicsEndImageContext()
-    
-//    print(scaledImage)
     
     let imageData = UIImagePNGRepresentation(scaledImage)
     let base64Data = imageData?.base64EncodedDataWithOptions(NSDataBase64EncodingOptions())
     
     ImagesCache.sharedInstance.images[user.id] = scaledImage
     updateField(user, field: "image", value: String(data: base64Data!, encoding: NSUTF8StringEncoding)!)
-    
-//    BaseModel.Manager.request(.POST, baseUrl + "users/" + String(user.id) + "/upload.json", parameters: ["image": String(data: base64Data!, encoding: NSUTF8StringEncoding)!])
-//      .validate(statusCode: 200..<300)
-//      .validate(contentType: ["application/octet-stream"])
-//      .responseJSON(completionHandler: { (_, response, result) -> Void in
-//        ImagesCache.sharedInstance.images[user.id] = scaledImage
-//          let documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
-//          if (imageData!.writeToFile(documentsPath + "/" + String(user.id) + ".png", atomically: true)) {
-//            print(documentsPath)
-//          }
-//      })
   }
   
   static func setCurrentUser(user: User?) {
