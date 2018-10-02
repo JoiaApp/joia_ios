@@ -17,24 +17,25 @@ class ReadController : UITableViewController {
   @IBOutlet var table: UITableView!
   
   override func viewDidLoad() {
-    tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+    tableView.separatorStyle = UITableViewCellSeparatorStyle.none
     tableView.rowHeight = UITableViewAutomaticDimension
     tableView.estimatedRowHeight = 140
     tableView.allowsSelection = false
     super.viewDidLoad();
     
-    self.navigationController?.navigationBar.titleTextAttributes =  [NSFontAttributeName: UIFont(name: "OpenSans-Semibold", size: 16)!, NSForegroundColorAttributeName: UIColor.whiteColor()];
+    self.navigationController?.navigationBar.titleTextAttributes =  [NSAttributedStringKey.font: UIFont(name: "OpenSans-Semibold", size: 16)!, NSAttributedStringKey.foregroundColor: UIColor.white];
   }
   
-  override func viewDidAppear(animated: Bool) {
+  
+  override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     guard let _ = GroupModel.getCurrentGroup() else {
-      let alert = UIAlertController(title: "No group selected", message: "Please select a group", preferredStyle: .Alert)
-      let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) in
+      let alert = UIAlertController(title: "No group selected", message: "Please select a group", preferredStyle: .alert)
+      let OKAction = UIAlertAction(title: "OK", style: .default) { (action) in
         self.tabBarController?.selectedIndex = GROUPS_INDEX
       }
       alert.addAction(OKAction)
-      self.presentViewController(alert, animated: true, completion: nil)
+      self.present(alert, animated: true, completion: nil)
       return
     }
     
@@ -42,23 +43,23 @@ class ReadController : UITableViewController {
     responseModel.success { (_, model:AnyObject?) -> Void in
       self.responses = model as? Array<Response>
       let data = self.responses?.categorise { (response:Response) -> String in
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYY-MM-dd"
-        dateFormatter.timeZone = NSTimeZone.localTimeZone()
-        return dateFormatter.stringFromDate(response.date!)
+        dateFormatter.timeZone = NSTimeZone.local
+        return dateFormatter.string(from: response.date!)
       }
       // Get the keys and sort them
-      self.sortedKeys = data?.keys.sort().reverse()
+      self.sortedKeys = data?.keys.sorted().reversed()
       self.dataSorted = Array<Array<Response>>()
       for key in self.sortedKeys! {
         self.dataSorted!.append(data![key]!)
       }
       self.tableView.reloadData()
     }
-    responseModel.getThread(GroupModel.getCurrentGroup()!)
+    responseModel.getThread(group: GroupModel.getCurrentGroup()!)
   }
   
-  override func numberOfSectionsInTableView(_:UITableView) -> Int {
+  override func numberOfSections(in tableView: UITableView) -> Int {
     guard let _ = self.dataSorted else {
       return 0
     }
@@ -73,40 +74,40 @@ class ReadController : UITableViewController {
     }
   }
   
-  override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+  override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     guard let _ = self.sortedKeys else {
       return nil
     }
     
-    let view = UIView.init(frame: CGRectMake(0, 0, tableView.frame.width, 20));
-    let label = UILabel.init(frame: CGRectMake(16, 8, tableView.frame.width, 20));
+    let view = UIView.init(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 20));
+    let label = UILabel.init(frame: CGRect(x: 16, y: 8, width: tableView.frame.width, height: 20));
     label.font = UIFont.init(name: "OpenSans", size: 12)!
-    label.textColor = UIColor.lightGrayColor()
-    view.backgroundColor = UIColor.whiteColor()
+    label.textColor = UIColor.lightGray
+    view.backgroundColor = UIColor.white
     let dateString = self.sortedKeys![section]
     
-    let dateFormatter = NSDateFormatter()
+    let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "YYYY-MM-dd"
-    dateFormatter.timeZone = NSTimeZone.localTimeZone()
-    let date = dateFormatter.dateFromString(dateString)
-    label.text = ResponseModel.relativeDateStringForDate(date!) as String
+    dateFormatter.timeZone = NSTimeZone.local
+    let date = dateFormatter.date(from: dateString)
+    label.text = ResponseModel.relativeDateStringForDate(date: date!) as String
     
     view.addSubview(label)
     return view;
   }
   
-  override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let response = self.dataSorted![indexPath.section][indexPath.row]
-    let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as! EntryTableViewCell
+    let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! EntryTableViewCell
     cell.response = response
     return cell
   }
 }
 
-public extension SequenceType {
+public extension Sequence {
   // Categorises elements of self into a dictionary, with the keys given by keyFunc
-  func categorise<U : Hashable>(@noescape keyFunc: Generator.Element -> U) -> [U:[Generator.Element]] {
-    var dict: [U:[Generator.Element]] = [:]
+  func categorise<U : Hashable>( keyFunc: (Iterator.Element) -> U) -> [U:[Iterator.Element]] {
+    var dict: [U:[Iterator.Element]] = [:]
     for el in self {
       let key = keyFunc(el)
       if case nil = dict[key]?.append(el) { dict[key] = [el] }

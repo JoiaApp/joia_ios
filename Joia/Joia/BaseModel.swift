@@ -12,16 +12,16 @@ import Alamofire
 
 class BaseModel {
   
-  static var Manager : Alamofire.Manager = {
+  static var Manager : Alamofire.SessionManager = {
     let serverTrustPolicies: [String: ServerTrustPolicy] = [
-      "joia-dev.us-west-2.elasticbeanstalk.com": .DisableEvaluation,
-      "joia-staging.us-west-2.elasticbeanstalk.com": .DisableEvaluation
+      "joia-dev.us-west-2.elasticbeanstalk.com": .disableEvaluation,
+      "joia-staging.us-west-2.elasticbeanstalk.com": .disableEvaluation
     ]
     
-    let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
-    configuration.HTTPAdditionalHeaders = Alamofire.Manager.defaultHTTPHeaders
+    let configuration = URLSessionConfiguration.default
+    configuration.httpAdditionalHeaders = Alamofire.SessionManager.defaultHTTPHeaders
     
-    return Alamofire.Manager(
+    return Alamofire.SessionManager(
       configuration: configuration,
       serverTrustPolicyManager: ServerTrustPolicyManager(policies: serverTrustPolicies)
     )
@@ -34,18 +34,18 @@ class BaseModel {
   var _success: ((String?, AnyObject?) -> Void)? = nil
   var _error: ((String?) -> Void)? = nil
   
-  func success(callback: (String?, model:AnyObject?) -> Void) {
+  func success(callback: @escaping (String?, _:AnyObject?) -> Void) {
     _success = callback;
   }
   
-  func error(callback: (String?) -> Void) {
+  func error(callback: @escaping (String?) -> Void) {
     _error = callback;
   }
   
-  func parseError(resultData:NSData?) -> String? {
+  func parseError(resultData:Data?) -> String? {
     if let data = resultData {
-      if let json = String(data: data, encoding: NSUTF8StringEncoding) {
-        let obj = JSON.parse(json)
+      if let json = String(data: data as Data, encoding: String.Encoding.utf8) {
+        let obj = JSON.init(parseJSON: json)
         if let error = obj["error"].string {
           return error
         }

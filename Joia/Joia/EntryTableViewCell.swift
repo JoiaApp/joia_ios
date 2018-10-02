@@ -17,7 +17,7 @@ class EntryTableViewCell : UITableViewCell {
   @IBOutlet weak var prompt: UILabel!
   
   init() {
-    super.init(style: .Default, reuseIdentifier: "Cell")
+    super.init(style: .default, reuseIdentifier: "Cell")
   }
 
   required init?(coder aDecoder: NSCoder) {
@@ -28,12 +28,12 @@ class EntryTableViewCell : UITableViewCell {
     set {
       customText.text = newValue!.prompt + " " + newValue!.text
       if !newValue!.mentions.isEmpty {
-        mentions.text = newValue!.mentions.joinWithSeparator(", ")
-        mentions.hidden = false;
-        mentionsLabel.hidden = false;
+        mentions.text = newValue!.mentions.joined(separator: ", ")
+        mentions.isHidden = false;
+        mentionsLabel.isHidden = false;
       } else {
-        mentions.hidden = true;
-        mentionsLabel.hidden = true;
+        mentions.isHidden = true;
+        mentionsLabel.isHidden = true;
       }
       prompt.text = newValue!.user?.name ?? ""
       if let user = newValue!.user {

@@ -15,7 +15,7 @@ class JoinGroupController : BaseController, UITextViewDelegate {
   @IBOutlet weak var submit: UIButton!
   @IBOutlet weak var height: NSLayoutConstraint!
   
-  override func viewDidAppear(animated: Bool) {
+  override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
   }
   
@@ -25,17 +25,17 @@ class JoinGroupController : BaseController, UITextViewDelegate {
   }
   
   override func keyboardWillShow(notification:NSNotification) {
-    super.keyboardWillShow(notification)
+    super.keyboardWillShow(notification: notification)
     height.constant = 0
-    UIView.animateWithDuration(0.3) { () -> Void in
+    UIView.animate(withDuration: 0.3) { () -> Void in
       self.view.layoutIfNeeded()
     }
   }
   
   override func keyboardWillHide(notification:NSNotification) {
-    super.keyboardWillHide(notification)
+    super.keyboardWillHide(notification: notification)
     height.constant = 200
-    UIView.animateWithDuration(0.3) { () -> Void in
+    UIView.animate(withDuration: 0.3) { () -> Void in
       self.view.layoutIfNeeded()
     }
   }
@@ -46,26 +46,26 @@ class JoinGroupController : BaseController, UITextViewDelegate {
       key.becomeFirstResponder()
     }
     if (textField == key) {
-      submit(self)
+      submit(self);
     }
     return false
   }
     
-  @IBAction func submit(sender: AnyObject) {
+  @IBAction func submit(_ sender: AnyObject) {
       let model = GroupModel();
       model.success { (message:String?, object:AnyObject?) -> Void in
-        GroupModel.setCurrentGroup(object as! Group)
-        self.performSegueWithIdentifier("gotoRegister", sender: self)
+        GroupModel.setCurrentGroup(group: object as! Group)
+        self.performSegue(withIdentifier: "gotoRegister", sender: self)
       }
       model.error { (message:String?) -> Void in
-        self.showAlert("Oops...", message: "Group number or password incorrect.")
+        self.showAlert(title: "Oops...", message: "Group number or password incorrect.")
       }
-      model.get(code.text!, password: key.text!)
+    model.get(number: code.text!, password: key.text!)
   }
   
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if (segue.identifier == "gotoRegister") {
-      let registerController = (segue.destinationViewController as! RegisterController)
+      let registerController = (segue.destination as! RegisterController)
       registerController.action = RegisterController.GroupAction.Join
     }
   }

@@ -12,14 +12,14 @@ class BaseController : UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    NSNotificationCenter.defaultCenter().addObserver(self, selector:"keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-    NSNotificationCenter.defaultCenter().addObserver(self, selector:"keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
-    let tap = UITapGestureRecognizer(target: self, action: Selector("dismissKeyboard"))
+    NotificationCenter.default.addObserver(self, selector:Selector(("keyboardWillShow:")), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+    NotificationCenter.default.addObserver(self, selector:Selector(("keyboardWillHide:")), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
     self.view.addGestureRecognizer(tap)
   }
   
-  @IBAction func back(sender: AnyObject) {
-    self.dismissViewControllerAnimated(true, completion: nil)
+  @IBAction func back(_ sender: AnyObject) {
+    self.dismiss(animated: true, completion: nil)
   }
   
   func dismissKeyboard() {
@@ -27,29 +27,27 @@ class BaseController : UIViewController {
   }
   
   func showAlert(title:String, message:String) {
-    let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+    let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
     alert.view.tintColor = APP_COLOR
-    let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) in
-      
-    }
+    let OKAction = UIAlertAction(title: "OK", style: .default)
     alert.addAction(OKAction)
-    self.presentViewController(alert, animated: true, completion: nil)
+    self.present(alert, animated: true, completion: nil)
   }
   
   func keyboardWillShow(notification:NSNotification) {
-    let keyboardSize = notification.userInfo![UIKeyboardFrameBeginUserInfoKey]!.CGRectValue.size
-    UIView.animateWithDuration(0.3) { () -> Void in
+    let keyboardSize = (notification.userInfo![UIKeyboardFrameBeginUserInfoKey]! as AnyObject).cgRectValue.size
+    UIView.animate(withDuration: 0.3, animations: {
       var frame = self.view.frame;
       frame.origin.y = -keyboardSize.height;
       self.view.frame = frame;
-    }
+    })
   }
   
   func keyboardWillHide(notification:NSNotification) {
-    UIView.animateWithDuration(0.3) { () -> Void in
+    UIView.animate(withDuration: 0.3, animations: {
       var frame = self.view.frame;
       frame.origin.y = 0;
       self.view.frame = frame;
-    }
+    })
   }
 }

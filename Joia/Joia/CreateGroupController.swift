@@ -14,7 +14,7 @@ class CreateGroupController : BaseController, UITextViewDelegate {
   @IBOutlet weak var height: NSLayoutConstraint!
   @IBOutlet weak var name: UITextField!
   
-  override func viewDidAppear(animated: Bool) {
+  override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
   }
   
@@ -30,39 +30,39 @@ class CreateGroupController : BaseController, UITextViewDelegate {
     return false
   }
   
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if (segue.identifier == "gotoRegister") {
-      let registerController = (segue.destinationViewController as! RegisterController)
+      let registerController = (segue.destination as! RegisterController)
       registerController.action = RegisterController.GroupAction.Create
     }
   }
   
   override func keyboardWillShow(notification:NSNotification) {
-    super.keyboardWillShow(notification)
+    super.keyboardWillShow(notification: notification)
     height.constant = 0
-    UIView.animateWithDuration(0.3) { () -> Void in
+    UIView.animate(withDuration: 0.3, animations: {
       self.view.layoutIfNeeded()
-    }
+    });
   }
   
   override func keyboardWillHide(notification:NSNotification) {
-    super.keyboardWillHide(notification)
+    super.keyboardWillHide(notification: notification)
     height.constant = 200
-    UIView.animateWithDuration(0.3) { () -> Void in
+    UIView.animate(withDuration: 0.3, animations: {
       self.view.layoutIfNeeded()
-    }
+    });
   }
   
-  @IBAction func submit(sender: AnyObject) {
+  @IBAction func submit(_ sender: AnyObject) {
     let model = GroupModel();
     model.success { (message:String?, model:AnyObject?) -> Void in
-      GroupModel.setCurrentGroup(model as! Group)
-      self.performSegueWithIdentifier("gotoRegister", sender:self)
+      GroupModel.setCurrentGroup(group: model as? Group)
+      self.performSegue(withIdentifier: "gotoRegister", sender: self)
     }
     model.error { (message:String?) -> Void in
       let unwrappedMessage = message ?? "Something went wrong"
-      self.showAlert("Oops!", message: unwrappedMessage)
+      self.showAlert(title: "Oops!", message: unwrappedMessage)
     }
-    model.create(name.text!)
+    model.create(name: name.text!)
   }
 }

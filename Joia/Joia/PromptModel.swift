@@ -10,37 +10,53 @@ import Alamofire
 
 class PromptModel : BaseModel {
   func get() {
-    BaseModel.Manager.request(.GET, baseUrl + "prompts.json", parameters: nil)
+    BaseModel.Manager.request(baseUrl + "prompts.json", method: .get, parameters: nil)
       .validate(statusCode: 200..<300)
       .validate(contentType: ["application/json"])
-      .responseJSON(completionHandler: { (_, response, result) -> Void in
-        if let callback = self._success where result.isSuccess {
+      .responseJSON(completionHandler: { (response) in
+        if let callback = self._success, response.error == nil {
           var prompts:[Prompt] = Array()
-          if let array = result.value as? [AnyObject] {
+          if let array = response.result.value as? [AnyObject] {
             for item in array {
-              let prompt = Prompt.fromDict(item as! [String: AnyObject])
+              let prompt = Prompt.fromDict(dict: item as! [String: AnyObject])
               prompts.append(prompt)
             }
           }
-          callback(nil, prompts)
+          // TODO: Fix me!
+//          callback(nil, prompts)
         }
-        if let callback = self._error where result.isFailure {
+        if let callback = self._error, response.error != nil {
           callback(nil)
         }
       });
   }
   
   static func choose(howMany:Int, from:Int) -> Array<Int> {
-    let cal = NSCalendar.currentCalendar()
-    let components = cal.components([.Month, .Day, .TimeZone], fromDate: NSDate())
-    srand(UInt32(components.month + components.day))
-    var options = Array(0..<from)
-    var chosen:[Int] = []
-    for _ in 0..<howMany {
-      let index:Int = Int(rand() % Int32(options.count))
-      chosen.append(options[index])
-      options.removeAtIndex(index)
-    }
-    return chosen
+//    let cal = Calendar.current
+//    let date = Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: Date())
+//    let secondsSince = date?.timeIntervalSince1970
+//    let seconds = Int(secondsSince!)
+//    srand48(seconds)
+//    (drand48() * 100_000_000).truncatingRemainder(dividingBy: 32)
+    
+    // TODO: Fix me
+//    let cal = Calendar.current
+//    let components = cal.dateComponents(in: TimeZone.current, from: Date())
+//    srand(UInt32(components.month! + components.day!))
+//    var options = Array(0..<from)
+//    var chosen:[Int] = []
+//    for _ in 0..<howMany {
+//      let index:Int = Int(arc4random() % UInt32(options.count))
+//      chosen.append(options[index])
+//      options.remove(at: index)
+//    }
+//    return chosen
+    return [];
   }
+  
+//  func seeded_rand(seed:Int, min:Double, max:Double) -> Int
+//  {
+//    srand48(seed)
+//    return Int(round(drand48() * (max-min)) + min)
+//  }
 }

@@ -10,15 +10,15 @@ import UIKit
 
 class JoinOrCreateController : UIViewController {
   
-  @IBAction func back(sender: AnyObject) {
-    self.dismissViewControllerAnimated(true, completion: nil)
+  @IBAction func back(_ sender: AnyObject) {
+    self.dismiss(animated: true, completion: nil)
   }
   
-  @IBAction func join(sender: AnyObject) {
-    performSegueWithIdentifier("gotoJoin", sender: self)
+  @IBAction func join(_ sender: AnyObject) {
+    performSegue(withIdentifier: "gotoJoin", sender: self)
   }
   
-  @IBAction func create(sender: AnyObject) {
-    performSegueWithIdentifier("gotoCreate", sender: self)
+  @IBAction func create(_ sender: AnyObject) {
+    performSegue(withIdentifier: "gotoCreate", sender: self)
   }
 }

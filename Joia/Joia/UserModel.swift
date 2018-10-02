@@ -14,108 +14,105 @@ class UserModel : BaseModel {
   private static var currentUser:User?
   
   func create(username: String, email: String, password: String) {
-    BaseModel.Manager.request(.POST, baseUrl + "users.json", parameters: ["user": ["name": username, "email": email, "password": password]])
+    BaseModel.Manager.request(baseUrl + "users.json", method: .post, parameters: ["user": ["name": username, "email": email, "password": password]])
       .validate(statusCode: 200..<300)
       .validate(contentType: ["application/json"])
-      .responseJSON(completionHandler: { (_, response, result) -> Void in
-        if let callback = self._success where result.isSuccess {
-          if let value = result.value as? [String: AnyObject] {
-            callback(nil, User.fromDict(value));
+      .responseJSON(completionHandler: { (response) in
+        if let callback = self._success, response.error != nil {
+          if let value = response.result.value as? [String: AnyObject] {
+            callback(nil, User.fromDict(dict: value));
           }
         }
-        if let callback = self._error where result.isFailure {
-          callback(self.parseError(result.data))
+        if let callback = self._error {
+          callback(self.parseError(resultData: response.data));
         }
       });
   }
   
   func get(user:User) {
-    BaseModel.Manager.request(.GET, baseUrl + "users/" + String(user.id) + ".json", parameters: nil)
+    BaseModel.Manager.request(baseUrl + "users/" + String(user.id) + ".json", method: .get, parameters: nil)
       .validate(statusCode: 200..<300)
       .validate(contentType: ["application/json"])
-      .responseJSON(completionHandler: { (_, response, result) -> Void in
-        if let callback = self._success where result.isSuccess {
-          if let value = result.value as? [String: AnyObject] {
-            let user = User.fromDict(value);
-            if let headerFields = response?.allHeaderFields as? [String: String], URL = response?.URL {
-              let cookies = NSHTTPCookie.cookiesWithResponseHeaderFields(headerFields, forURL: URL)
+      .responseJSON(completionHandler: { (response) in
+        if let callback = self._success, response.error == nil {
+          if let value = response.result.value as? [String: AnyObject] {
+            let user = User.fromDict(dict: value);
+            if let headerFields = response.response?.allHeaderFields as? [String: String], let URL = response.response?.url {
+              let cookies = HTTPCookie.cookies(withResponseHeaderFields: headerFields, for: URL)
               print(cookies)
               user.session_id = cookies.first!.value
             }
-            UserModel.setCurrentUser(user);
+            UserModel.setCurrentUser(user: user);
             callback(nil, user);
           }
         }
-        if let callback = self._error where result.isFailure {
+        if let callback = self._error, response.error != nil {
           callback(nil)
         }
       });
   }
   
   func updateBirthday(user:User, components:[Int]) {
-    let dateComponents = NSDateComponents()
-    dateComponents.month = 1 + components[0]
-    dateComponents.day = 1 + components[1]
-    dateComponents.year = 1916 + components[2]
-    let calendar = NSCalendar.currentCalendar()
-    let date = calendar.dateFromComponents(dateComponents)
-    let dateFormatter = NSDateFormatter()
+    let calendar = NSCalendar.current
+    let dateComponents = DateComponents(calendar: calendar, year: 1916 + components[2], month: 1 + components[0], day: 1 + components[1]);
+    let date = calendar.date(from: dateComponents);
+    let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-    updateField(user, field: "birthday", value: dateFormatter.stringFromDate(date!))
+    updateField(user: user, field: "birthday", value: dateFormatter.string(from: date!))
   }
   
   func updatePassword(user:User, password:String) {
-    updateField(user, field: "password", value: password)
+    updateField(user: user, field: "password", value: password)
   }
   
   func updateUsername(user:User, username:String) {
-    updateField(user, field: "name", value: username)
+    updateField(user: user, field: "name", value: username)
   }
   
-  func updatePushToken(user:User, token:NSData) {
+  func updatePushToken(user:User, token:Data) {
     let tokenString = token.toHexString()
-    updateField(user, field: "push_token", value: tokenString)
+    updateField(user: user, field: "push_token", value: tokenString)
   }
   
   private func updateField(user:User, field:String, value:String) {
-    BaseModel.Manager.request(.PUT, baseUrl + "users/" + String(user.id) + ".json", parameters: ["user": [field: value]])
+    BaseModel.Manager.request(baseUrl + "users/" + String(user.id) + ".json", method: .put, parameters: ["user": [field: value]])
       .validate(statusCode: 200..<300)
       .validate(contentType: ["application/json"])
-      .responseJSON(completionHandler: { (_, response, result) -> Void in
-        if let callback = self._success where result.isSuccess {
-          if let value = result.value as? [String: AnyObject] {
-            let user = User.fromDict(value);
+      .responseJSON(completionHandler: { (response) in
+        if let callback = self._success, response.error != nil {
+          if let value = response.result.value as? [String: AnyObject] {
+            let user = User.fromDict(dict: value);
             if let currentUser = UserModel.getCurrentUser() {
               user.session_id = currentUser.session_id
             }
-            UserModel.setCurrentUser(user)
+            UserModel.setCurrentUser(user: user)
           }
           callback(nil, user);
         }
-        if let callback = self._error where result.isFailure {
+        if let callback = self._error, response.error != nil {
           callback(nil)
         }
       });
   }
   
   func login(email: String, password: String) {
-    BaseModel.Manager.request(.POST, baseUrl + "users/login.json", parameters: ["email": email, "password": password])
+    BaseModel.Manager.request(baseUrl + "users/login.json", method: .post, parameters: ["email": email, "password": password])
       .validate(statusCode: 200..<300)
       .validate(contentType: ["application/json"])
-      .responseJSON(completionHandler: { (_, response, result) -> Void in
-        if let callback = self._success where result.isSuccess {
-          if let value = result.value as? [String: AnyObject] {
-            let user = User.fromDict(value);
-            if let headerFields = response?.allHeaderFields as? [String: String], URL = response?.URL {
-              let cookies = NSHTTPCookie.cookiesWithResponseHeaderFields(headerFields, forURL: URL)
+      .responseJSON(completionHandler: { (response) in
+        if let callback = self._success, response.error == nil {
+          if let value = response.result.value as? [String: AnyObject] {
+            let user = User.fromDict(dict: value);
+            if let headerFields = response.response?.allHeaderFields as? [String: String], let URL = response.response?.url {
+              let cookies = HTTPCookie.cookies(withResponseHeaderFields: headerFields, for: URL)
               print(cookies)
               user.session_id = cookies.first!.value
             }
-            UserModel.setCurrentUser(user);
+            UserModel.setCurrentUser(user: user);
             callback(nil, user);
           }
         }
-        if let callback = self._error where result.isFailure {
+        if let callback = self._error, response.error != nil {
           callback(nil)
         }
       });
@@ -127,33 +124,33 @@ class UserModel : BaseModel {
     let ratioH = 50 / image.size.height;
     let ratio = max(ratioW, ratioH)
     
-    let size = CGSizeApplyAffineTransform(image.size, CGAffineTransformMakeScale(ratio, ratio))
+    let size = image.size.applying(CGAffineTransform(scaleX: ratio, y: ratio))
     let scale: CGFloat = 0.0 // Automatically use scale factor of main screen
     
     UIGraphicsBeginImageContextWithOptions(size, false, scale)
-    let ctx:CGContextRef = UIGraphicsGetCurrentContext()!;
-    CGContextSetStrokeColorWithColor(ctx, UIColor.lightGrayColor().CGColor)
-    CGContextStrokeEllipseInRect(ctx, CGRectMake(1, 1, 48, 48))
-    let path = UIBezierPath(ovalInRect: CGRect(origin: CGPoint(x: 2.5, y: 2.5), size: CGSize(width: 45, height: 45)))
+    let ctx:CGContext = UIGraphicsGetCurrentContext()!;
+    ctx.setStrokeColor(UIColor.lightGray.cgColor)
+    ctx.strokeEllipse(in: CGRect.init(x: 1, y: 1, width: 48, height: 48))
+    let path = UIBezierPath.init(ovalIn: CGRect(origin: CGPoint(x: 2.5, y: 2.5), size: CGSize(width: 45, height: 45)))
     path.addClip()
-    image.drawInRect(CGRect(origin: CGPoint(x: (45 - size.width) * 0.5, y: (45 - size.height) * 0.5), size: size))
+    image.draw(in: CGRect(origin: CGPoint(x: (45 - size.width) * 0.5, y: (45 - size.height) * 0.5), size: size))
     let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
     UIGraphicsEndImageContext()
     
-    let imageData = UIImagePNGRepresentation(scaledImage)
-    let base64Data = imageData?.base64EncodedDataWithOptions(NSDataBase64EncodingOptions())
+    let imageData = UIImagePNGRepresentation(scaledImage!)
+    let base64Data = imageData?.base64EncodedData()
     
     ImagesCache.sharedInstance.images[user.id] = scaledImage
-    updateField(user, field: "image", value: String(data: base64Data!, encoding: NSUTF8StringEncoding)!)
+    updateField(user: user, field: "image", value: String(data: base64Data!, encoding: String.Encoding.utf8)!)
   }
   
   static func setCurrentUser(user: User?) {
     currentUser = user
-    let defaults = NSUserDefaults.standardUserDefaults()
+    let defaults = UserDefaults.standard
     if let user = user {
-      defaults.setObject(user.toJson(), forKey: "current_user")
+      defaults.set(user.toJson(), forKey: "current_user")
     } else {
-      defaults.removeObjectForKey("current_user")
+      defaults.removeObject(forKey: "current_user")
     }
   }
   
@@ -161,9 +158,9 @@ class UserModel : BaseModel {
     if let currentUser = currentUser {
       return currentUser
     } else {
-      let defaults = NSUserDefaults.standardUserDefaults()
-      if let user = defaults.dictionaryForKey("current_user") {
-        currentUser = User.fromDict(user)
+      let defaults = UserDefaults.standard
+      if let user = defaults.dictionary(forKey: "current_user") {
+        currentUser = User.fromDict(dict: user as Dictionary<String, AnyObject>)
         return currentUser
       }
     }
@@ -171,17 +168,13 @@ class UserModel : BaseModel {
   }
   
   func logout() {
-    UserModel.setCurrentUser(nil)
+    UserModel.setCurrentUser(user: nil)
   }
 }
 
-extension NSData {
+extension Data {
   func toHexString() -> String {
-    var hexString: String = ""
-    let dataBytes =  UnsafePointer<CUnsignedChar>(self.bytes)
-    for (var i: Int=0; i<self.length; ++i) {
-      hexString +=  String(format: "%02X", dataBytes[i])
-    }
-    return hexString
+    return map { String(format: "%02hhX", $0) }.joined()
   }
 }
+

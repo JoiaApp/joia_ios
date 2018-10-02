@@ -9,7 +9,7 @@
 import Foundation
 
 class WriteZeroStateController : BaseController {
-  override func viewWillAppear(animated: Bool) {
+  override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     self.navigationItem.title = "Write"
   }

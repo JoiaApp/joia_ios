@@ -15,26 +15,28 @@ class SettingsController: UITableViewController {
   override func viewDidLoad() {
     super.viewDidLoad();
     
-    let buttonItem = UIBarButtonItem(title:"", style:.Plain, target:nil, action:nil)
-    buttonItem.tintColor = UIColor.whiteColor()
+    let buttonItem = UIBarButtonItem(title:"", style:.plain, target:nil, action:nil)
+    buttonItem.tintColor = UIColor.white
     self.navigationItem.backBarButtonItem = buttonItem
     
-    self.navigationController?.navigationBar.titleTextAttributes =  [NSFontAttributeName: UIFont(name: "OpenSans-Semibold", size: 16)!, NSForegroundColorAttributeName: UIColor.whiteColor()];
-    self.navigationController?.navigationBar.tintColor = UIColor.whiteColor();
+    self.navigationController?.navigationBar.titleTextAttributes =  [NSAttributedStringKey.font: UIFont(name: "OpenSans-Semibold", size: 16)!, NSAttributedStringKey.foregroundColor: UIColor.white];
+    self.navigationController?.navigationBar.tintColor = UIColor.white;
   }
   
-  override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+  override  func tableView(_ tableView: UITableView, didSelectRowAt
+  indexPath: IndexPath) {
+    
     switch indexPath.row {
     case 0:
-      self.performSegueWithIdentifier("gotoProfile", sender: self)
+      self.performSegue(withIdentifier: "gotoProfile", sender: self)
     case 1:
-      self.performSegueWithIdentifier("gotoGroupSettings", sender: self)
+      self.performSegue(withIdentifier: "gotoGroupSettings", sender: self)
     case 2:
-      self.performSegueWithIdentifier("gotoTermsAndConditions", sender: self)
+      self.performSegue(withIdentifier: "gotoTermsAndConditions", sender: self)
     case 4:
       UserModel().logout();
-      let landingController = self.storyboard?.instantiateViewControllerWithIdentifier("Landing") as? LandingController
-      self.presentViewController(landingController!, animated: true, completion: nil)
+      let landingController = self.storyboard?.instantiateViewController(withIdentifier: "Landing") as? LandingController
+      self.present(landingController!, animated: true, completion: nil)
     default:
       print("Unrecognized setting selected");
     }

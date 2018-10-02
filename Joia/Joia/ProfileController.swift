@@ -25,7 +25,7 @@ class ProfileController : BaseController, UIImagePickerControllerDelegate, UINav
     self.image.addGestureRecognizer(tap)
   }
   
-  override func viewDidAppear(animated: Bool) {
+  override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     guard let _ = UserModel.getCurrentUser() else {
       // Logout?
@@ -38,47 +38,45 @@ class ProfileController : BaseController, UIImagePickerControllerDelegate, UINav
       image.image = cachedImage
     }
     
-    if var userBirthday = currentUser.birthday {
-      let dateFormatter = NSDateFormatter()
-      dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
-      dateFormatter.timeZone = NSTimeZone.init(name: "UTC")
-      birthday.text = "Birthday - \(dateFormatter.stringFromDate(userBirthday))"
+    if let userBirthday = currentUser.birthday {
+      let dateFormatter = DateFormatter()
+      dateFormatter.dateStyle = DateFormatter.Style.medium
+      dateFormatter.timeZone = TimeZone.init(identifier: "UTC")!
+      birthday.text = "Birthday - \(dateFormatter.string(from: userBirthday as Date))"
     } else {
       birthday.text = "Birthday - Not Set"
     }
   }
-  @IBAction func editBirthday(sender: AnyObject) {
+  @IBAction func editBirthday(_ sender: AnyObject) {
     let days = Array(1...31).map { String($0) }
     let years = Array(1916...2016).map { String($0) }
     let rows:Array<Array<String>> = [
       ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], days, years
     ]
-    let calendar = NSCalendar.currentCalendar()
-    calendar.timeZone = NSTimeZone.init(name: "UTC")!
-    var components = calendar.components([.Day, .Month, .Year], fromDate: NSDate(timeIntervalSince1970: 0))
-    if let userBirthday = UserModel.getCurrentUser()?.birthday {
-      components = calendar.components([.Day, .Month, .Year], fromDate: userBirthday)
-    }
-    let initialSelection = [components.month - 1, components.day - 1, components.year - 1916]
     
-    ActionSheetMultipleStringPicker.showPickerWithTitle("Select ", rows: rows, initialSelection: initialSelection, doneBlock: {_,values,indices in
+    var calendar = NSCalendar.current
+    calendar.timeZone = TimeZone.init(identifier: "UTC")!
+    var components = calendar.dateComponents([.day, .month, .year], from: Date.init(timeIntervalSince1970: 0))
+    if let userBirthday = UserModel.getCurrentUser()?.birthday {
+      components = calendar.dateComponents([.day, .month, .year], from: userBirthday)
+    }
+    let initialSelection = [components.month! - 1, components.day! - 1, components.year! - 1916]
+    
+    ActionSheetMultipleStringPicker.show(withTitle: "Select ", rows: rows, initialSelection: initialSelection, doneBlock: {_,values,indices in
       let user = UserModel.getCurrentUser()
       let userModel = UserModel()
-      userModel.success({ (_, model) -> Void in
-        let dateComponents = NSDateComponents()
+      userModel.success(callback: { (_, model) -> Void in
+        let calendar = Calendar.current;
         let vals = values as! [Int]
-        dateComponents.month = 1 + vals[0]
-        dateComponents.day = 1 + vals[1]
-        dateComponents.year = 1916 + vals[2]
-        let calendar = NSCalendar.currentCalendar()
-        let date = calendar.dateFromComponents(dateComponents)
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
-        dateFormatter.timeZone = NSTimeZone.init(name: "UTC")
-        self.birthday.text = "Birthday - \(dateFormatter.stringFromDate(date!))"
+        let dateComponents = DateComponents.init(calendar: calendar, year: 1916 + vals[2], month: 1 + vals[0], day: 1 + vals[1])
+        let date = calendar.date(from: dateComponents)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = DateFormatter.Style.medium;
+        dateFormatter.timeZone = TimeZone.init(identifier: "UTC")
+        self.birthday.text = "Birthday - \(dateFormatter.string(from: date!))"
       })
-      userModel.updateBirthday(user!, components: values as! [Int])
-    }, cancelBlock: nil, origin: self.view)
+      userModel.updateBirthday(user: user!, components: values as! [Int])
+    }, cancel: nil, origin: self.view)
   }
   
   override func dismissKeyboard() {
@@ -87,23 +85,23 @@ class ProfileController : BaseController, UIImagePickerControllerDelegate, UINav
     confirmPassword.resignFirstResponder()
   }
   
-  func textFieldShouldReturn(textField: UITextField) -> Bool {
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
     if (textField == password) {
       password.resignFirstResponder()
       confirmPassword.becomeFirstResponder()
     }
     if (textField == confirmPassword) {
       confirmPassword.resignFirstResponder()
-      if let password = password.text, confirm = confirmPassword.text where password == confirm {
-        updatePassword(password)
+      if let password = password.text, let confirm = confirmPassword.text, password == confirm {
+        updatePassword(password: password)
       } else {
-        showAlert("Oops", message: "Passwords don't match.")
+        showAlert(title: "Oops", message: "Passwords don't match.")
       }
     }
     if (textField == username) {
       username.resignFirstResponder()
       if let username = username.text {
-        updateUsername(username)
+        updateUsername(name: username)
       }
     }
     return false
@@ -122,37 +120,37 @@ class ProfileController : BaseController, UIImagePickerControllerDelegate, UINav
   func updateUsername(name:String) {
     let userModel = UserModel()
     userModel.success { (_, model) -> Void in
-      self.showAlert("Success", message: "Username updated.")
+      self.showAlert(title: "Success", message: "Username updated.")
     }
-    userModel.updateUsername(UserModel.getCurrentUser()!, username: name)
+    userModel.updateUsername(user: UserModel.getCurrentUser()!, username: name)
   }
   
   func updatePassword(password:String) {
     let userModel = UserModel()
     userModel.success { (_, model) -> Void in
-      self.showAlert("Success", message: "Password updated.")
+      self.showAlert(title: "Success", message: "Password updated.")
     }
-    userModel.updatePassword(UserModel.getCurrentUser()!, password: password)
+    userModel.updatePassword(user: UserModel.getCurrentUser()!, password: password)
   }
   
-  @IBAction func update(sender: AnyObject) {
+  @IBAction func update(_ sender: AnyObject) {
     imagePicker = UIImagePickerController()
     imagePicker.delegate = self
-    imagePicker.sourceType = .PhotoLibrary
-    self.presentViewController(imagePicker, animated: true, completion: nil)
+    imagePicker.sourceType = .photoLibrary
+    self.present(imagePicker, animated: true, completion: nil)
   }
   
   func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-    self.imagePicker.dismissViewControllerAnimated(true, completion: nil)
+    self.imagePicker.dismiss(animated: true, completion: nil)
     image.image = info[UIImagePickerControllerOriginalImage] as! UIImage
     let userModel = UserModel()
     userModel.success { (_, _) -> Void in
-      self.showAlert("Success!", message: "Profile picture updated.")
+      self.showAlert(title: "Success!", message: "Profile picture updated.")
     }
-    userModel.saveImage(UserModel.getCurrentUser()!, image: image.image!)
+    userModel.saveImage(user: UserModel.getCurrentUser()!, image: image.image!)
   }
   
   func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-    self.imagePicker.dismissViewControllerAnimated(true, completion: nil)
+    self.imagePicker.dismiss(animated: true, completion: nil)
   }
 }

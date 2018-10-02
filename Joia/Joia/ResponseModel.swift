@@ -60,26 +60,26 @@ class ResponseModel : BaseModel {
   }
   
   func publishResponses(group:Group, user:User) -> Bool {
-    let responses:[Response] = ResponseModel.tempResponses.map { Response(text: $1.response!, prompt: $1.prompt!, user:user, mentions:$1.mentions ?? []) }
+    let responses:[Response] = ResponseModel.tempResponses.map { Response(text: $1.response!, prompt: $1.prompt!, user:user, mentions:$1.mentions ) }
     var success = true;
     for response in responses {
-      BaseModel.Manager.request(.POST, baseUrl + "groups/" + group.guid + "/responses.json", parameters: ["response": response.toJson()])
+      BaseModel.Manager.request(baseUrl + "groups/" + group.guid + "/responses.json", method: .post, parameters: ["response": response.toJson()])
         .validate(statusCode: 200..<300)
         .validate(contentType: ["application/json"])
-        .responseJSON(completionHandler: { (_, _, result) -> Void in
-          if (!result.isSuccess) {
+        .responseJSON(completionHandler: { (remote_response) in
+          if (remote_response.error != nil) {
             success = false
-          } else if let value = result.value as? [String: AnyObject] {
+          } else if let value = remote_response.result.value as? [String: AnyObject] {
             for mentionedUser in response.mentions {
               // User in group mention
               if let id = Int(mentionedUser) {
                 let mention = Mention(response:value["id"] as! Int, user: id)
-                BaseModel.Manager.request(.POST, self.baseUrl + "groups/" + group.guid + "/mentions.json", parameters: ["mention": mention.toJson()])
+                BaseModel.Manager.request(self.baseUrl + "groups/" + group.guid + "/mentions.json", method: .post, parameters: ["mention": mention.toJson()])
                   .validate(statusCode: 200..<300)
                   .validate(contentType: ["application/json"])
               // Custom mention
               } else {
-                GroupModel().invite(mentionedUser, isMention: true)
+                GroupModel().invite(email: mentionedUser, isMention: true)
               }
             }
           }
@@ -103,45 +103,43 @@ class ResponseModel : BaseModel {
 //  }
   
   func getThread(group:Group) {
-    BaseModel.Manager.request(.GET, baseUrl + "groups/" + group.guid + "/responses.json", parameters: nil)
+    BaseModel.Manager.request(baseUrl + "groups/" + group.guid + "/responses.json", method: .get, parameters: nil)
       .validate(statusCode: 200..<300)
       .validate(contentType: ["application/json"])
-      .responseJSON(completionHandler: { (_, response, result) -> Void in
-        if let callback = self._success where result.isSuccess {
+      .responseJSON(completionHandler: { (response) in
+        if let callback = self._success, response.error == nil {
           var responses:[Response] = Array()
-          if let array = result.value as? [AnyObject] {
+          if let array = response.result.value as? [AnyObject] {
             for item in array {
-              let response = Response.fromDict(item as! [String: AnyObject])
+              let response = Response.fromDict(dict: item as! [String: AnyObject])
               responses.append(response)
             }
           }
-          callback(nil, responses)
+          callback(nil, responses as AnyObject)
         }
-        if let callback = self._error where result.isFailure {
+        if let callback = self._error, response.error != nil {
           callback(nil)
         }
       });
   }
   
-  static func relativeDateStringForDate(date : NSDate) -> NSString {
-    let todayDate = NSDate()
-    let units: NSCalendarUnit = [.Hour, .Day, .Month, .Year, .WeekOfYear]
-    let components = NSCalendar.currentCalendar().components(units, fromDate: date , toDate: todayDate, options: NSCalendarOptions.MatchFirst )
+  static func relativeDateStringForDate(date : Date) -> NSString {
+    let components = Calendar.current.dateComponents([.hour, .day, .month, .year, .weekOfYear], from: date, to: Date())
 
-    let year =  components.year
-    let month = components.month
-    let day = components.day
-    let hour = components.hour
-    let weeks = components.weekOfYear
-    
-    if components.year > 0 {
+    let year =  components.year!
+    let month = components.month!
+    let day = components.day!
+//    let hour = components.hour!
+    let weeks = components.weekOfYear!
+
+    if year > 0 {
       return NSString.init(format: "%d years ago", year);
-    } else if components.month > 0 {
+    } else if month > 0 {
       return NSString.init(format: "%d months ago", month);
-    } else if components.weekOfYear > 0 {
+    } else if weeks > 0 {
       return NSString.init(format: "%d weeks ago", weeks);
-    } else if (components.day > 0) {
-      if components.day > 1 {
+    } else if (day > 0) {
+      if day > 1 {
         return NSString.init(format: "%d days ago", day);
       } else {
         return "Yesterday";

@@ -10,76 +10,76 @@ import UIKit
 import Alamofire
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, NSURLSessionDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, URLSessionDelegate {
   
   var window: UIWindow?
   
-  func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+  private func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
     
     // Set up the stored default environment
-    let defaults = NSUserDefaults.standardUserDefaults()
-    if let storedEnvironment = defaults.objectForKey("environment") as? String {
+    let defaults = UserDefaults.standard
+    if let storedEnvironment = defaults.object(forKey: "environment") as? String {
       Config.baseUrl = storedEnvironment
     }
     
-    UITabBarItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont(name:"OpenSans", size:12)!, NSForegroundColorAttributeName: UIColor.grayColor()], forState: .Normal)
-    UITabBarItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont(name:"OpenSans", size:12)!, NSForegroundColorAttributeName: APP_COLOR], forState: .Selected)
+    UITabBarItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font: UIFont(name:"OpenSans", size:12)!, NSAttributedStringKey.foregroundColor: UIColor.gray], for: .normal)
+    // TODO: Fix me!
+//    UITabBarItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont(name:"OpenSans", size:12)!, NSForegroundColorAttributeName: APP_COLOR], NSAttributedStringKey.foregroundColorNSAttributedStringKey.font, .selected)
     
     return true
   }
   
-  func applicationWillResignActive(application: UIApplication) {
+  func applicationWillResignActive(_ application: UIApplication) {
     
   }
   
-  func applicationDidEnterBackground(application: UIApplication) {
+  func applicationDidEnterBackground(_ application: UIApplication) {
     
   }
   
-  func applicationWillEnterForeground(application: UIApplication) {
+  func applicationWillEnterForeground(_ application: UIApplication) {
     
   }
   
-  func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+  func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
     if let user = UserModel.getCurrentUser() {
-      UserModel().updatePushToken(user, token: deviceToken)
+      UserModel().updatePushToken(user: user, token: deviceToken)
     } else {
       // store for later updating
-      let defaults = NSUserDefaults.standardUserDefaults()
-      defaults.setObject(deviceToken.toHexString(), forKey: "push_token")
+      let defaults = UserDefaults.standard
+      defaults.set(deviceToken.toHexString(), forKey: "push_token")
     }
   }
   
-  func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+  func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
     print("Failed to register for remote notifications \(error.localizedDescription)")
   }
   
-  func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
-
+  func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
+    
   }
   
-  func applicationDidBecomeActive(application: UIApplication) {
-    let settings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
-    UIApplication.sharedApplication().registerUserNotificationSettings(settings)
-    UIApplication.sharedApplication().registerForRemoteNotifications()
+  func applicationDidBecomeActive(_ application: UIApplication) {
+    let settings = UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+    UIApplication.shared.registerUserNotificationSettings(settings)
+    UIApplication.shared.registerForRemoteNotifications()
     
-    let calendar = NSCalendar.currentCalendar()
-    let components = NSDateComponents()
-    components.hour = 12 + 7
-    components.minute = 0
+    let calendar = Calendar.current;
+    let components = DateComponents.init(calendar: calendar, timeZone: TimeZone.current, hour: 12 + 7)
     
-    UIApplication.sharedApplication().cancelAllLocalNotifications()
+    UIApplication.shared.cancelAllLocalNotifications()
     let localNotification = UILocalNotification()
-    localNotification.fireDate = calendar.dateFromComponents(components)
+    localNotification.fireDate = calendar.date(from: components)
     localNotification.alertBody = "Did you remember to write in your Joia journal today?"
-    localNotification.timeZone = NSTimeZone.localTimeZone()
-    localNotification.repeatInterval = NSCalendarUnit.Day
+    localNotification.timeZone = NSTimeZone.local
+    localNotification.repeatInterval = NSCalendar.Unit.day
     localNotification.soundName = UILocalNotificationDefaultSoundName
     localNotification.category = "Write" //Optional
-    UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
+
+    UIApplication.shared.scheduleLocalNotification(localNotification)
   }
   
-  func applicationWillTerminate(application: UIApplication) {
+  func applicationWillTerminate(_ application: UIApplication) {
     
   }
 }

@@ -15,13 +15,13 @@ class GroupSettingsController : BaseController, UITextFieldDelegate {
   @IBOutlet weak var groupName: UITextField!
   @IBOutlet weak var invite: UITextField!
   
-  @IBAction func send(sender: AnyObject) {
+  @IBAction func send(_ sender: AnyObject) {
     if let email = invite.text {
-      GroupModel().invite(email, isMention: false)
+      GroupModel().invite(email: email, isMention: false)
     }
   }
   
-  @IBAction func toggleLocked(sender: AnyObject) {
+  @IBAction func toggleLocked(_ sender: AnyObject) {
 
   }
   
@@ -29,15 +29,15 @@ class GroupSettingsController : BaseController, UITextFieldDelegate {
     super.viewDidLoad()
   }
   
-  override func viewDidAppear(animated: Bool) {
+  override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     guard let _ = GroupModel.getCurrentGroup() else {
-      let alert = UIAlertController(title: "No group selected", message: "Please select a group", preferredStyle: .Alert)
-      let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) in
+      let alert = UIAlertController(title: "No group selected", message: "Please select a group", preferredStyle: .alert)
+      let OKAction = UIAlertAction(title: "OK", style: .default) { (action) in
         self.tabBarController?.selectedIndex = GROUPS_INDEX
       }
       alert.addAction(OKAction)
-      self.presentViewController(alert, animated: true, completion: nil)
+      self.present(alert, animated: true, completion: nil)
       return
     }
     
@@ -58,34 +58,34 @@ class GroupSettingsController : BaseController, UITextFieldDelegate {
   
   func textFieldShouldReturn(textField: UITextField) -> Bool {
     dismissKeyboard()
-    submit(textField)
+    submit(textField: textField)
     return true
   }
   
   func textFieldDidEndEditing(textField:UITextField) {
     dismissKeyboard()
-    submit(textField)
+    submit(textField: textField)
   }
   
   func submit(textField:UITextField) {
     if textField == invite {
       if let email = textField.text {
         let model = GroupModel()
-        model.success({ (_, model) -> Void in
-          self.showAlert("Sent", message: "Invite sent to \(email)")
+        model.success(callback: { (_, model) -> Void in
+          self.showAlert(title: "Sent", message: "Invite sent to \(email)")
         })
-        model.invite(email, isMention: true)
+        model.invite(email: email, isMention: true)
       }
     } else if let name = originalName {
-      if let currentName = textField.text where currentName != name {
+      if let currentName = textField.text, currentName != name {
         let group = GroupModel.getCurrentGroup()!
         originalName = currentName
         group.name = currentName
         let model = GroupModel()
-        model.success({ (_, model) -> Void in
-          self.showAlert("Updated", message: "Group name updated to \(currentName)")
+        model.success(callback: { (_, model) -> Void in
+          self.showAlert(title: "Updated", message: "Group name updated to \(currentName)")
         })
-        model.update(group)
+        model.update(group: group)
       }
     }
   }

@@ -33,22 +33,22 @@ class RegisterController : BaseController, UITextViewDelegate {
     username.resignFirstResponder()
   }
   
-  override func keyboardWillShow(notification:NSNotification) {
-    register.hidden = true
-    super.keyboardWillShow(notification)
+  override func keyboardWillShow(notification: NSNotification) {
+    register.isHidden = true
+    super.keyboardWillShow(notification: notification)
     height.constant = 0
-    UIView.animateWithDuration(0.3) { () -> Void in
+    UIView.animate(withDuration: 0.3, animations: {
       self.view.layoutIfNeeded()
-    }
+    })
   }
   
   override func keyboardWillHide(notification:NSNotification) {
-    register.hidden = false
-    super.keyboardWillHide(notification)
+    register.isHidden = false
+    super.keyboardWillHide(notification: notification)
     height.constant = 200
-    UIView.animateWithDuration(0.3) { () -> Void in
+    UIView.animate(withDuration: 0.3, animations: {
       self.view.layoutIfNeeded()
-    }
+    })
   }
   
   func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -60,7 +60,7 @@ class RegisterController : BaseController, UITextViewDelegate {
       password.becomeFirstResponder()
     }
     if (textField == password) {
-      submit(self)
+      submit(sender: self)
     }
     return false
   }
@@ -68,27 +68,27 @@ class RegisterController : BaseController, UITextViewDelegate {
   @IBAction func submit(sender: AnyObject) {
     let model = UserModel();
     model.success { (message:String?, user:AnyObject?) -> Void in
-      UserModel.setCurrentUser(user as! User)
+      UserModel.setCurrentUser(user: user as? User)
       let groupModel = GroupModel()
       groupModel.success { (message:String?, group:AnyObject?) -> Void in
-        GroupModel.setCurrentGroup(group as! Group)
+        GroupModel.setCurrentGroup(group: group as? Group)
         switch self.action! {
         case .Join:
-          self.performSegueWithIdentifier("gotoCompose", sender: self)
+          self.performSegue(withIdentifier: "gotoCompose", sender: self)
         case .Create:
-          self.performSegueWithIdentifier("gotoInvite", sender: self)
+          self.performSegue(withIdentifier: "gotoInvite", sender: self)
         }
       }
       groupModel.error { (message:String?) -> Void in
         let messageUnwrapped = message ?? "Could not join group at this time.  Please try again later."
-        self.showAlert("Oops", message: messageUnwrapped)
+        self.showAlert(title: "Oops", message: messageUnwrapped)
       }
-      groupModel.join(user as! User)
+      groupModel.join(user: user as! User)
     }
     model.error { (message:String?) -> Void in
       let messageUnwrapped = message ?? "Something went wrong."
-      self.showAlert("Oops", message: messageUnwrapped)
+      self.showAlert(title: "Oops", message: messageUnwrapped)
     }
-    model.create(username.text!, email: email.text!, password: password.text!)
+    model.create(username: username.text!, email: email.text!, password: password.text!)
   }
 }

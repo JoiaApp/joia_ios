@@ -27,81 +27,83 @@ class WriteController : BaseController, TagListViewDelegate, UITextViewDelegate,
   var currentPrompt:String?
   var picker:AbstractActionSheetPicker?
   
-  @IBAction func changePrompt(sender: AnyObject) {
+  @IBAction func changePrompt(_ sender: AnyObject) {
     if let prompts = prompts {
       var rows = prompts.map { $0.text }
       rows.append("Custom Prompt")
-      var current = rows.indexOf(promptLabel.text ?? "") ?? rows.count - 1
-      if (promptLabel.hidden) {
+      var current = rows.index(of: promptLabel.text ?? "") ?? rows.count - 1
+      if (promptLabel.isHidden) {
         current = rows.count - 1
       }
-      self.picker = ActionSheetMultipleStringPicker.showPickerWithTitle("Select Prompt",
-        rows: [rows], initialSelection: [current], doneBlock: {_,values,indices in
-          self.setPrompt(indices[0] as! String)
-      }, cancelBlock: nil, origin: self.view)
+      
+      self.picker = ActionSheetMultipleStringPicker.show(withTitle: "Select Prompt",
+        rows: [rows], initialSelection: [current], doneBlock: {_,values /* [Any]? */, indices  in
+          // TODO: Fix me!!
+//          self.setPrompt(prompt: indices![0] as! String)
+      }, cancel: nil, origin: self.view)
     }
   }
   
-  @IBAction func promptChanged(sender: AnyObject) {
-    ResponseModel.setPrompt(index, prompt: customPrompt.text ?? "")
+  @IBAction func promptChanged(_ sender: AnyObject) {
+    ResponseModel.setPrompt(index: index, prompt: customPrompt.text ?? "")
     updateNextButton()
   }
   
-  func textViewDidChange(textView:UITextView) {
-    ResponseModel.setResponse(index, response: response.text)
+  func textViewDidChange(_ textView:UITextView) {
+    ResponseModel.setResponse(index: index, response: response.text)
     updateNextButton()
     response.scrollRangeToVisible(response.selectedRange)
   }
   
-  func textView(textView: UITextView, shouldChangeTextInRange range:NSRange, replacementText text:String) -> Bool {
+  func textView(_ textView: UITextView, shouldChangeTextIn range:NSRange, replacementText text:String) -> Bool {
 //  func textView(textView: UITextView, shouldChangeTextIn range: NSRange, replacementText replacement: String) -> Bool {
     let currentText = response.text as NSString
-    let updatedText = currentText.stringByReplacingCharactersInRange(range, withString: text)
+    let updatedText = currentText.replacingCharacters(in: range, with: text)
     if updatedText.isEmpty || updatedText == "Write response here..." {
       response.text = "Write response here..."
-      response.textColor = UIColor.lightGrayColor()
-      response.selectedTextRange = response.textRangeFromPosition(response.beginningOfDocument, toPosition: response.beginningOfDocument)
+      response.textColor = UIColor.lightGray
+      response.selectedTextRange = response.textRange(from: response.beginningOfDocument, to: response.beginningOfDocument)
       return false
-    } else if textView.textColor == UIColor.lightGrayColor() && !updatedText.isEmpty {
+    } else if textView.textColor == UIColor.lightGray && !updatedText.isEmpty {
       textView.text = ""
-      textView.textColor = UIColor.blackColor()
+      textView.textColor = UIColor.black
     }
     
     return true
   }
   
-  func textViewDidChangeSelection(textView: UITextView) {
+  func textViewDidChangeSelection(_ textView: UITextView) {
     if self.view.window != nil {
-      let firstPosition = textView.textRangeFromPosition(textView.beginningOfDocument, toPosition: textView.beginningOfDocument)
+      let firstPosition = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
       if (response.selectedRange.location == 0) {
         return
       }
-      if response.textColor == UIColor.lightGrayColor() && response.selectedRange.location != 0 {
+      if response.textColor == UIColor.lightGray && response.selectedRange.location != 0 {
         response.selectedTextRange = firstPosition
       }
     }
   }
   
   func updateNextButton() {
-    var enabled = response.text.characters.count > 10 && (!promptLabel.hidden || customPrompt.text!.characters.count > 0)
-    self.navigationItem.rightBarButtonItem!.enabled = enabled;
+    let enabled = response.text.count > 10 && (!promptLabel.isHidden || customPrompt.text!.count > 0)
+    self.navigationItem.rightBarButtonItem!.isEnabled = enabled;
   }
   
   func setPrompt(prompt:String) {
     if prompt == "Custom Prompt" {
-      customPrompt.hidden = false
+      customPrompt.isHidden = false
       customPrompt.text = ""
-      promptLabel.hidden = true
-      ResponseModel.setPrompt(index, prompt: "")
+      promptLabel.isHidden = true
+      ResponseModel.setPrompt(index: index, prompt: "")
     } else {
-      promptLabel.hidden = false
+      promptLabel.isHidden = false
       promptLabel.text = prompt
-      customPrompt.hidden = true
-      ResponseModel.setPrompt(index, prompt: prompt)
+      customPrompt.isHidden = true
+      ResponseModel.setPrompt(index: index, prompt: prompt)
     }
   }
   
-  @IBAction func addMention(sender: AnyObject) {
+  @IBAction func addMention(_ sender: AnyObject) {
     selectMention()
   }
   
@@ -109,41 +111,42 @@ class WriteController : BaseController, TagListViewDelegate, UITextViewDelegate,
     dismissKeyboard()
     if let users = users {
       var rows = users.map { $0.name }
-      rows.insert("Select Contact...", atIndex: 0)
-      rows.insert("Enter Email...", atIndex: 0)
-      ActionSheetMultipleStringPicker.showPickerWithTitle("Select ", rows: [rows], initialSelection: [0], doneBlock: {_,values,indices in
-        let selected = indices[0] as! String
-        if (selected == "Select Contact...") {
-          let picker = ABPeoplePickerNavigationController()
-          picker.peoplePickerDelegate = self;
-          self.presentViewController(picker, animated: true, completion: nil);
-          return
-        } else if (selected == "Enter Email...") {
-          self.createEmailAlert()
-          return
-        }
-        for tagView in self.mentions.tagViews {
-          if (tagView.titleLabel!.text! == selected) { return }
-        }
+      rows.insert("Select Contact...", at: 0)
+      rows.insert("Enter Email...", at: 0)
+      ActionSheetMultipleStringPicker.show(withTitle: "Select ", rows: [rows], initialSelection: [0], doneBlock: {_,values,indices in
+        // TODO: Fix me
+//        let selected = indices[0] as! String
+//        if (selected == "Select Contact...") {
+//          let picker = ABPeoplePickerNavigationController()
+//          picker.peoplePickerDelegate = self;
+//          self.present(picker, animated: true, completion: nil);
+//          return
+//        } else if (selected == "Enter Email...") {
+//          self.createEmailAlert()
+//          return
+//        }
+//        for tagView in self.mentions.tagViews {
+//          if (tagView.titleLabel!.text! == selected) { return }
+//        }
+//
+//        var view = self.mentions.addTag(selected)
+//        view.accessibilityIdentifier = String(users[values[0]as! Int - 2].id)
+//        if let imageData = ImagesCache.sharedInstance.images[view.tag] {
+//          view.image.image = imageData
+//        }
+//        self.updateMentions()
         
-        var view = self.mentions.addTag(selected)
-        view.accessibilityIdentifier = String(users[values[0]as! Int - 2].id)
-        if let imageData = ImagesCache.sharedInstance.images[view.tag] {
-          view.image.image = imageData
-        }
-        self.updateMentions()
-        
-      }, cancelBlock: nil, origin: self.view)
+      }, cancel: nil, origin: self.view)
     }
   }
   
-  func tagPressed(title: String, tagView: TagView, sender: TagListView) -> Void {
-    for tag in mentions.tagViews { tag.selected = false }
-    tagView.selected = true
+  func tagPressed(_ title: String, tagView: TagView, sender: TagListView) -> Void {
+    for tag in mentions.tagViews { tag.isSelected = false }
+    tagView.isSelected = true
     selectMention()
   }
   
-  func tagRemoveButtonPressed(title: String, tagView: TagView, sender: TagListView) -> Void {
+  func tagRemoveButtonPressed(_ title: String, tagView: TagView, sender: TagListView) -> Void {
     mentions.removeTag(title)
     updateMentions()
   }
@@ -153,60 +156,60 @@ class WriteController : BaseController, TagListViewDelegate, UITextViewDelegate,
     for tagView in self.mentions.tagViews {
       ids.append(tagView.accessibilityIdentifier!)
     }
-    ResponseModel.setMentions(index, mentions:ids)
-    mentionsPlaceholder.hidden = self.mentions.tagViews.count > 0
+    ResponseModel.setMentions(index: index, mentions:ids)
+    mentionsPlaceholder.isHidden = self.mentions.tagViews.count > 0
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    let nextButton = UIBarButtonItem.init(title: "Next", style: .Plain, target: self, action: Selector("gotoNext"))
-    nextButton.enabled = false
+    let nextButton = UIBarButtonItem.init(title: "Next", style: .plain, target: self, action: Selector(("gotoNext")))
+    nextButton.isEnabled = false
     
-    nextButton.tintColor = UIColor.whiteColor()
-    nextButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "OpenSans", size: 16)!, NSForegroundColorAttributeName: UIColor.whiteColor()], forState: .Normal)
-    nextButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "OpenSans", size: 16)!, NSForegroundColorAttributeName: DISABLED_COLOR], forState: .Disabled)
+    nextButton.tintColor = UIColor.white
+    nextButton.setTitleTextAttributes([NSAttributedStringKey.font: UIFont(name: "OpenSans", size: 16)!, NSAttributedStringKey.foregroundColor: UIColor.white], for: [])
+    nextButton.setTitleTextAttributes([NSAttributedStringKey.font: UIFont(name: "OpenSans", size: 16)!, NSAttributedStringKey.foregroundColor: DISABLED_COLOR], for: .disabled)
     self.navigationItem.rightBarButtonItem = nextButton
     self.navigationItem.title = "Write"
     
     let borderColor = UIColor(red:95/255.0, green:202/255.0, blue:237/255.0, alpha: 1.0)
-    mentions.superview?.addBottomBorderWithColor(borderColor, width: 1)
-    mentions.superview?.addTopBorderWithColor(UIColor(red:95/255.0, green:202/255.0, blue:237/255.0, alpha: 1.0), width: 1)
+    mentions.superview?.addBottomBorderWithColor(color: borderColor, width: 1)
+    mentions.superview?.addTopBorderWithColor(color: UIColor(red:95/255.0, green:202/255.0, blue:237/255.0, alpha: 1.0), width: 1)
     
-    let tap = UITapGestureRecognizer(target: self, action: Selector("selectMention"))
+    let tap = UITapGestureRecognizer(target: self, action: Selector(("selectMention")))
     mentions.addGestureRecognizer(tap)
     mentions.delegate = self
     
-    promptLabel.hidden = true
+    promptLabel.isHidden = true
     
     if let _ = response.text?.isEmpty {
       response.text = "Write response here..."
-      response.textColor = UIColor.lightGrayColor()
-      response.selectedTextRange = response.textRangeFromPosition(response.beginningOfDocument, toPosition: response.beginningOfDocument)
+      response.textColor = UIColor.lightGray
+      response.selectedTextRange = response.textRange(from: response.beginningOfDocument, to: response.beginningOfDocument)
       response.contentInset = UIEdgeInsetsMake(-4,-4,0,0);
     }
     
-    mentionButton.layer.borderColor = APP_COLOR.CGColor
+    mentionButton.layer.borderColor = APP_COLOR.cgColor
     
-    self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style:.Plain, target:nil, action:nil)
+    self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style:.plain, target:nil, action:nil)
     
-    let buttonItem = UIBarButtonItem(title:"", style:.Plain, target:nil, action:nil)
-    buttonItem.tintColor = UIColor.whiteColor()
+    let buttonItem = UIBarButtonItem(title:"", style:.plain, target:nil, action:nil)
+    buttonItem.tintColor = UIColor.white
     self.navigationController?.navigationBar.backItem?.title = "";
   }
   
-  override func viewDidAppear(animated:Bool) {
+  override func viewDidAppear(_ animated:Bool) {
     super.viewDidAppear(animated)
     promptNumber.text = "Prompt \(index + 1) of 3"
     
     if let currentPrompt = currentPrompt {
-      setPrompt(currentPrompt)
+      setPrompt(prompt: currentPrompt)
     }
     
     
   }
   
-  override func viewWillAppear(animated: Bool) {
+  override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     self.navigationItem.title = "Write"
   }
@@ -223,32 +226,32 @@ class WriteController : BaseController, TagListViewDelegate, UITextViewDelegate,
   }
   
   func createEmailAlert() {
-    let alertController = UIAlertController(title: "Add Mention", message: "An invite will be sent to the following email after your response is published.", preferredStyle: .Alert)
-    let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) in
-      let emailField = alertController.textFields![0] as? UITextField
-      if let email = emailField?.text {
+    let alertController = UIAlertController(title: "Add Mention", message: "An invite will be sent to the following email after your response is published.", preferredStyle: .alert)
+    let OKAction = UIAlertAction(title: "OK", style: .default) { (action) in
+      let emailField = alertController.textFields![0]
+      if let email = emailField.text {
         let view = self.mentions.addTag(email)
         view.accessibilityIdentifier = String(email)
         self.updateMentions()
       }
     }
     alertController.addAction(OKAction)
-    let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
+    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
       
     }
     alertController.addAction(cancelAction)
-    alertController.addTextFieldWithConfigurationHandler { textField in
+    alertController.addTextField { textField in
       textField.placeholder = "Email"
-      textField.keyboardType = UIKeyboardType.EmailAddress
-      NSNotificationCenter.defaultCenter().addObserverForName(UITextFieldTextDidChangeNotification, object: textField, queue: NSOperationQueue.mainQueue()) { notification in
-        OKAction.enabled = textField.text != ""
+      textField.keyboardType = UIKeyboardType.emailAddress
+      NotificationCenter.default.addObserver(forName: NSNotification.Name.UITextFieldTextDidChange, object: textField, queue: OperationQueue.main) { notification in
+        OKAction.isEnabled = textField.text != ""
       }
     }
-    self.presentViewController(alertController, animated: true, completion: nil)
+    self.present(alertController, animated: true, completion: nil)
   }
   
   func peoplePickerNavigationController(peoplePicker: ABPeoplePickerNavigationController, didSelectPerson person: ABRecord) {
-    let list: ABMultiValueRef = ABRecordCopyValue(person, kABPersonEmailProperty).takeRetainedValue() //
+    let list: ABMultiValue = ABRecordCopyValue(person, kABPersonEmailProperty).takeRetainedValue() //
     let index = Int(0) as CFIndex
     if (ABMultiValueGetCount(list) > 0) {
       let email:String = ABMultiValueCopyValueAtIndex(list, index).takeRetainedValue() as! String
@@ -277,15 +280,15 @@ class WriteController : BaseController, TagListViewDelegate, UITextViewDelegate,
 extension UIView {
   func addTopBorderWithColor(color: UIColor, width: CGFloat) {
     let border = CALayer()
-    border.backgroundColor = color.CGColor
-    border.frame = CGRectMake(-20, 0, self.frame.size.width, width)
+    border.backgroundColor = color.cgColor
+    border.frame = CGRect.init(x: -20, y: 0, width: self.frame.size.width, height: width)
     self.layer.addSublayer(border)
   }
   
   func addBottomBorderWithColor(color: UIColor, width: CGFloat) {
     let border = CALayer()
-    border.backgroundColor = color.CGColor
-    border.frame = CGRectMake(-20, self.frame.size.height - width, self.frame.size.width, width)
+    border.backgroundColor = color.cgColor
+    border.frame = CGRect.init(x: -20, y: self.frame.size.height - width, width: self.frame.size.width, height: width)
     self.layer.addSublayer(border)
   }
 }

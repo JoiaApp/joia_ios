@@ -22,8 +22,8 @@ class Mention : Serializable {
   
   func toJson() -> Dictionary<String, AnyObject> {
     return [
-      "response_id": self.response,
-      "user_id": self.user
+      "response_id": self.response as AnyObject,
+      "user_id": self.user as AnyObject
     ]
   }
 }
@@ -33,7 +33,7 @@ class Response : CustomStringConvertible, Serializable {
   let prompt:String;
   let user:User?;
   let mentions:[String];
-  var date:NSDate?
+  var date:Date?
   
   init(text:String, prompt:String, user:User?, mentions:[String]) {
     self.text = text;
@@ -43,7 +43,7 @@ class Response : CustomStringConvertible, Serializable {
   }
   
   var description:String {
-    return "[<#Response> text: '\(text)' user:\(user?.name ?? "nil") prompt: \(prompt ?? "nil")]"
+    return "[<#Response> text: '\(text)' user:\(user?.name ?? "nil") prompt: \(prompt)]"
   }
   
   static func fromDict(dict:Dictionary<String, AnyObject>) -> Response {
@@ -60,11 +60,11 @@ class Response : CustomStringConvertible, Serializable {
       names.append(name)
     }
     
-    let response = Response(text: unwrappedText, prompt: unwrappedPrompt, user:User.fromDict(unwrappedUser), mentions:names)
+    let response = Response(text: unwrappedText, prompt: unwrappedPrompt, user:User.fromDict(dict: unwrappedUser), mentions:names)
     if let date = dict["created_at"] as? String {
-      let dateFormatter = NSDateFormatter()
+      let dateFormatter = DateFormatter()
       dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-      response.date = dateFormatter.dateFromString(date)
+      response.date = dateFormatter.date(from: date)
     }
     
     return response
@@ -72,9 +72,9 @@ class Response : CustomStringConvertible, Serializable {
   
   func toJson() -> Dictionary<String, AnyObject> {
     return [
-      "text": self.text,
-      "prompt": self.prompt,
-      "user_id": self.user!.id
+      "text": self.text as AnyObject,
+      "prompt": self.prompt as AnyObject,
+      "user_id": self.user!.id as AnyObject
     ]
   }
 }
@@ -100,8 +100,8 @@ class Group : CustomStringConvertible, Serializable {
   
   func toJson() -> Dictionary<String, AnyObject> {
     return [
-      "guid": self.guid,
-      "name": self.name
+      "guid": self.guid as AnyObject,
+      "name": self.name as AnyObject
     ]
   }
 }
@@ -111,7 +111,7 @@ class User : CustomStringConvertible, Serializable {
   let id:Int;
   var session_id:String?;
   var image:String?
-  var birthday:NSDate?
+  var birthday:Date?
   
   init(id:Int, name:String) {
     self.id = id;
@@ -124,10 +124,10 @@ class User : CustomStringConvertible, Serializable {
   
   func toJson() -> Dictionary<String, AnyObject> {
     return [
-      "id": self.id,
-      "name": self.name,
-      "session_id": self.session_id ?? "",
-      "image": self.image ?? ""
+      "id": self.id as AnyObject,
+      "name": self.name as AnyObject,
+      "session_id": (self.session_id ?? "") as AnyObject,
+      "image": (self.image ?? "") as AnyObject
     ]
   }
   
@@ -138,14 +138,14 @@ class User : CustomStringConvertible, Serializable {
     if let sessionId = dict["session_id"] as? String {
       user.session_id = sessionId
     }
-    if let image = dict["image"] as? String where image.characters.count > 0 {
+    if let image = dict["image"] as? String, image.count > 0 {
       user.image = image
-      ImagesCache.sharedInstance.put(unwrappedId, data: image)
+      ImagesCache.sharedInstance.put(id: unwrappedId, data: image)
     }
     if let birthday = dict["birthday"] as? String {
-      let dateFormatter = NSDateFormatter()
+      let dateFormatter = DateFormatter()
       dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-      user.birthday = dateFormatter.dateFromString(birthday)
+      user.birthday = dateFormatter.date(from: birthday)
     }
     return user
   }
@@ -166,8 +166,8 @@ class Prompt : CustomStringConvertible, Serializable {
   
   func toJson() -> Dictionary<String, AnyObject> {
     return [
-      "id": self.id,
-      "text": self.text
+      "id": self.id as AnyObject,
+      "text": self.text as AnyObject
     ]
   }
   

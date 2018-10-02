@@ -23,7 +23,7 @@ class LoginController : BaseController, UITextFieldDelegate {
       self.loginDidSucceed()
     }
     self.loginModel.error { (data:String?) -> Void in
-      self.showAlert("Oops...", message: "Username or password incorrect.")
+      self.showAlert(title: "Oops...", message: "Username or password incorrect.")
     }
   }
   
@@ -33,17 +33,17 @@ class LoginController : BaseController, UITextFieldDelegate {
   }
   
   override func keyboardWillShow(notification:NSNotification) {
-    super.keyboardWillShow(notification)
+    super.keyboardWillShow(notification: notification)
     height.constant = 0
-    UIView.animateWithDuration(0.3) { () -> Void in
+    UIView.animate(withDuration: 0.3) { () -> Void in
       self.view.layoutIfNeeded()
     }
   }
   
   override func keyboardWillHide(notification:NSNotification) {
-    super.keyboardWillHide(notification)
+    super.keyboardWillHide(notification: notification)
     height.constant = 200
-    UIView.animateWithDuration(0.3) { () -> Void in
+    UIView.animate(withDuration: 0.3) { () -> Void in
       self.view.layoutIfNeeded()
     }
   }
@@ -54,7 +54,7 @@ class LoginController : BaseController, UITextFieldDelegate {
       password.becomeFirstResponder()
     }
     if (textField == password) {
-      loginModel.login(email.text!, password: password.text!)
+      loginModel.login(email: email.text!, password: password.text!)
     }
     return false
   }
@@ -64,24 +64,28 @@ class LoginController : BaseController, UITextFieldDelegate {
     groupModel.success { (_, model:AnyObject?) -> Void in
       let groups = model as! Array<Group>
       if let currentGroup = GroupModel.getCurrentGroup() {
-        if let _ = groups.indexOf({ $0.guid == currentGroup.guid }) {
+        if let _ = groups.index(where: { $0.guid == currentGroup.guid }) {
           
         } else {
-          GroupModel.setCurrentGroup(groups.first)
+          GroupModel.setCurrentGroup(group: groups.first)
         }
       } else {
-        GroupModel.setCurrentGroup(groups.first)
+        GroupModel.setCurrentGroup(group: groups.first)
       }
-      self.performSegueWithIdentifier("gotoCompose", sender: self)
+      self.performSegue(withIdentifier: "gotoCompose", sender: self)
     }
     groupModel.error { (msg:String?) -> Void in
-      self.showAlert("Oops...", message: "Something went wrong.")
+      self.showAlert(title: "Oops...", message: "Something went wrong.")
     }
-    groupModel.getAll(UserModel.getCurrentUser()!)
+    groupModel.getAll(user: UserModel.getCurrentUser()!)
+  }
+
+  @IBAction func gotoReset(_ sender: AnyObject) {
+    self.performSegue(withIdentifier: "gotoReset", sender: self)
   }
   
-  @IBAction func submit(sender: UIButton) {
-    loginModel.login(email.text!, password: password.text!)
+  @IBAction func submit(_ sender: UIButton) {
+    loginModel.login(email: email.text!, password: password.text!)
   }
 }
 

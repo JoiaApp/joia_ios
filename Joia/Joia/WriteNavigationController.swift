@@ -18,18 +18,18 @@ class WriteNavigationController : UINavigationController {
     super.viewDidLoad()
     initialize()
     
-    self.navigationBar.titleTextAttributes =  [NSFontAttributeName: UIFont(name: "OpenSans-Semibold", size: 16)!, NSForegroundColorAttributeName: UIColor.whiteColor()];
-    self.navigationBar.tintColor = UIColor.whiteColor();
+    self.navigationBar.titleTextAttributes =  [NSAttributedStringKey.font: UIFont(name: "OpenSans-Semibold", size: 16)!, NSAttributedStringKey.foregroundColor: UIColor.white];
+    self.navigationBar.tintColor = UIColor.white;
   }
   
   func initialize() {
-    self.popToRootViewControllerAnimated(false);
+    self.popToRootViewController(animated: false);
     let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
-    let controller = storyboard.instantiateViewControllerWithIdentifier("writeZeroState") as! UIViewController
-    let nextButton = UIBarButtonItem.init(title: "Next", style: .Plain, target: self, action: Selector("gotoNext"))
+    let controller = storyboard.instantiateViewController(withIdentifier: "writeZeroState")
+    let nextButton = UIBarButtonItem.init(title: "Next", style: .plain, target: self, action: Selector(("gotoNext")))
     controller.navigationItem.rightBarButtonItem = nextButton
-    controller.navigationItem.rightBarButtonItem?.tintColor = UIColor.whiteColor()
-    controller.navigationItem.rightBarButtonItem?.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "OpenSans", size: 16)!, NSForegroundColorAttributeName: UIColor.whiteColor()], forState: .Normal)
+    controller.navigationItem.rightBarButtonItem?.tintColor = UIColor.white
+    controller.navigationItem.rightBarButtonItem?.setTitleTextAttributes([NSAttributedStringKey.font: UIFont(name: "OpenSans", size: 16)!, NSAttributedStringKey.foregroundColor: UIColor.white], for: [])
     self.pushViewController(controller, animated: false)
     controller.navigationItem.title = "Write"
     ResponseModel.composing = true
@@ -38,11 +38,11 @@ class WriteNavigationController : UINavigationController {
     let promptModel = PromptModel()
     promptModel.success { (message:String?, model:AnyObject?) -> Void in
       self.prompts = model as! Array<Prompt>
-      self.randomPrompts = PromptModel.choose(3, from: self.prompts.count)
+      self.randomPrompts = PromptModel.choose(howMany: 3, from: self.prompts.count)
       
       if let viewController = self.topViewController as? WriteController {
         viewController.prompts = self.prompts
-        viewController.setPrompt(self.prompts[ self.randomPrompts![0] ].text)
+        viewController.setPrompt(prompt: self.prompts[ self.randomPrompts![0] ].text)
       }
     }
     promptModel.get()
@@ -56,7 +56,7 @@ class WriteNavigationController : UINavigationController {
       }
     }
     
-    groupModel.getMembers(GroupModel.getCurrentGroup()!.guid)
+    groupModel.getMembers(number: GroupModel.getCurrentGroup()!.guid)
   }
   
   func gotoNext() {
@@ -68,7 +68,7 @@ class WriteNavigationController : UINavigationController {
     
     if (currentIndex < 3) {
       let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
-      let controller = storyboard.instantiateViewControllerWithIdentifier("Write") as! WriteController
+      let controller = storyboard.instantiateViewController(withIdentifier: "Write") as! WriteController
       controller.prompts = prompts
       controller.users = users
       controller.index = currentIndex
@@ -77,12 +77,12 @@ class WriteNavigationController : UINavigationController {
     } else {
       // else, go to the review page
       let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
-      let controller = storyboard.instantiateViewControllerWithIdentifier("Review") as! ReviewController
+      let controller = storyboard.instantiateViewController(withIdentifier: "Review") as! ReviewController
       self.pushViewController(controller, animated: false)
     }
   }
   
-  override func viewDidAppear(animated: Bool) {
+  override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     // Check if they are already composing their responses
     if (!ResponseModel.composing) {

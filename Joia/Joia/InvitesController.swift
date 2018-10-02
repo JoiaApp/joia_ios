@@ -26,19 +26,19 @@ class InvitesController : BaseController {
     return false
   }
   
-  @IBAction func skip(sender: AnyObject) {
-    performSegueWithIdentifier("gotoCompose", sender: self)
+  @IBAction func skip(_ sender: AnyObject) {
+    performSegue(withIdentifier: "gotoCompose", sender: self)
   }
   
-  @IBAction func submit(sender: AnyObject) {
+  @IBAction func submit(_ sender: AnyObject) {
     let groupModel = GroupModel()
     groupModel.success { (message:String?, _:AnyObject?) -> Void in
-      self.showAlert("Success!", message:"Email sent!")
+      self.showAlert(title: "Success!", message:"Email sent!")
     }
     groupModel.error { (message:String?) -> Void in
       let messageUnwrapped = message ?? "Something went wrong."
-      self.showAlert("Oops!", message:messageUnwrapped)
+      self.showAlert(title: "Oops!", message:messageUnwrapped)
     }
-    groupModel.invite(email.text!, isMention: false)
+    groupModel.invite(email: email.text!, isMention: false)
   }
 }

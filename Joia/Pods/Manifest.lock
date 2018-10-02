@@ -1,21 +1,21 @@
 PODS:
-  - ActionSheetPicker-3.0 (2.2.0)
-  - Alamofire (2.0.2)
-  - SwiftyJSON (2.4.0)
-  - TagListView (0.5)
+  - ActionSheetPicker-3.0 (2.3.0)
+  - Alamofire (4.7.3)
+  - SwiftyJSON (4.0.0)
+  - TagListView (1.3.1)
 
 DEPENDENCIES:
-  - ActionSheetPicker-3.0 (~> 2.2.0)
-  - Alamofire (~> 2.0)
-  - SwiftyJSON (~> 2.3)
-  - TagListView (~> 0.2)
+  - ActionSheetPicker-3.0 (~> 2.3.0)
+  - Alamofire (~> 4.0)
+  - SwiftyJSON (~> 4.0.0-alpha.1)
+  - TagListView (~> 1.3.0)
 
 SPEC CHECKSUMS:
-  ActionSheetPicker-3.0: d11a4c12c6aaf704b8a3f56d179198c99f3e41e6
-  Alamofire: 8edbab00802a752bb5240cc2abe70e7e881488ad
-  SwiftyJSON: 96918c1bf505efa50c4f72957018dd3452090c9c
-  TagListView: d9e6f0f30eca6a84138669f8449b89df068e6573
+  ActionSheetPicker-3.0: eef157d75e151f255c5333d26656c7fbfe905a51
+  Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
+  SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
+  TagListView: 6dafd34a61021c6db72c0c8e3a044054c9854311
 
-PODFILE CHECKSUM: 8290e85d64a78ed327184f2706d650aaddbb55e7
+PODFILE CHECKSUM: d9eff6dfff8cb987a258be8a800cc53cf56f57cb
 
 COCOAPODS: 1.1.1
