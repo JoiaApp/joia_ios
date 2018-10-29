@@ -62,6 +62,7 @@ class ResponseModel : BaseModel {
   func publishResponses(group:Group, user:User) -> Bool {
     let responses:[Response] = ResponseModel.tempResponses.map { Response(text: $1.response!, prompt: $1.prompt!, user:user, mentions:$1.mentions ) }
     var success = true;
+    
     for response in responses {
       BaseModel.Manager.request(baseUrl + "groups/" + group.guid + "/responses.json", method: .post, parameters: ["response": response.toJson()])
         .validate(statusCode: 200..<300)
@@ -72,19 +73,20 @@ class ResponseModel : BaseModel {
           } else if let value = remote_response.result.value as? [String: AnyObject] {
             for mentionedUser in response.mentions {
               // User in group mention
-              if let id = Int(mentionedUser) {
-                let mention = Mention(response:value["id"] as! Int, user: id)
-                BaseModel.Manager.request(self.baseUrl + "groups/" + group.guid + "/mentions.json", method: .post, parameters: ["mention": mention.toJson()])
-                  .validate(statusCode: 200..<300)
-                  .validate(contentType: ["application/json"])
-              // Custom mention
-              } else {
-                GroupModel().invite(email: mentionedUser, isMention: true)
+//              if let id = Int(mentionedUser) {
+//                let mention = Mention(response:value["id"] as! Int, user: id)
+//                BaseModel.Manager.request(self.baseUrl + "groups/" + group.guid + "/mentions.json", method: .post, parameters: ["mention": mention.toJson()])
+//                  .validate(statusCode: 200..<300)
+//                  .validate(contentType: ["application/json"])
+//              } else {
+                if (mentionedUser.isValidEmail()) {
+                  GroupModel().invite(email: mentionedUser, isMention: true, user_id: UserModel.getCurrentUser()!.id)
+                }
               }
             }
-          }
-        });
+          });
     }
+    
     // Done composing
     ResponseModel.composing = false
     return success
@@ -129,7 +131,6 @@ class ResponseModel : BaseModel {
     let year =  components.year!
     let month = components.month!
     let day = components.day!
-//    let hour = components.hour!
     let weeks = components.weekOfYear!
 
     if year > 0 {
@@ -147,5 +148,13 @@ class ResponseModel : BaseModel {
     } else {
       return "Today";
     }
+  }
+}
+
+extension String {
+  func isValidEmail() -> Bool {
+    // here, `try!` will always succeed because the pattern is valid
+    let regex = try! NSRegularExpression(pattern: "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$", options: .caseInsensitive)
+    return regex.firstMatch(in: self, options: [], range: NSRange(location: 0, length: count)) != nil
   }
 }

@@ -38,8 +38,8 @@ class WriteController : BaseController, TagListViewDelegate, UITextViewDelegate,
       
       self.picker = ActionSheetMultipleStringPicker.show(withTitle: "Select Prompt",
         rows: [rows], initialSelection: [current], doneBlock: {_,values /* [Any]? */, indices  in
-          // TODO: Fix me!!
-//          self.setPrompt(prompt: indices![0] as! String)
+          let indicesArray = indices as! Array<String>
+          self.setPrompt(prompt: indicesArray[0])
       }, cancel: nil, origin: self.view)
     }
   }
@@ -107,35 +107,33 @@ class WriteController : BaseController, TagListViewDelegate, UITextViewDelegate,
     selectMention()
   }
   
-  func selectMention() {
+  @objc func selectMention() {
     dismissKeyboard()
     if let users = users {
       var rows = users.map { $0.name }
       rows.insert("Select Contact...", at: 0)
       rows.insert("Enter Email...", at: 0)
       ActionSheetMultipleStringPicker.show(withTitle: "Select ", rows: [rows], initialSelection: [0], doneBlock: {_,values,indices in
-        // TODO: Fix me
-//        let selected = indices[0] as! String
-//        if (selected == "Select Contact...") {
-//          let picker = ABPeoplePickerNavigationController()
-//          picker.peoplePickerDelegate = self;
-//          self.present(picker, animated: true, completion: nil);
-//          return
-//        } else if (selected == "Enter Email...") {
-//          self.createEmailAlert()
-//          return
-//        }
-//        for tagView in self.mentions.tagViews {
-//          if (tagView.titleLabel!.text! == selected) { return }
-//        }
-//
-//        var view = self.mentions.addTag(selected)
-//        view.accessibilityIdentifier = String(users[values[0]as! Int - 2].id)
-//        if let imageData = ImagesCache.sharedInstance.images[view.tag] {
-//          view.image.image = imageData
-//        }
-//        self.updateMentions()
         
+        let selectedArray = indices as! Array<String>
+        let selected = selectedArray[0];
+        
+        if (selected == "Select Contact...") {
+          let picker = ABPeoplePickerNavigationController()
+          picker.peoplePickerDelegate = self;
+          self.present(picker, animated: true, completion: nil);
+          return
+        } else if (selected == "Enter Email...") {
+          self.createEmailAlert()
+          return
+        } else {
+          for tagView in self.mentions.tagViews {
+            if (tagView.titleLabel!.text! == selected) { return }
+          }
+          let view = self.mentions.addTag(selected)
+          view.accessibilityIdentifier = String(selected)
+          self.updateMentions()
+        }
       }, cancel: nil, origin: self.view)
     }
   }
@@ -163,7 +161,7 @@ class WriteController : BaseController, TagListViewDelegate, UITextViewDelegate,
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    let nextButton = UIBarButtonItem.init(title: "Next", style: .plain, target: self, action: Selector(("gotoNext")))
+    let nextButton = UIBarButtonItem.init(title: "Next", style: .plain, target: self, action: #selector(self.gotoNext))
     nextButton.isEnabled = false
     
     nextButton.tintColor = UIColor.white
@@ -176,7 +174,7 @@ class WriteController : BaseController, TagListViewDelegate, UITextViewDelegate,
     mentions.superview?.addBottomBorderWithColor(color: borderColor, width: 1)
     mentions.superview?.addTopBorderWithColor(color: UIColor(red:95/255.0, green:202/255.0, blue:237/255.0, alpha: 1.0), width: 1)
     
-    let tap = UITapGestureRecognizer(target: self, action: Selector(("selectMention")))
+    let tap = UITapGestureRecognizer(target: self, action: #selector(self.selectMention))
     mentions.addGestureRecognizer(tap)
     mentions.delegate = self
     
@@ -219,9 +217,9 @@ class WriteController : BaseController, TagListViewDelegate, UITextViewDelegate,
     customPrompt.resignFirstResponder()
   }
   
-  func gotoNext() {
+  @objc func gotoNext() {
     if let writeNavigationController = self.navigationController as? WriteNavigationController {
-      writeNavigationController.gotoNext()
+      writeNavigationController.gotoNext();
     }
   }
   
@@ -250,7 +248,7 @@ class WriteController : BaseController, TagListViewDelegate, UITextViewDelegate,
     self.present(alertController, animated: true, completion: nil)
   }
   
-  func peoplePickerNavigationController(peoplePicker: ABPeoplePickerNavigationController, didSelectPerson person: ABRecord) {
+  func peoplePickerNavigationController(_ peoplePicker: ABPeoplePickerNavigationController, didSelectPerson person: ABRecord) {
     let list: ABMultiValue = ABRecordCopyValue(person, kABPersonEmailProperty).takeRetainedValue() //
     let index = Int(0) as CFIndex
     if (ABMultiValueGetCount(list) > 0) {
@@ -265,7 +263,7 @@ class WriteController : BaseController, TagListViewDelegate, UITextViewDelegate,
     }
   }
   
-  func peoplePickerNavigationController(peoplePicker: ABPeoplePickerNavigationController, shouldContinueAfterSelectingPerson person: ABRecord, property: ABPropertyID, identifier: ABMultiValueIdentifier) -> Bool {
+  func peoplePickerNavigationController(_ peoplePicker: ABPeoplePickerNavigationController, shouldContinueAfterSelectingPerson person: ABRecord, property: ABPropertyID, identifier: ABMultiValueIdentifier) -> Bool {
     return false
   }
   

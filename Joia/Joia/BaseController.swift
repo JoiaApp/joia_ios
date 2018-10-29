@@ -12,9 +12,9 @@ class BaseController : UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    NotificationCenter.default.addObserver(self, selector:Selector(("keyboardWillShow:")), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-    NotificationCenter.default.addObserver(self, selector:Selector(("keyboardWillHide:")), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-    let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+    NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    let tap = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
     self.view.addGestureRecognizer(tap)
   }
   
@@ -22,7 +22,7 @@ class BaseController : UIViewController {
     self.dismiss(animated: true, completion: nil)
   }
   
-  func dismissKeyboard() {
+  @objc func dismissKeyboard() {
     
   }
   
@@ -34,7 +34,7 @@ class BaseController : UIViewController {
     self.present(alert, animated: true, completion: nil)
   }
   
-  func keyboardWillShow(notification:NSNotification) {
+  @objc func keyboardWillShow(notification:NSNotification) {
     let keyboardSize = (notification.userInfo![UIKeyboardFrameBeginUserInfoKey]! as AnyObject).cgRectValue.size
     UIView.animate(withDuration: 0.3, animations: {
       var frame = self.view.frame;
@@ -43,7 +43,7 @@ class BaseController : UIViewController {
     })
   }
   
-  func keyboardWillHide(notification:NSNotification) {
+  @objc func keyboardWillHide(notification:NSNotification) {
     UIView.animate(withDuration: 0.3, animations: {
       var frame = self.view.frame;
       frame.origin.y = 0;

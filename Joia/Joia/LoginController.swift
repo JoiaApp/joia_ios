@@ -15,9 +15,17 @@ class LoginController : BaseController, UITextFieldDelegate {
   @IBOutlet weak var email: UITextField!
   @IBOutlet weak var password: UITextField!
   @IBOutlet weak var submit: UIButton!
+  @IBOutlet weak var forgot: UIButton!
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    submit.isEnabled = false
+    submit.alpha = 0.5
+    
+    forgot.isEnabled = false
+    forgot.alpha = 0.5
+    
     loginModel = UserModel()
     loginModel.success { (msg:String?, model:AnyObject?) -> Void in
       self.loginDidSucceed()
@@ -48,7 +56,7 @@ class LoginController : BaseController, UITextFieldDelegate {
     }
   }
   
-  func textFieldShouldReturn(textField: UITextField) -> Bool {
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
     textField.resignFirstResponder()
     if (textField == email) {
       password.becomeFirstResponder()
@@ -57,6 +65,21 @@ class LoginController : BaseController, UITextFieldDelegate {
       loginModel.login(email: email.text!, password: password.text!)
     }
     return false
+  }
+  
+  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    forgot.isEnabled = !(email.text?.isEmpty)!
+    forgot.alpha = !(email.text?.isEmpty)! ? 1.0 : 0.5;
+    submit.isEnabled = !(password.text?.isEmpty)! && !(email.text?.isEmpty)!;
+    submit.alpha = !(password.text?.isEmpty)! && !(email.text?.isEmpty)! ? 1.0 : 0.5;
+    return true;
+  }
+  
+  func textFieldDidEndEditing(_ textField: UITextField) {
+    forgot.isEnabled = !(email.text?.isEmpty)!
+    forgot.alpha = !(email.text?.isEmpty)! ? 1.0 : 0.5;
+    submit.isEnabled = !(password.text?.isEmpty)! && !(email.text?.isEmpty)!;
+    submit.alpha = !(password.text?.isEmpty)! && !(email.text?.isEmpty)! ? 1.0 : 0.5;
   }
   
   func loginDidSucceed() {
@@ -81,7 +104,14 @@ class LoginController : BaseController, UITextFieldDelegate {
   }
 
   @IBAction func gotoReset(_ sender: AnyObject) {
-    self.performSegue(withIdentifier: "gotoReset", sender: self)
+    let resetModel = UserModel()
+    resetModel.success { (msg:String?, model:AnyObject?) -> Void in
+      self.showAlert(title: "Password reset", message: "Check your email for temporary password.")
+    }
+    resetModel.error { (data:String?) -> Void in
+      self.showAlert(title: "Oops...", message: "Could not find user with that email.")
+    }
+    resetModel.resetPassword(email: email.text!)
   }
   
   @IBAction func submit(_ sender: UIButton) {

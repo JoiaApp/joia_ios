@@ -60,12 +60,12 @@ class RegisterController : BaseController, UITextViewDelegate {
       password.becomeFirstResponder()
     }
     if (textField == password) {
-      submit(sender: self)
+      submit(self)
     }
     return false
   }
   
-  @IBAction func submit(sender: AnyObject) {
+  @IBAction func submit(_ sender: AnyObject) {
     let model = UserModel();
     model.success { (message:String?, user:AnyObject?) -> Void in
       UserModel.setCurrentUser(user: user as? User)

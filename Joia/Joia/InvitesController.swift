@@ -11,6 +11,7 @@ import UIKit
 class InvitesController : BaseController {
   
   @IBOutlet weak var email: UITextField!
+  @IBOutlet weak var skip: UIButton!
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -33,12 +34,13 @@ class InvitesController : BaseController {
   @IBAction func submit(_ sender: AnyObject) {
     let groupModel = GroupModel()
     groupModel.success { (message:String?, _:AnyObject?) -> Void in
-      self.showAlert(title: "Success!", message:"Email sent!")
+      self.showAlert(title: "Success!", message: "Email(s) sent!")
+      self.skip.setTitle("Continue", for: .normal)
     }
     groupModel.error { (message:String?) -> Void in
       let messageUnwrapped = message ?? "Something went wrong."
       self.showAlert(title: "Oops!", message:messageUnwrapped)
     }
-    groupModel.invite(email: email.text!, isMention: false)
+    groupModel.invite(email: email.text!, isMention: false, user_id: UserModel.getCurrentUser()!.id)
   }
 }

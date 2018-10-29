@@ -18,12 +18,12 @@ class UserModel : BaseModel {
       .validate(statusCode: 200..<300)
       .validate(contentType: ["application/json"])
       .responseJSON(completionHandler: { (response) in
-        if let callback = self._success, response.error != nil {
+        if let callback = self._success, response.error == nil {
           if let value = response.result.value as? [String: AnyObject] {
             callback(nil, User.fromDict(dict: value));
           }
         }
-        if let callback = self._error {
+        if let callback = self._error, response.error != nil {
           callback(self.parseError(resultData: response.data));
         }
       });
@@ -79,7 +79,7 @@ class UserModel : BaseModel {
       .validate(statusCode: 200..<300)
       .validate(contentType: ["application/json"])
       .responseJSON(completionHandler: { (response) in
-        if let callback = self._success, response.error != nil {
+        if let callback = self._success, response.error == nil {
           if let value = response.result.value as? [String: AnyObject] {
             let user = User.fromDict(dict: value);
             if let currentUser = UserModel.getCurrentUser() {
@@ -88,6 +88,20 @@ class UserModel : BaseModel {
             UserModel.setCurrentUser(user: user)
           }
           callback(nil, user);
+        }
+        if let callback = self._error, response.error != nil {
+          callback(nil)
+        }
+      });
+  }
+  
+  func resetPassword(email: String) {
+    BaseModel.Manager.request(baseUrl + "users/reset_password.json", method: .post, parameters: ["email": email])
+      .validate(statusCode: 200..<300)
+      .validate(contentType: ["application/json"])
+      .responseJSON(completionHandler: { (response) in
+        if let callback = self._success, response.error == nil {
+          callback(nil, nil)
         }
         if let callback = self._error, response.error != nil {
           callback(nil)

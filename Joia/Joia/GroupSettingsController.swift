@@ -14,19 +14,19 @@ class GroupSettingsController : BaseController, UITextFieldDelegate {
   @IBOutlet weak var locked: UISwitch!
   @IBOutlet weak var groupName: UITextField!
   @IBOutlet weak var invite: UITextField!
+  @IBOutlet weak var groupId: UILabel!
   
   @IBAction func send(_ sender: AnyObject) {
     if let email = invite.text {
-      GroupModel().invite(email: email, isMention: false)
+      if let user = UserModel.getCurrentUser() {
+        GroupModel().invite(email: email, isMention: false, user_id: user.id)
+      }
     }
-  }
-  
-  @IBAction func toggleLocked(_ sender: AnyObject) {
-
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    groupId.text = "Group ID: "
   }
   
   override func viewDidAppear(_ animated: Bool) {
@@ -45,6 +45,9 @@ class GroupSettingsController : BaseController, UITextFieldDelegate {
       originalName = name
       groupName.text = name
     }
+    if let guid = GroupModel.getCurrentGroup()?.guid {
+      groupId.text = "Groud ID: \(guid)"
+    }
   }
   
   override func dismissKeyboard() {
@@ -56,13 +59,13 @@ class GroupSettingsController : BaseController, UITextFieldDelegate {
     
   }
   
-  func textFieldShouldReturn(textField: UITextField) -> Bool {
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
     dismissKeyboard()
     submit(textField: textField)
     return true
   }
   
-  func textFieldDidEndEditing(textField:UITextField) {
+  func textFieldDidEndEditing(_ textField:UITextField) {
     dismissKeyboard()
     submit(textField: textField)
   }
@@ -74,7 +77,7 @@ class GroupSettingsController : BaseController, UITextFieldDelegate {
         model.success(callback: { (_, model) -> Void in
           self.showAlert(title: "Sent", message: "Invite sent to \(email)")
         })
-        model.invite(email: email, isMention: true)
+        model.invite(email: email, isMention: true, user_id: UserModel.getCurrentUser()!.id)
       }
     } else if let name = originalName {
       if let currentName = textField.text, currentName != name {

@@ -20,11 +20,11 @@ class ReviewController : UITableViewController {
     tableView.allowsSelection = false
     super.viewDidLoad();
     
-    let nextButton = UIBarButtonItem.init(title: "Publish", style: .plain, target: self, action: Selector.init("publish"))
+    let nextButton = UIBarButtonItem.init(title: "Publish", style: .plain, target: self, action: #selector(self.publish))
     self.navigationItem.rightBarButtonItem = nextButton
   }
   
-  func publish() {
+  @objc func publish() {
     let user = UserModel.getCurrentUser()
     let group = GroupModel.getCurrentGroup()
     if (ResponseModel().publishResponses(group: group!, user: user!)) {

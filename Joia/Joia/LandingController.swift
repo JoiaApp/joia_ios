@@ -11,8 +11,16 @@ import ActionSheetPicker_3_0
 
 class LandingController : UIViewController {
   
+  @IBOutlet weak var register: UIButton!
+  @IBOutlet weak var login: UIButton!
+  
   override func viewDidLoad() {
     super.viewDidLoad()
+    login.isEnabled = false
+    login.alpha = 0.5
+    register.isEnabled = false
+    register.alpha = 0.5
+    
     // check if already logged in
     if let user = UserModel.getCurrentUser() {
       let userModel = UserModel()
@@ -34,24 +42,12 @@ class LandingController : UIViewController {
         groupModel.getAll(user: user)
       })
       userModel.get(user: user)
+    } else {
+      login.isEnabled = true
+      login.alpha = 1.0
+      register.isEnabled = true
+      register.alpha = 1.0
     }
-  }
-  
-  @IBAction func environmentSelector(_ sender: AnyObject) {
-    let rows = ["Production", "Staging", "Dev (Charles)", "Dev"]
-    ActionSheetMultipleStringPicker.show(withTitle: "Select Environment", rows: [rows], initialSelection: [0], doneBlock: {_,values,indices in
-      // TODO: Fix me!!
-//      switch indices[0] as! String {
-//      case "Production": Config.baseUrl = PRODUCTION_URL
-//      case "Staging":  Config.baseUrl = STAGING_URL
-//      case "Dev (Charles)":  Config.baseUrl = CHARLES_URL
-//      case "Dev":  Config.baseUrl = LOCAL_URL
-//      default:
-//        print("Invalid Selection")
-//      }
-//      let defaults = UserDefaults.standard;
-//      defaults.set(Config.baseUrl, forKey: "environment")
-    }, cancel: nil, origin: self.view)
   }
   
   @IBAction func signInPressed(_ sender: AnyObject) {

@@ -33,7 +33,7 @@ class SettingsController: UITableViewController {
       self.performSegue(withIdentifier: "gotoGroupSettings", sender: self)
     case 2:
       self.performSegue(withIdentifier: "gotoTermsAndConditions", sender: self)
-    case 4:
+    case 3:
       UserModel().logout();
       let landingController = self.storyboard?.instantiateViewController(withIdentifier: "Landing") as? LandingController
       self.present(landingController!, animated: true, completion: nil)

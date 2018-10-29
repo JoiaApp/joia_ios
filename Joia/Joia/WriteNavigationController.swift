@@ -10,13 +10,13 @@ import UIKit
 
 class WriteNavigationController : UINavigationController {
   
-  var randomPrompts:Array<Int>?
+  var randomPrompts:Array<Prompt> = []
   var prompts:Array<Prompt> = []
   var users:Array<User> = []
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    initialize()
+    initialize();
     
     self.navigationBar.titleTextAttributes =  [NSAttributedStringKey.font: UIFont(name: "OpenSans-Semibold", size: 16)!, NSAttributedStringKey.foregroundColor: UIColor.white];
     self.navigationBar.tintColor = UIColor.white;
@@ -26,8 +26,8 @@ class WriteNavigationController : UINavigationController {
     self.popToRootViewController(animated: false);
     let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
     let controller = storyboard.instantiateViewController(withIdentifier: "writeZeroState")
-    let nextButton = UIBarButtonItem.init(title: "Next", style: .plain, target: self, action: Selector(("gotoNext")))
-    controller.navigationItem.rightBarButtonItem = nextButton
+    let nextButton = UIBarButtonItem.init(title: "Next", style: .plain, target: self, action: #selector(self.gotoNext));
+    controller.navigationItem.rightBarButtonItem = nextButton;
     controller.navigationItem.rightBarButtonItem?.tintColor = UIColor.white
     controller.navigationItem.rightBarButtonItem?.setTitleTextAttributes([NSAttributedStringKey.font: UIFont(name: "OpenSans", size: 16)!, NSAttributedStringKey.foregroundColor: UIColor.white], for: [])
     self.pushViewController(controller, animated: false)
@@ -36,14 +36,20 @@ class WriteNavigationController : UINavigationController {
     
     // Get Prompts
     let promptModel = PromptModel()
-    promptModel.success { (message:String?, model:AnyObject?) -> Void in
+    promptModel.successMany { (message:String?, model:[AnyObject]?) -> Void in
       self.prompts = model as! Array<Prompt>
-      self.randomPrompts = PromptModel.choose(howMany: 3, from: self.prompts.count)
-      
+      self.randomPrompts = PromptModel.choose(howMany: 3, prompts: self.prompts)
       if let viewController = self.topViewController as? WriteController {
         viewController.prompts = self.prompts
-        viewController.setPrompt(prompt: self.prompts[ self.randomPrompts![0] ].text)
+        viewController.setPrompt(prompt: self.randomPrompts[0].text)
       }
+    }
+    promptModel.error { (message:String?) in
+      let alert = UIAlertController(title: "Oops", message: message!, preferredStyle: .alert)
+      alert.view.tintColor = APP_COLOR
+      let OKAction = UIAlertAction(title: "OK", style: .default)
+      alert.addAction(OKAction)
+      self.present(alert, animated: true, completion: nil)
     }
     promptModel.get()
     
@@ -59,7 +65,7 @@ class WriteNavigationController : UINavigationController {
     groupModel.getMembers(number: GroupModel.getCurrentGroup()!.guid)
   }
   
-  func gotoNext() {
+  @objc func gotoNext() {
     var currentIndex = 0
     
     if let viewController = self.topViewController as? WriteController {
@@ -72,7 +78,7 @@ class WriteNavigationController : UINavigationController {
       controller.prompts = prompts
       controller.users = users
       controller.index = currentIndex
-      controller.currentPrompt = self.prompts[ self.randomPrompts![currentIndex] ].text
+      controller.currentPrompt = self.randomPrompts[currentIndex].text
       self.pushViewController(controller, animated: false)
     } else {
       // else, go to the review page

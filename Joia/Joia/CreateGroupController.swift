@@ -22,7 +22,7 @@ class CreateGroupController : BaseController, UITextViewDelegate {
     name.resignFirstResponder()
   }
   
-  func textFieldShouldReturn(textField: UITextField) -> Bool {
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
     textField.resignFirstResponder()
     if (textField == name) {
       submit(self)

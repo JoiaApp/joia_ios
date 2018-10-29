@@ -14,7 +14,7 @@ class GroupModel : BaseModel {
   static var currentGroup:Group?
   
   func create(name: String) {
-    BaseModel.Manager.request(baseUrl + "groups.json", method: .get, parameters: ["group": ["name": name]])
+    BaseModel.Manager.request(baseUrl + "groups.json", method: .post, parameters: ["group": ["name": name]])
       .validate(statusCode: 200..<300)
       .validate(contentType: ["application/json"])
       .responseJSON(completionHandler: { (response) in
@@ -64,8 +64,8 @@ class GroupModel : BaseModel {
       });
   }
   
-  func invite(email:String, isMention: Bool) {
-    BaseModel.Manager.request(baseUrl + "groups/" + GroupModel.currentGroup!.guid + "/invite.json", method: .post, parameters: ["email": email, "isMention": isMention])
+  func invite(email:String, isMention: Bool, user_id:Int) {
+    BaseModel.Manager.request(baseUrl + "groups/" + GroupModel.currentGroup!.guid + "/invite.json", method: .post, parameters: ["email": email, "isMention": isMention, "user_id": user_id])
       .validate(statusCode: 200..<300)
       .responseJSON(completionHandler: { (response) in
         if let callback = self._success, response.response?.statusCode == 204 {

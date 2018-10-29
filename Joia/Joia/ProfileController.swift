@@ -21,7 +21,7 @@ class ProfileController : BaseController, UIImagePickerControllerDelegate, UINav
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    let tap = UITapGestureRecognizer(target: self, action: Selector("update:"))
+    let tap = UITapGestureRecognizer(target: self, action: #selector(self.update))
     self.image.addGestureRecognizer(tap)
   }
   
@@ -85,6 +85,10 @@ class ProfileController : BaseController, UIImagePickerControllerDelegate, UINav
     confirmPassword.resignFirstResponder()
   }
   
+  func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+    return true
+  }
+  
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
     if (textField == password) {
       password.resignFirstResponder()
@@ -107,7 +111,7 @@ class ProfileController : BaseController, UIImagePickerControllerDelegate, UINav
     return false
   }
   
-  func textFieldDidEndEditing(textField:UITextField) {
+  func textFieldDidEndEditing(_ textField:UITextField) {
     username.resignFirstResponder()
   }
   
@@ -140,7 +144,7 @@ class ProfileController : BaseController, UIImagePickerControllerDelegate, UINav
     self.present(imagePicker, animated: true, completion: nil)
   }
   
-  func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
     self.imagePicker.dismiss(animated: true, completion: nil)
     image.image = info[UIImagePickerControllerOriginalImage] as! UIImage
     let userModel = UserModel()
@@ -150,7 +154,7 @@ class ProfileController : BaseController, UIImagePickerControllerDelegate, UINav
     userModel.saveImage(user: UserModel.getCurrentUser()!, image: image.image!)
   }
   
-  func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+  func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
     self.imagePicker.dismiss(animated: true, completion: nil)
   }
 }

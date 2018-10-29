@@ -32,10 +32,15 @@ class BaseModel {
   }
   
   var _success: ((String?, AnyObject?) -> Void)? = nil
+  var _successMany: ((String?, [AnyObject]?) -> Void)? = nil
   var _error: ((String?) -> Void)? = nil
   
   func success(callback: @escaping (String?, _:AnyObject?) -> Void) {
     _success = callback;
+  }
+  
+  func successMany(callback: @escaping (String?, _:[AnyObject]?) -> Void) {
+    _successMany = callback;
   }
   
   func error(callback: @escaping (String?) -> Void) {
