@@ -28,10 +28,15 @@ class LoginController : BaseController, UITextFieldDelegate {
     
     loginModel = UserModel()
     loginModel.success { (msg:String?, model:AnyObject?) -> Void in
-      self.loginDidSucceed()
+      let defaults = UserDefaults.standard
+      if let pushToken = defaults.string(forKey: "push_token") {
+        UserModel().updatePushToken(user: UserModel.getCurrentUser()!, token: pushToken)
+      }
+      self.updateButtons();
     }
     self.loginModel.error { (data:String?) -> Void in
-      self.showAlert(title: "Oops...", message: "Username or password incorrect.")
+      self.showAlert(title: "Oops...", message: "Username or password incorrect.");
+      self.updateButtons();
     }
   }
   
@@ -62,24 +67,36 @@ class LoginController : BaseController, UITextFieldDelegate {
       password.becomeFirstResponder()
     }
     if (textField == password) {
-      loginModel.login(email: email.text!, password: password.text!)
+      submit(submit)
     }
     return false
   }
   
+  func textFieldShouldClear(_ textField: UITextField) -> Bool {
+    updateButtons();
+    return true;
+  }
+  
   func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-    forgot.isEnabled = !(email.text?.isEmpty)!
-    forgot.alpha = !(email.text?.isEmpty)! ? 1.0 : 0.5;
-    submit.isEnabled = !(password.text?.isEmpty)! && !(email.text?.isEmpty)!;
-    submit.alpha = !(password.text?.isEmpty)! && !(email.text?.isEmpty)! ? 1.0 : 0.5;
+    updateButtons();
     return true;
   }
   
   func textFieldDidEndEditing(_ textField: UITextField) {
-    forgot.isEnabled = !(email.text?.isEmpty)!
-    forgot.alpha = !(email.text?.isEmpty)! ? 1.0 : 0.5;
-    submit.isEnabled = !(password.text?.isEmpty)! && !(email.text?.isEmpty)!;
-    submit.alpha = !(password.text?.isEmpty)! && !(email.text?.isEmpty)! ? 1.0 : 0.5;
+    updateButtons();
+  }
+  
+  func updateButtons() {
+    let passwordText = password.text ?? "";
+    let emailText = email.text ?? "";
+    let enableLogin = !passwordText.isEmpty && emailText.isValidEmail();
+    let enableForgot = emailText.isValidEmail();
+    
+    submit.isEnabled = enableLogin;
+    submit.alpha = enableLogin ? 1.0 : 0.5;
+    
+    forgot.isEnabled = enableForgot;
+    forgot.alpha = enableForgot ? 1.0 : 0.5;
   }
   
   func loginDidSucceed() {
@@ -104,17 +121,23 @@ class LoginController : BaseController, UITextFieldDelegate {
   }
 
   @IBAction func gotoReset(_ sender: AnyObject) {
+    forgot.isEnabled = false;
+    forgot.alpha = 0.5;
     let resetModel = UserModel()
     resetModel.success { (msg:String?, model:AnyObject?) -> Void in
       self.showAlert(title: "Password reset", message: "Check your email for temporary password.")
+      self.updateButtons();
     }
     resetModel.error { (data:String?) -> Void in
       self.showAlert(title: "Oops...", message: "Could not find user with that email.")
+      self.updateButtons();
     }
     resetModel.resetPassword(email: email.text!)
   }
   
   @IBAction func submit(_ sender: UIButton) {
+    submit.isEnabled = false;
+    submit.alpha = 0.5;
     loginModel.login(email: email.text!, password: password.text!)
   }
 }

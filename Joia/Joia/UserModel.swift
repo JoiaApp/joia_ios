@@ -69,9 +69,8 @@ class UserModel : BaseModel {
     updateField(user: user, field: "name", value: username)
   }
   
-  func updatePushToken(user:User, token:Data) {
-    let tokenString = token.toHexString()
-    updateField(user: user, field: "push_token", value: tokenString)
+  func updatePushToken(user:User, token:String) {
+    updateField(user: user, field: "push_token", value: token)
   }
   
   private func updateField(user:User, field:String, value:String) {

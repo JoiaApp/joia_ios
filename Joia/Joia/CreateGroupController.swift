@@ -8,14 +8,16 @@
 
 import UIKit
 
-class CreateGroupController : BaseController, UITextViewDelegate {
+class CreateGroupController : BaseController, UITextFieldDelegate {
   
   var createdGroup:Group!
   @IBOutlet weak var height: NSLayoutConstraint!
   @IBOutlet weak var name: UITextField!
+  @IBOutlet weak var submit: UIButton!
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
+    name.delegate = self;
   }
   
   override func dismissKeyboard() {
@@ -27,7 +29,7 @@ class CreateGroupController : BaseController, UITextViewDelegate {
     if (textField == name) {
       submit(self)
     }
-    return false
+    return true
   }
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -54,15 +56,24 @@ class CreateGroupController : BaseController, UITextViewDelegate {
   }
   
   @IBAction func submit(_ sender: AnyObject) {
-    let model = GroupModel();
-    model.success { (message:String?, model:AnyObject?) -> Void in
-      GroupModel.setCurrentGroup(group: model as? Group)
-      self.performSegue(withIdentifier: "gotoRegister", sender: self)
+    let groupName = name.text ?? ""
+    if (groupName.isEmpty) {
+      self.showAlert(title: "Oops!", message: "Please enter a group name")
+    } else {
+      let model = GroupModel();
+      model.success { (message:String?, model:AnyObject?) -> Void in
+        GroupModel.setCurrentGroup(group: model as? Group)
+        self.performSegue(withIdentifier: "gotoRegister", sender: self)
+      }
+      model.error { (message:String?) -> Void in
+        let unwrappedMessage = message ?? "Something went wrong"
+        self.showAlert(title: "Oops!", message: unwrappedMessage)
+        self.submit.alpha = 1.0
+        self.submit.isEnabled = true
+      }
+      model.create(name: groupName)
+      submit.alpha = 0.5
+      submit.isEnabled = false
     }
-    model.error { (message:String?) -> Void in
-      let unwrappedMessage = message ?? "Something went wrong"
-      self.showAlert(title: "Oops!", message: unwrappedMessage)
-    }
-    model.create(name: name.text!)
   }
 }

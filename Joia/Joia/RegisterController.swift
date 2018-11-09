@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RegisterController : BaseController, UITextViewDelegate {
+class RegisterController : BaseController, UITextFieldDelegate {
   
   enum GroupAction {
     case Join
@@ -51,7 +51,7 @@ class RegisterController : BaseController, UITextViewDelegate {
     })
   }
   
-  func textFieldShouldReturn(textField: UITextField) -> Bool {
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
     textField.resignFirstResponder()
     if (textField == username) {
       email.becomeFirstResponder()
@@ -62,10 +62,16 @@ class RegisterController : BaseController, UITextViewDelegate {
     if (textField == password) {
       submit(self)
     }
-    return false
+    return true
+  }
+  
+  func updateButtons(enabled:Bool) {
+    register.isEnabled = enabled;
+    register.alpha = enabled ? 1.0 : 0.5;
   }
   
   @IBAction func submit(_ sender: AnyObject) {
+    updateButtons(enabled: false);
     let model = UserModel();
     model.success { (message:String?, user:AnyObject?) -> Void in
       UserModel.setCurrentUser(user: user as? User)
@@ -82,12 +88,14 @@ class RegisterController : BaseController, UITextViewDelegate {
       groupModel.error { (message:String?) -> Void in
         let messageUnwrapped = message ?? "Could not join group at this time.  Please try again later."
         self.showAlert(title: "Oops", message: messageUnwrapped)
+        self.updateButtons(enabled: true);
       }
       groupModel.join(user: user as! User)
     }
     model.error { (message:String?) -> Void in
       let messageUnwrapped = message ?? "Something went wrong."
       self.showAlert(title: "Oops", message: messageUnwrapped)
+      self.updateButtons(enabled: true);
     }
     model.create(username: username.text!, email: email.text!, password: password.text!)
   }

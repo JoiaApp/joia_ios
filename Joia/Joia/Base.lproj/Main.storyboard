@@ -308,6 +308,7 @@
                     <connections>
                         <outlet property="height" destination="dNo-xI-9Pq" id="cU8-B4-ElS"/>
                         <outlet property="name" destination="npM-5w-wI7" id="G5X-Rt-FMB"/>
+                        <outlet property="submit" destination="OsF-Oe-3MS" id="2tk-fa-Rqd"/>
                         <segue destination="3c6-cA-mZs" kind="show" identifier="gotoRegister" id="zDb-mw-yeI"/>
                     </connections>
                 </viewController>
@@ -793,6 +794,7 @@
                     </view>
                     <connections>
                         <outlet property="email" destination="7Bf-AQ-aOb" id="wUI-za-SCa"/>
+                        <outlet property="send" destination="STZ-NV-tVY" id="9Ss-re-Meq"/>
                         <outlet property="skip" destination="STZ-NV-tVY" id="zNv-x4-IQY"/>
                         <segue destination="yC1-NL-nAA" kind="show" identifier="gotoCompose" id="3AA-66-z3u"/>
                     </connections>
@@ -1030,7 +1032,7 @@
                                         <rect key="frame" x="8" y="783" width="34" height="33"/>
                                         <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="15"/>
                                         <state key="normal" title="Back">
-                                            <color key="titleColor" red="0.66666668653488159" green="0.66666668653488159" blue="0.66666668653488159" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="titleColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="back:" destination="LeQ-iv-J3J" eventType="touchUpInside" id="B8T-V6-jic"/>
@@ -1038,14 +1040,13 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uaY-5p-jgS">
                                         <rect key="frame" x="225" y="277" width="150" height="36"/>
-                                        <color key="backgroundColor" red="1" green="0.80000001190000003" blue="0.40000000600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="36" id="Dhf-vs-0WH"/>
                                             <constraint firstAttribute="width" constant="150" id="IbP-cF-VuV"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="15"/>
                                         <state key="normal" title="Forgot Password">
-                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="titleColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">

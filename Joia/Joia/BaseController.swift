@@ -38,7 +38,7 @@ class BaseController : UIViewController {
     let keyboardSize = (notification.userInfo![UIKeyboardFrameBeginUserInfoKey]! as AnyObject).cgRectValue.size
     UIView.animate(withDuration: 0.3, animations: {
       var frame = self.view.frame;
-      frame.origin.y = -keyboardSize.height;
+      frame.origin.y = -keyboardSize.height * 0.5;
       self.view.frame = frame;
     })
   }

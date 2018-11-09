@@ -52,14 +52,18 @@ class JoinGroupController : BaseController, UITextViewDelegate {
   }
     
   @IBAction func submit(_ sender: AnyObject) {
-      let model = GroupModel();
-      model.success { (message:String?, object:AnyObject?) -> Void in
-        GroupModel.setCurrentGroup(group: object as! Group)
-        self.performSegue(withIdentifier: "gotoRegister", sender: self)
-      }
-      model.error { (message:String?) -> Void in
-        self.showAlert(title: "Oops...", message: "Group number or password incorrect.")
-      }
+    let model = GroupModel();
+    model.success { (message:String?, object:AnyObject?) -> Void in
+      GroupModel.setCurrentGroup(group: object as! Group)
+      self.performSegue(withIdentifier: "gotoRegister", sender: self)
+    }
+    model.error { (message:String?) -> Void in
+      self.showAlert(title: "Oops...", message: "Group number or password incorrect.")
+      self.submit.isEnabled = true;
+      self.submit.alpha = 1.0;
+    }
+    submit.isEnabled = false;
+    submit.alpha = 0.5;
     model.get(number: code.text!, password: key.text!)
   }
   
